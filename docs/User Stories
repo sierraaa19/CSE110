@@ -1,1 +1,33 @@
 
+User stories for Wen
+
+Add goals, H
+As a user, I want to have add goal feature 
+so that I can add goals for the day
+
+Use microphone, H 
+As a user, I want to be able to  speak instead of typing when I add goals
+So that it’s much easier to add a goal
+
+Display app, M
+As a user, I want to displayed app each time the phone gets sleep
+So that it’s keep reminding me even the phone is sleep
+
+Check off goals, H
+As a user, I want to be able to check off my goals
+So that I can move to next goal
+
+Don’s display goals that is done for next day, M
+As a user, I want to the app do not display the goals that I have done for previous day
+So that I can focus on  goals for today
+
+Display the goals that unchecked off for next day, M
+As a user, I want to the app be able to display the previous day unchecked goals
+So that I can finish it on today
+
+
+
+
+
+
+
