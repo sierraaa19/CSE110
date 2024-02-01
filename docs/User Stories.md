@@ -3,7 +3,7 @@
 
 ### 1. Current date (1, High)
 
-  As a user with a lot of goals
+  As a user with a lot of goals  
   I want to know the current day of the week and the date 
   So that I can set my daily goals based on the current date
   
