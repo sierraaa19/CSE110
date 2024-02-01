@@ -19,86 +19,60 @@
 
 ### 2. Add goal (4.5, High)
 
-As a user with a lot of goals 
-I want to add new goals to the list of goals
-So that I can see my new daily goals on the list
-
-Scenario 1: When there is no goal in the list
-Given the current date is Mon 1/29
-And there is no goal in the list
-When I add a new goal 
-Then the new goal will be show after the date which is the top of the goal list
-
-Scenario 2: When there are some uncrossed goals in the list
-Given the current date is Mon 1/29
-And there are some uncrossed goals in the list
-When I add a new goal 
-Then the new goal will be show after all uncrossed goals in the list
-
-Scenario 3: When there are some uncrossed goals in the list and some crossed goals in the list
-Given the current date is Mon 1/29
-And there are some uncrossed goals in the list
-And there are some crossed goals in the list
-When I add a new goal 
-Then the new goal will be show after all uncrossed goals in the list and before all crossed goals in the list
-
-Scenario 4: When there are some crossed goals in the list
-Given the current date is Mon 1/29
-And there are some crossed goals in the list
-When I add a new goal 
-Then the new goal will be show before all crossed goals in the list
+  As a user with a lot of goals 
+  I want to add new goals to the list of goals
+  So that I can see my new daily goals on the list
+  
+  Scenario 1: When there is no goal in the list
+  Given the current date is Mon 1/29
+  And there is no goal in the list
+  When I add a new goal 
+  Then the new goal will be show after the date which is the top of the goal list
+  
+  Scenario 2: When there are some uncrossed goals in the list
+  Given the current date is Mon 1/29
+  And there are some uncrossed goals in the list
+  When I add a new goal 
+  Then the new goal will be show after all uncrossed goals in the list
+  
+  Scenario 3: When there are some uncrossed goals in the list and some crossed goals in the list
+  Given the current date is Mon 1/29
+  And there are some uncrossed goals in the list
+  And there are some crossed goals in the list
+  When I add a new goal 
+  Then the new goal will be show after all uncrossed goals in the list and before all crossed goals in the list
+  
+  Scenario 4: When there are some crossed goals in the list
+  Given the current date is Mon 1/29
+  And there are some crossed goals in the list
+  When I add a new goal 
+  Then the new goal will be show before all crossed goals in the list
 
 
 
 ### 3. Cross goal (2, High)
-As a user with a lot of goals 
-I want to cross a goal when I reach it
-So that I can see the goal I reached has been crossed and moved to the bottom of the list
 
-Scenario 1: When there are some goals
-Given there are Goal1, Goal2, Goal3 in the goals list
-When I tap "Goal1"
-Then there Goal1 will be crossed
-And Goal1 will be moved to the bottom of the list
-And Goal2 will be moved to the top of the list 
-And Goal3 will be moved to the second place of the list
-
-
-
-4. Keyboard (High)
-As a user with a lot of goals 
-I want to use keyboard to add new goal to the list of goals
-So that I can see my new daily goal in the list of goals
-
-Scenario 1: When there is no goal in the list
-Given there is no goal in the list
-When I tap "+"
-Then there shows a keyboard
-And I use keyboard to type in a new goal 
-Then the new goal will be show after the date which is the top of the goal list
-
-5. Mic (Medium)
-As a user with a lot of goals 
-I want to use mic to add new goal to the list of goals
-So that I can see my new daily goal in the list of goals
-
-Scenario 1: When there is no goal in the list
-Given there is no goal in the list
-When I tap "+"
-Then there is "Mic" option
-And I tap "Mic"
-And I use mic to tell a new goal
-Then the new goal will be show after the date which is the top of the goal list
+  As a user with a lot of goals 
+  I want to cross a goal when I reach it
+  So that I can see the goal I reached has been crossed and moved to the bottom of the list
+  
+  Scenario 1: When there are some goals
+  Given there are Goal1, Goal2, Goal3 in the goals list
+  When I tap "Goal1"
+  Then there Goal1 will be crossed
+  And Goal1 will be moved to the bottom of the list
+  And Goal2 will be moved to the top of the list 
+  And Goal3 will be moved to the second place of the list
 
 
 # Tasks
 
-  - US1-1: getCurrentDate
-  - US1-2: displayCurrentDate
-  - US2-1: addGoals
-  - US2-2: displayGoals
-  - US3-1: deletGoal
-  - US3-2: displayCrossedGoal
+  - US1-Current_date-task-1: getCurrentDate
+  - US1-Current_date-task-2: displayCurrentDate
+  - US2-Add_goal-task-1: addGoals
+  - US2-Add_goal-task-2: displayGoals
+  - US3-Cross_goal-task-1: deletGoal
+  - US3-Cross_goal-task-2: displayCrossedGoal
 
 
 
