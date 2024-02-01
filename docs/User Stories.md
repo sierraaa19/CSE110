@@ -74,6 +74,12 @@
   - US3-Cross_goal-task-1: deletGoal
   - US3-Cross_goal-task-2: displayCrossedGoal
 
+# Iterations/Milestone
+
+  - US1-Current_date
+  - US2-Add_goal-task
+  - US3-Cross_goal
+
 
 
 
