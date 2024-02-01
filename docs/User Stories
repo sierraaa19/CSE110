@@ -18,7 +18,7 @@ And Goal2 will be remained
 task1: getCurrentDate
 task2: displayCurrentDate
 
-2. Add goal (High)
+2. Add goal (4.5, High)
 
 As a user with a lot of goals 
 I want to add new goals to the list of goals
@@ -48,6 +48,9 @@ Given the current date is Mon 1/29
 And there are some crossed goals in the list
 When I add a new goal 
 Then the new goal will be show before all crossed goals in the list
+
+task1: addGoals
+taks2: displayGoals
 
 3. Mic (Medium)
 As a user with a lot of goals 
