@@ -52,18 +52,21 @@ Then the new goal will be show before all crossed goals in the list
 task1: addGoals
 taks2: displayGoals
 
-3. Mic (Medium)
+3. Cross goal (High)
 As a user with a lot of goals 
-I want to use mic to add new goal to the list of goals
-So that I can see my new daily goal in the list of goals
+I want to cross a goal when I reach it
+So that I can see the goal I reached has been crossed and moved to the bottom of the list
 
-Scenario 1: When there is no goal in the list
-Given there is no goal in the list
-When I tap "+"
-Then there is "Mic" option
-And I tap "Mic"
-And I use mic to tell a new goal
-Then the new goal will be show after the date which is the top of the goal list
+Scenario 1: When there are some goals
+Given there are Goal1, Goal2, Goal3 in the goals list
+When I tap "Goal1"
+Then there Goal1 will be crossed
+And Goal1 will be moved to the bottom of the list
+And Goal2 will be moved to the top of the list 
+And Goal3 will be moved to the second place of the list
+
+task1: deletGoal
+task2: 
 
 4. Keyboard (High)
 As a user with a lot of goals 
@@ -77,18 +80,21 @@ Then there shows a keyboard
 And I use keyboard to type in a new goal 
 Then the new goal will be show after the date which is the top of the goal list
 
-5. Cross goal (High)
+5. Mic (Medium)
 As a user with a lot of goals 
-I want to cross a goal when I reach it
-So that I can see the goal I reached has been crossed and moved to the bottom of the list
+I want to use mic to add new goal to the list of goals
+So that I can see my new daily goal in the list of goals
 
-Scenario 1: When there are some goals
-Given there are Goal1, Goal2, Goal3 in the goals list
-When I tap "Goal1"
-Then there Goal1 will be crossed
-And Goal1 will be moved to the bottom of the list
-And Goal2 will be moved to the top of the list 
-And Goal3 will be moved to the second place of the list
+Scenario 1: When there is no goal in the list
+Given there is no goal in the list
+When I tap "+"
+Then there is "Mic" option
+And I tap "Mic"
+And I use mic to tell a new goal
+Then the new goal will be show after the date which is the top of the goal list
+
+
+
 
 
 
