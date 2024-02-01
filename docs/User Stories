@@ -1,32 +1,6 @@
 
-User stories for Wen
-
-Add goals, H
-As a user, I want to have add goal feature 
-so that I can add goals for the day
-
-Use microphone, H 
-As a user, I want to be able to  speak instead of typing when I add goals
-So that it’s much easier to add a goal
-
-Display app, M
-As a user, I want to displayed app each time the phone gets sleep
-So that it’s keep reminding me even the phone is sleep
-
-Check off goals, H
-As a user, I want to be able to check off my goals
-So that I can move to next goal
-
-Don’s display goals that is done for next day, M
-As a user, I want to the app do not display the goals that I have done for previous day
-So that I can focus on  goals for today
-
-Display the goals that unchecked off for next day, M
-As a user, I want to the app be able to display the previous day unchecked goals
-So that I can finish it on today
-
 Sara’s version of User Story 
-1. Current date (High)
+1. Current date (1, High)
 
 As a user with a lot of goals
 I want to know the current day of the week and the date 
@@ -40,6 +14,9 @@ When the current date has passed
 Then the current date should become to Tue 1/30
 And Goal1 has been removed
 And Goal2 will be remained 
+
+task1: getCurrentDate
+task2: displayCurrentDate
 
 2. Add goal (High)
 
@@ -110,18 +87,7 @@ And Goal1 will be moved to the bottom of the list
 And Goal2 will be moved to the top of the list 
 And Goal3 will be moved to the second place of the list
 
-6. Displayed Successorator when phone is sleeped (Low)
-As a user with a lot of goals
-I want to see successorator displayed when phone is sleeped
-So that I can see my list of goals when my phone is sleeped without login into my phone
 
-Scenario 1: When there are some goals
-Given the current date is Mon 1/29
-And there are Goal1, Goal2, Goal3 in the goals list
-When I sleep my phone
-Then the successorator displayed
-And Mon 1/29 displayed
-And Goal1, Goal2, Goal3 displayed
 
 
 
