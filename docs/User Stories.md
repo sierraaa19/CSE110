@@ -65,20 +65,8 @@
   And Goal3 will be moved to the second place of the list
 
 
-### 4. Keyboard (High)
-As a user with a lot of goals 
-I want to use keyboard to add new goal to the list of goals
-So that I can see my new daily goal in the list of goals
 
-Scenario 1: When there is no goal in the list
-Given there is no goal in the list
-When I tap "+"
-Then there shows a keyboard
-And I use keyboard to type in a new goal 
-Then the new goal will be show after the date which is the top of the goal list
-
-
-### 5. Mic (Medium)
+### 4. Mic (Medium)
 As a user with a lot of goals 
 I want to use mic to add new goal to the list of goals
 So that I can see my new daily goal in the list of goals
