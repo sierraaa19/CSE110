@@ -1,24 +1,23 @@
 
-Sara’s version of User Story 
-1. Current date (1, High)
+# User Stories
 
-As a user with a lot of goals
-I want to know the current day of the week and the date 
-So that I can set my daily goals based on the current date
+### 1. Current date (1, High)
 
-Scenario 1: When the current day passed
-Given the current date is Mon 1/29
-And Goal1 is crossed
-And Goal2 is still there
-When the current date has passed
-Then the current date should become to Tue 1/30
-And Goal1 has been removed
-And Goal2 will be remained 
+  As a user with a lot of goals
+  I want to know the current day of the week and the date 
+  So that I can set my daily goals based on the current date
+  
+  Scenario 1: When the current day passed
+  Given the current date is Mon 1/29
+  And Goal1 is crossed
+  And Goal2 is still there
+  When the current date has passed
+  Then the current date should become to Tue 1/30
+  And Goal1 has been removed
+  And Goal2 will be remained 
 
-task1: getCurrentDate
-task2: displayCurrentDate
 
-2. Add goal (4.5, High)
+### 2. Add goal (4.5, High)
 
 As a user with a lot of goals 
 I want to add new goals to the list of goals
@@ -49,10 +48,9 @@ And there are some crossed goals in the list
 When I add a new goal 
 Then the new goal will be show before all crossed goals in the list
 
-task1: addGoals
-taks2: displayGoals
 
-3. Cross goal (2, High)
+
+### 3. Cross goal (2, High)
 As a user with a lot of goals 
 I want to cross a goal when I reach it
 So that I can see the goal I reached has been crossed and moved to the bottom of the list
@@ -65,8 +63,7 @@ And Goal1 will be moved to the bottom of the list
 And Goal2 will be moved to the top of the list 
 And Goal3 will be moved to the second place of the list
 
-task1: deletGoal
-task2: displayCrossedGoal
+
 
 4. Keyboard (High)
 As a user with a lot of goals 
@@ -92,6 +89,16 @@ Then there is "Mic" option
 And I tap "Mic"
 And I use mic to tell a new goal
 Then the new goal will be show after the date which is the top of the goal list
+
+
+# Tasks
+
+  - US1-1: getCurrentDate
+  - US1-2: displayCurrentDate
+  - US2-1: addGoals
+  - US2-2: displayGoals
+  - US3-1: deletGoal
+  - US3-2: displayCrossedGoal
 
 
 
