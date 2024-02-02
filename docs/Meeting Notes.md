@@ -15,3 +15,9 @@
   - Wen and Sara just had a meeting to go over the whole user story and task part
   - Sara will continue to finish drawing the wire-frame and finish the whole user story.
   - Wen organized the task and iterations/milestones. 
+
+### Feb 1st(Whole Group):
+ - Todo list
+-Risk Analysis (Jasmine)
+-Documentation of planning poker (Alyssa)
+-Scenario-based Milestone Test (Javier and Nik)
