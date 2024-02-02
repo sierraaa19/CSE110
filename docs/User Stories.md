@@ -79,7 +79,7 @@ And I tap "Mic"
 And I use mic to tell a new goal
 Then the new goal will be show after the date which is the top of the goal list
 
-# Tasks
+# Tasks for First Iteration
 
   - US1-Current_date-task-1: getCurrentDate
   - US1-Current_date-task-2: displayCurrentDate
@@ -89,10 +89,10 @@ Then the new goal will be show after the date which is the top of the goal list
   - US3-Cross_goal-task-2: displayCrossedGoal
 
 # Iterations/Milestone
-
-  - US1-Current_date
-  - US2-Add_goal-task
-  - US3-Cross_goal
+  ## First Iteration
+    - US1-Current_date
+    - US2-Add_goal-task
+    - US3-Cross_goal
 
 
 
