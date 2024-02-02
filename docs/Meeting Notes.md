@@ -18,6 +18,6 @@
 
 ### Feb 1st(Whole Group):
  - Todo list
--Risk Analysis (Jasmine)
--Documentation of planning poker (Alyssa)
--Scenario-based Milestone Test (Javier and Nik)
+ - Risk Analysis (Jasmine)
+ - Documentation of planning poker (Alyssa)
+ - Scenario-based Milestone Test (Javier and Nik)
