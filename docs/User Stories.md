@@ -63,19 +63,6 @@
 
 
 
-### 4. Mic (2hr , Medium)
-As a user with a lot of goals   
-I want to use mic to add new goal to the list of goals  
-So that I can see my new daily goal in the list of goals  
-
-Scenario 1: When there is no goal in the list  
-Given there is no goal in the list  
-When I tap "+"  
-Then there is "Mic" option  
-And I tap "Mic"  
-And I use mic to tell a new goal  
-Then the new goal will be show after the date which is the top of the goal list  
-
 # Tasks for First Iteration
 
   - US1-Current_date-task-1: getCurrentDate
