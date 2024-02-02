@@ -30,21 +30,18 @@
   Then the new goal will be show after the date which is the top of the goal list  
   
   Scenario 2: When there are some uncrossed goals in the list  
-  Given the current date is Mon 1/29  
-  And there are some uncrossed goals in the list  
+  Given there are some uncrossed goals in the list  
   When I add a new goal   
   Then the new goal will be show after all uncrossed goals in the list  
   
   Scenario 3: When there are some uncrossed goals in the list and some crossed goals in the list  
-  Given the current date is Mon 1/29  
-  And there are some uncrossed goals in the list  
+  Given there are some uncrossed goals in the list  
   And there are some crossed goals in the list  
   When I add a new goal   
   Then the new goal will be show after all uncrossed goals in the list and before all crossed goals in the list  
   
   Scenario 4: When there are some crossed goals in the list  
-  Given the current date is Mon 1/29  
-  And there are some crossed goals in the list  
+  Given there are some crossed goals in the list  
   When I add a new goal   
   Then the new goal will be show before all crossed goals in the list  
 
