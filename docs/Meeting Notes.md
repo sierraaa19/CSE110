@@ -12,4 +12,6 @@
   - Discussion focused on Model-View-Controller (MVC) with an emphasis on clarifying any questions or uncertainties.
 
 ### Feb 1st: 
-  - Wen and Sara just had a meeting to go over the whole user story and task part, then Sara will continue to finish drawing the wire-frame and finish the whole user story. Wen organized the task and iterations/milestone. 
+  - Wen and Sara just had a meeting to go over the whole user story and task part
+  - Sara will continue to finish drawing the wire-frame and finish the whole user story.
+  - Wen organized the task and iterations/milestones. 
