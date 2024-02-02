@@ -1,7 +1,7 @@
 
 # User Stories
 
-### 1. Current date (1, High)
+### 1. Current date (1hr , High)
 
   As a user with a lot of goals  
   I want to know the current day of the week and the date   
@@ -17,7 +17,7 @@
   And Goal2 will be remained   
 
 
-### 2. Add goal (4.5, High)
+### 2. Add goal (4.5hr , High)
 
   As a user with a lot of goals   
   I want to add new goals to the list of goals  
@@ -47,7 +47,7 @@
 
 
 
-### 3. Cross goal (2, High)
+### 3. Cross goal (2hr , High)
 
   As a user with a lot of goals   
   I want to cross a goal when I reach it  
@@ -63,7 +63,7 @@
 
 
 
-### 4. Mic (2, Medium)
+### 4. Mic (2hr , Medium)
 As a user with a lot of goals   
 I want to use mic to add new goal to the list of goals  
 So that I can see my new daily goal in the list of goals  
