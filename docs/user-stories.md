@@ -76,24 +76,24 @@ And Goal1 will be moved back to the original place in the incomplete goal list
 ## Tasks for First Iteration
 
 US2-task1: addGoalsAction (3 hr)
-Task will involve some kind of “+” icon in the main view container (the first thing the user sees) and involve communicating with an event listener which will trigger a callback function to be called which corresponds to some kind of prompt popping up. (2 hr?)
+- Task will involve some kind of “+” icon in the main view container (the first thing the user sees) and involve communicating with an event listener which will trigger a callback function to be called which corresponds to some kind of prompt popping up. (2 hr?)
 
 US2-task2: addGoalsPrompt (4 hrs)
-Some method will get called by the event listener which initiates a prompt popping up in the view container. Note that a todo item shouldn’t take more than one line so may involve truncation (or limit number of characters twitter style)
+- Some method will get called by the event listener which initiates a prompt popping up in the view container. Note that a todo item shouldn’t take more than one line so may involve truncation (or limit number of characters twitter style)
 
 US2-task3: storeGoalsData (3 hrs)
-The prompt will take input from the user, (maybe some kind of Android API can help with this), once user hits enter this data gets sent back (presentation layer (e.g. maybe calls displayGoals again to display new data/goals) -> business logic (to format for storing) -> data layer (to store)). 
+- The prompt will take input from the user, (maybe some kind of Android API can help with this), once user hits enter this data gets sent back (presentation layer (e.g. maybe calls displayGoals again to display new data/goals) -> business logic (to format for storing) -> data layer (to store)). 
 
 US2-task4: displayGoals (3 hrs)
-This lets the presentation layer to extract data from business logic and then pass it into views (in presentation layer may involve the use of RecyclerView and an Adapter which may take getting some familiarity with since Goals will be a list that will not be static but change upon user input/deletion).
-(Maybe this happens when the user first opens the app or when they add a new goal)
-Also may need to enable scrolling somehow in the UI.
+- This lets the presentation layer to extract data from business logic and then pass it into views (in presentation layer may involve the use of RecyclerView and an Adapter which may take getting some familiarity with since Goals will be a list that will not be static but change upon user input/deletion).
+- (Maybe this happens when the user first opens the app or when they add a new goal)
+- Also may need to enable scrolling somehow in the UI.
 
 US2-task5: noGoals (2 hr)
-If no goals are present in the database/storage, then we display a default message in the view with something like “Add your most important thing”
+- If no goals are present in the database/storage, then we display a default message in the view with something like “Add your most important thing”
 
 US2-task6: Implement a database for goals for persistence storage (6 hrs)
-This may involve getting familiar with SQL and a database such as MySQL, PostgreSQL, or SQLite (for relational databases). 
+- This may involve getting familiar with SQL and a database such as MySQL, PostgreSQL, or SQLite (for relational databases). 
 https://developer.android.com/training/data-storage/sqlite
 
 US2-task7: Testing (unit tests for business logic, integration tests, UI tests) (6 hrs)
@@ -101,30 +101,30 @@ US2-task7: Testing (unit tests for business logic, integration tests, UI tests) 
 ## Tasks for Second Iteration
 
 US1-task1: getCurrentDate (3 hrs)
-This task will get the current date and time depending on getUserTimezone, will involve understanding some sort of Android/Java Date API (1-2 hrs?), and the formatting for dates. Also once we have the date and time we want to keep the date set to the previous day if it is before 2 AM in the users timezone. After 2 AM it will display the actual current date.
+- This task will get the current date and time depending on getUserTimezone, will involve understanding some sort of Android/Java Date API (1-2 hrs?), and the formatting for dates. Also once we have the date and time we want to keep the date set to the previous day if it is before 2 AM in the users timezone. After 2 AM it will display the actual current date.
 
 US1-task2: displayCurrentDate (3 hrs)
-Once we have the date it will then have to get sent to the UI (create a view for it and design) and connect this view with the activity/fragment(1-2 hr?).
+- Once we have the date it will then have to get sent to the UI (create a view for it and design) and connect this view with the activity/fragment(1-2 hr?).
 
 US1-task3: getUserTimezone (3 hrs)
-This will involve interacting with the user phones through some kind of Android API. Getting their timezone configuration for the users phone (2-3 hrs?)
+- This will involve interacting with the user phones through some kind of Android API. Getting their timezone configuration for the users phone (2-3 hrs?)
 
 US1-task4: timeSync (3 hr)
-Something that refreshes/shows the correct date no matter the time. Maybe some kind of loop that refreshes the date in the view with the new date while the application is active (1-2 hr?)
+- Something that refreshes/shows the correct date no matter the time. Maybe some kind of loop that refreshes the date in the view with the new date while the application is active (1-2 hr?)
 
 US1-task6: Testing (unit tests for business logic, integration tests, UI tests) (4 hrs)
 
 US3-task1: moveGoal (3 hrs)
-Connect event listener for a specific goal for all goals. (so each goal will have an event listener). This will wait for the user to tap the goal. Now if it is active, it will mark the goal as inactive, this information will get updated, from presentation layer down to business logic for storage.
+- Connect event listener for a specific goal for all goals. (so each goal will have an event listener). This will wait for the user to tap the goal. Now if it is active, it will mark the goal as inactive, this information will get updated, from presentation layer down to business logic for storage.
 If goal is inactive then the goal will become active and have a similar process as above.
 We will have both an active list and an inactive list, so in the view a goal will be moved when tapped and become MIT in its corresponding list.
 At the end of this process maybe call displayGoals?
 
 US3-task2: markGoalInactive (2 hr)
-If the Goal is marked as inactive in the business logic, then we also want to render this to the user, this will involve creating a view specific to Goals that are inactive such that they are crossed out in the view. (1 hr?)
+- If the Goal is marked as inactive in the business logic, then we also want to render this to the user, this will involve creating a view specific to Goals that are inactive such that they are crossed out in the view. (1 hr?)
 
 US3-task3: deleteInactiveGoal (2 hrs)
-If the clock turns to 2 am, then we want the inactive goals to disappear, this could involve a function in timeSync that will check the time and for all inactive goals we will delete them from the business logic in storage/database. This will also involve calling displayGoals again to refresh the goal list in the view.
+- If the clock turns to 2 am, then we want the inactive goals to disappear, this could involve a function in timeSync that will check the time and for all inactive goals we will delete them from the business logic in storage/database. This will also involve calling displayGoals again to refresh the goal list in the view.
 
 US3-task4: Testing (unit tests for business logic, integration tests, UI tests) (4 hrs)
 
