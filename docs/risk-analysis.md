@@ -32,3 +32,20 @@
 - Severity: Medium
 - Resolution: We can focus on keeping the design of the app simple and easy to use and conduct usability testing and incorporate the feedback for improvements.  
 - Status: In progress
+
+## Velocity and Iteration Length
+
+Per week we have (7 working hrs) dedicated to the project.
+
+Which can be reduced to (4 productive hrs) per week.
+
+Iteration 1 will take around 2 weeks.
+
+(6 group members) * (14 working hrs in iteration 1 per person) * Velocity = (4 productive hrs per week) * (6 group members) * (2 weeks)
+
+Velocity = 0.57
+
+If V = 0.57, for iteration 1 we have 84 working hrs available, but 84 * V = 48 hrs that we can get actual work done.
+
+So our user story time estimates for iteration 1 should add up to something less than or equal to 48 hrs.
+
