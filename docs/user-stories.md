@@ -1,95 +1,95 @@
 # User Stories
 
-### 1. Current date (16hr, Medium)
+### 1. Current date (16hr, Medium)  
 
-As a user with a lot of goals
-I want to know the current day of the week and the date 
-So that I can set my daily goals based on the current date
+As a user with a lot of goals  
+I want to know the current day of the week and the date   
+So that I can set my daily goals based on the current date  
 
-Scenario 1: When the current day passed
-Given the current date is Mon 1/23
-And Goal1 is crossed
-And Goal2 is still there
-When the current date has passed
-Then the current date should become to Tue 1/24
-And Goal1 has been removed
-And Goal2 will have remained
+Scenario 1: When the current day passed  
+Given the current date is Mon 1/23  
+And Goal1 is crossed  
+And Goal2 is still there  
+When the current date has passed  
+Then the current date should become to Tue 1/24  
+And Goal1 has been removed  
+And Goal2 will have remained  
 
-![US1-1](images/US1-1.PNG)
+![US1-1](images/US1-1.PNG)  
 
-### 2. Add goal (25hr, High)
+### 2. Add goal (25hr, High)  
 
-As a user with a lot of goals 
-I want to add new goals to the list of goals
-So that I can see my new daily goals on the list
+As a user with a lot of goals   
+I want to add new goals to the list of goals  
+So that I can see my new daily goals on the list  
 
-Scenario 1: When there is no goal in the list
-Given the current date is Mon 1/23
-And there is no goal in the list
-When I add a new goal 
-Then the new goal will be shown after the date which is the top of the goal list
+Scenario 1: When there is no goal in the list  
+Given the current date is Mon 1/23  
+And there is no goal in the list  
+When I add a new goal  
+Then the new goal will be shown after the date which is the top of the goal list  
 
-![US2-1](images/US2-1.PNG)
+![US2-1](images/US2-1.PNG)  
 
-Scenario 2: When there are some uncrossed goals in the list
-Given there are some uncrossed goals in the list
-When I add a new goal 
-Then the new goal will be shown after all uncrossed goals in the list
+Scenario 2: When there are some uncrossed goals in the list  
+Given there are some uncrossed goals in the list  
+When I add a new goal   
+Then the new goal will be shown after all uncrossed goals in the list    
 
-![US2-2](images/US2-2.PNG)
+![US2-2](images/US2-2.PNG)  
 
-Scenario 3: When there are some uncrossed goals in the list and some crossed goals in the list
-Given there are some uncrossed goals in the list
-And there are some crossed goals in the list
-When I add a new goal 
-Then the new goal will be shown after all uncrossed goals in the list and before all crossed goals in the list
+Scenario 3: When there are some uncrossed goals in the list and some crossed goals in the list  
+Given there are some uncrossed goals in the list  
+And there are some crossed goals in the list  
+When I add a new goal   
+Then the new goal will be shown after all uncrossed goals in the list and before all crossed goals in the list    
 
-![US2-3](images/US2-3.PNG)
+![US2-3](images/US2-3.PNG)  
 
-Scenario 4: When there are some crossed goals in the list
-Given there are some crossed goals in the list
-When I add a new goal 
-Then the new goal will be shown before all crossed goals in the list
+Scenario 4: When there are some crossed goals in the list  
+Given there are some crossed goals in the list  
+When I add a new goal   
+Then the new goal will be shown before all crossed goals in the list    
 
-![US2-4](images/US2-4.PNG)
+![US2-4](images/US2-4.PNG)  
 
-Scenario 5: When I want to cancel creating goal 
-Given there are some goals in the list
-When I tap the button “+” and I want to cancel creating goal 
-Then I tap “cancel” to go back to the goal list
+Scenario 5: When I want to cancel creating goal   
+Given there are some goals in the list  
+When I tap the button “+” and I want to cancel creating goal   
+Then I tap “cancel” to go back to the goal list    
 
-![US2-5](images/US2-5.PNG)
+![US2-5](images/US2-5.PNG)  
 
-### 3. Move goal (2hr, High)
+### 3. Move goal (2hr, High)  
 
-As a user with a lot of goals
-I want to cross a goal when I reach it
-So that I can see the goal I reached has been crossed and moved to the bottom of the list
+As a user with a lot of goals  
+I want to cross a goal when I reach it  
+So that I can see the goal I reached has been crossed and moved to the bottom of the list  
 
-Scenario 1: When there are some goals
-Given there are Goal1, Goal2, Goal3 in the goals list
-When I tap "Goal1"
-Then Goal1 will be crossed
-And Goal1 will be moved to the bottom of the list
-And Goal2 will be moved to the top of the list
-And Goal3 will be moved to the second place on the list
+Scenario 1: When there are some goals  
+Given there are Goal1, Goal2, Goal3 in the goals list  
+When I tap "Goal1"  
+Then Goal1 will be crossed  
+And Goal1 will be moved to the bottom of the list  
+And Goal2 will be moved to the top of the list  
+And Goal3 will be moved to the second place on the list  
 
-![US3-1](images/US3-1.PNG)
+![US3-1](images/US3-1.PNG)  
 
-### 4. Return crossed goal (3 hrs, High)
-As a user with a lot of goals
-I want to put the accidentally crossed goal back to incomplete
-So that I can move the crossed goal by mistake back to incomplete
+### 4. Return crossed goal (3 hrs, High)   
+As a user with a lot of goals  
+I want to put the accidentally crossed goal back to incomplete  
+So that I can move the crossed goal by mistake back to incomplete   
 
-Scenario 1: Return incomplete goal from the complete list
-Given there "Goal1" accidentally be crossed
-When I want to return “Goal1” back to incomplete goal list
-And I tap crossed “Goal1”
-And Goal1 will be moved back to the original place in the incomplete goal list
+Scenario 1: Return incomplete goal from the complete list  
+Given there "Goal1" accidentally be crossed  
+When I want to return “Goal1” back to incomplete goal list  
+And I tap crossed “Goal1”  
+And Goal1 will be moved back to the original place in the incomplete goal list  
 
-![US4-1](images/US4-1.PNG)
+![US4-1](images/US4-1.PNG)  
 
-## Tasks for First Iteration
+## Tasks for First Iteration  
 
 US2-task1: addGoalsAction (3 hr)
 - Task will involve some kind of “+” icon in the main view container (the first thing the user sees) and involve communicating with an event listener which will trigger a callback function to be called which corresponds to some kind of prompt popping up. (2 hr?)
