@@ -15,6 +15,8 @@ Then the current date should become to Tue 1/24
 And Goal1 has been removed
 And Goal2 will have remained
 
+![US1-1](images/US1-1.PNG)
+
 ### 2. Add goal (25hr, High)
 
 As a user with a lot of goals 
