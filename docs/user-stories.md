@@ -29,10 +29,14 @@ And there is no goal in the list
 When I add a new goal 
 Then the new goal will be shown after the date which is the top of the goal list
 
+![US2-1](images/US2-1.PNG)
+
 Scenario 2: When there are some uncrossed goals in the list
 Given there are some uncrossed goals in the list
 When I add a new goal 
 Then the new goal will be shown after all uncrossed goals in the list
+
+![US2-2](images/US2-2.PNG)
 
 Scenario 3: When there are some uncrossed goals in the list and some crossed goals in the list
 Given there are some uncrossed goals in the list
@@ -40,15 +44,21 @@ And there are some crossed goals in the list
 When I add a new goal 
 Then the new goal will be shown after all uncrossed goals in the list and before all crossed goals in the list
 
+![US2-3](images/US2-3.PNG)
+
 Scenario 4: When there are some crossed goals in the list
 Given there are some crossed goals in the list
 When I add a new goal 
 Then the new goal will be shown before all crossed goals in the list
 
+![US2-4](images/US2-4.PNG)
+
 Scenario 5: When I want to cancel creating goal 
 Given there are some goals in the list
 When I tap the button “+” and I want to cancel creating goal 
 Then I tap “cancel” to go back to the goal list
+
+![US2-5](images/US2-5.PNG)
 
 ### 3. Move goal (2hr, High)
 
@@ -64,7 +74,9 @@ And Goal1 will be moved to the bottom of the list
 And Goal2 will be moved to the top of the list
 And Goal3 will be moved to the second place on the list
 
-### Return crossed goal (3 hrs, High)
+![US3-1](images/US3-1.PNG)
+
+### 4. Return crossed goal (3 hrs, High)
 As a user with a lot of goals
 I want to put the accidentally crossed goal back to incomplete
 So that I can move the crossed goal by mistake back to incomplete
@@ -74,6 +86,8 @@ Given there "Goal1" accidentally be crossed
 When I want to return “Goal1” back to incomplete goal list
 And I tap crossed “Goal1”
 And Goal1 will be moved back to the original place in the incomplete goal list
+
+![US4-1](images/US4-1.PNG)
 
 ## Tasks for First Iteration
 
