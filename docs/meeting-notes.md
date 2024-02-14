@@ -21,3 +21,14 @@
  - Risk Analysis (Jasmine)
  - Documentation of planning poker (Alyssa)
  - Scenario-based Milestone Test (Javier and Nik)
+
+ ### Feb 12th:
+ - Discussion about MS1.
+ - Spoke to TA regarding our erros during the planning phase.
+ - Fix User Story tasks to correct layout.
+ - Populate Big Board.
+ - Divide tasks amongst our pairs for "pair-programming".
+
+### Feb 13th:
+ - Simultaneously work on Tasks.
+ - Get some questions answered during OH.
