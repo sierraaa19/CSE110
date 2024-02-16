@@ -9,9 +9,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
-import edu.ucsd.cse110.successorator.ui.cardlist.CardListFragment;
+//import edu.ucsd.cse110.successorator.ui.cardlist.CardListFragment;
 import edu.ucsd.cse110.successorator.ui.cardlist.dialog.CreateCardDialogFragment;
 //import edu.ucsd.cse110.succesorator.ui.study.StudyFragment;
+//
+//
+//
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
