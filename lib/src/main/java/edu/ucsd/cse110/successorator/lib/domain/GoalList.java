@@ -1,13 +1,8 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GoalList {
     private List<Goal> uncompleted_GoalList;
@@ -19,20 +14,28 @@ public class GoalList {
     }
 
     public void addGoal(Goal goal) {
-        if (goal.goalStatus()) {
+        if (goal.isCompleted()) {
             completed_GoalList.add(goal);
         } else {
             uncompleted_GoalList.add(goal);
         }
+
+        System.out.printf(this.toString());
     }
 
-    public List<Goal> getCompletedGoals() {
-        return completed_GoalList;
+    @Override
+    public String toString() {
+        var unComplte = "";
+        var complete = "";
+        for (Goal g : uncompleted_GoalList){
+
+            unComplte += g + " ";
+        }
+        for (Goal g : completed_GoalList){
+
+            complete += g + " ";
+        }
+
+        return unComplte + "\n" + complete;
     }
-
-    public List<Goal> getUncompletedGoals() {
-        return uncompleted_GoalList;
-    }
-
-
 }

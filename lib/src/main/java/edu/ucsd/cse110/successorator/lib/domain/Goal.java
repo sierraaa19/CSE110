@@ -9,38 +9,42 @@ import java.util.Objects;
 public class Goal implements Serializable {
     private final @Nullable Integer id;
     private final @NonNull String text;
-    private final boolean goalStatus;
+    private final boolean isCompleted;
     private final int sortOrder;
 
-    public Goal(@Nullable Integer id, @NonNull String text, boolean goalStatus, int sortOrder) {
+    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder) {
         this.id = id;
         this.text = text;
-        this.goalStatus = false;
+        this.isCompleted = isCompleted;
         this.sortOrder = sortOrder;
     }
 
+
     public @Nullable Integer id() {
         return id;
+    }
+    public Goal withId(int id) {
+        return new Goal(id, this.text, this.isCompleted, this.sortOrder);
     }
 
     public @NonNull String text() {
         return text;
     }
 
-    public boolean goalStatus(){ return goalStatus;}
+    public boolean isCompleted(){ return isCompleted;}
 
+    public Goal withCompleted(boolean isCompleted) {
+        return new Goal(id, text, isCompleted, sortOrder);
+    }
 
     public int sortOrder() {
         return sortOrder;
     }
 
-    public Goal withId(int id) {
-        return new Goal(id, this.text, this.goalStatus, this.sortOrder);
+    public Goal withSortOrder(int sortOrder) {
+        return new Goal(this.id, this.text, this.isCompleted, sortOrder);
     }
 
-    public Goal withSortOrder(int sortOrder) {
-        return new Goal(this.id, this.text, this.goalStatus, sortOrder);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -49,12 +53,12 @@ public class Goal implements Serializable {
         Goal goal = (Goal) o;
         return sortOrder == goal.sortOrder &&
                 Objects.equals(id, goal.id) &&
-                Objects.equals(goalStatus, goal.goalStatus) &&
+                Objects.equals(isCompleted, goal.isCompleted) &&
                 Objects.equals(text, goal.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, goalStatus, sortOrder);
+        return Objects.hash(id, text, isCompleted, sortOrder);
     }
 }

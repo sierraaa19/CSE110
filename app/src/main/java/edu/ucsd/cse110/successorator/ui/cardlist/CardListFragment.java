@@ -46,10 +46,18 @@ public class CardListFragment extends Fragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
 
         // Initialize the Adapter (with an empty list for now)
-        this.adapter = new CardListAdapter(requireContext(), List.of(), id -> {
-            var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(id);
-            dialogFragment.show(getParentFragmentManager(),"ConfirmDeleteCardDialogFragment");
-        });
+        this.adapter = new CardListAdapter(
+                requireContext(),
+                List.of(),
+                goal -> {
+                    var newGoal = goal.withCompleted(!goal.isCompleted());
+                    activityModel.save(newGoal);
+                },
+                goal -> {
+                    var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
+                    dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
+                }
+        );
         activityModel.getOrderedCards().observe(cards -> {
             if (cards == null) return;
             adapter.clear();

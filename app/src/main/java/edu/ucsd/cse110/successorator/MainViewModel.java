@@ -86,25 +86,25 @@ public class MainViewModel extends ViewModel {
 
     }
 
-    public Subject<String> getDisplayedText() {
-        return displayedText;
-    }
-
     public Subject<List<Goal>> getOrderedCards() {
         return orderedCards;
     }
 
-    public void flipTopCard() {
-        var isShowingFront = this.isShowingFront.getValue();
-        if (isShowingFront == null) return;
-        this.isShowingFront.setValue(!isShowingFront);
-    }
+ //   public Subject<String> getDisplayedText() {
+ //       return displayedText;
+ //   }
+
+//    public void flipTopCard() {
+//        var isShowingFront = this.isShowingFront.getValue();
+//        if (isShowingFront == null) return;
+//        this.isShowingFront.setValue(!isShowingFront);
+//    }
 
 
 
 
 
-
+    public void save(Goal goal) { goalRepository.save(goal); }
 
     public void append(Goal card) {
         goalRepository.append(card);
