@@ -14,32 +14,32 @@ public class SimpleGoalRepository implements GoalRepository {
 
     @Override
     public Subject<Goal> find(int id) {
-        return dataSource.getGoalSubject(id);
+        return dataSource.getFlashcardSubject(id);
     }
 
     @Override
     public Subject<List<Goal>> findAll() {
-        return dataSource.getAllGoalsSubject();
+        return dataSource.getAllFlashcardsSubject();
     }
 
     @Override
     public void save(Goal goal) {
-        dataSource.putGoal(goal);
+        dataSource.putFlashcard(goal);
     }
 
     @Override
     public void save(List<Goal> goals) {
-        dataSource.putGoals(goals);
+        dataSource.putFlashcards(goals);
     }
 
     @Override
     public void remove(int id) {
-        dataSource.removeGoal(id);
+        dataSource.removeFlashcard(id);
     }
 
     @Override
     public void append(Goal goal) {
-        dataSource.putGoal(
+        dataSource.putFlashcard(
                 goal.withSortOrder(dataSource.getMaxSortOrder() + 1)
         );
     }
@@ -49,7 +49,7 @@ public class SimpleGoalRepository implements GoalRepository {
         // Shift all the existing cards up by one.
         dataSource.shiftSortOrders(0, dataSource.getMaxSortOrder(), 1);
         // Then insert the new card before the first one.
-        dataSource.putGoal(
+        dataSource.putFlashcard(
                 goal.withSortOrder(dataSource.getMinSortOrder() -1)
         );
     }

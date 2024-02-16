@@ -1,8 +1,9 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import edu.ucsd.cse110.successorator.lib.util.Subject;
+
 import java.util.List;
 
-import edu.ucsd.cse110.successorator.lib.util.Subject;
 
 public interface GoalRepository {
     Subject<Goal> find(int id);
@@ -18,6 +19,4 @@ public interface GoalRepository {
     void append(Goal goal);
 
     void prepend(Goal goal);
-
-
 }
