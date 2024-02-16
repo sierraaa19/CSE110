@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
-        // Show current day
+        // Show Current Day
         date = new Date();
         displayDate();
-        // nextDay
+        // nextDay Button
         ImageButton next_day_button = (ImageButton)findViewById(R.id.imageButton_next);
         next_day_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private void swapFragments() {
 
     }
+    // next day
     private void nextDay(){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         date = calendar.getTime();
     }
 
+    // display Date in textview
     private void displayDate(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
         String currentDate = dateFormat.format(date);
