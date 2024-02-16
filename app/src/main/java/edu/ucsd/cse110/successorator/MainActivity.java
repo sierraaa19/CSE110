@@ -3,22 +3,27 @@ package edu.ucsd.cse110.successorator;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
-//import edu.ucsd.cse110.successorator.ui.cardlist.CardListFragment;
 import edu.ucsd.cse110.successorator.ui.cardlist.dialog.CreateCardDialogFragment;
-//import edu.ucsd.cse110.succesorator.ui.study.StudyFragment;
-//
-//
-//
+
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
     private boolean isShowingStudy = true;
+
+    private static Date date; // date show in Successorator
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +33,19 @@ public class MainActivity extends AppCompatActivity {
         var binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+
+        // Show Current Day
+        date = new Date();
+        displayDate();
+        // nextDay Button
+        ImageButton next_day_button = (ImageButton)findViewById(R.id.imageButton_next);
+        next_day_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextDay();
+                displayDate();
+            }
+        });
     }
 
     @Override
@@ -55,5 +73,22 @@ public class MainActivity extends AppCompatActivity {
     private void swapFragments() {
 
     }
+    // next day
+    private void nextDay(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH,1);
+        date = calendar.getTime();
+    }
+
+    // display Date in textview
+    private void displayDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
+        String currentDate = dateFormat.format(date);
+        TextView textViewDate = findViewById(R.id.text_view_date);
+        textViewDate.setText(currentDate);
+    }
+
+
 
 }

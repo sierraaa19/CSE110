@@ -9,12 +9,32 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:name="edu.ucsd.cse110.successorator.ui.cardlist.CardListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="406dp"
+        android:layout_height="665dp"
+        android:layout_marginTop="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_date"
         tools:layout="@layout/fragment_card_list" />
+
+    <TextView
+        android:id="@+id/text_view_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton_next"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_next"
+        android:contentDescription="next day"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
