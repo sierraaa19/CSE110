@@ -6,41 +6,40 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.jetbrains.annotations.NotNull;
-
-/**
- * Just a dummy domain model that does nothing in particular. Delete me.
- */
-public class Goal {
+public class Goal implements Serializable {
     private final @Nullable Integer id;
-    private final @Nullable String text;
-    private final @NotNull int sortOrder;
+    private final @NonNull String text;
+    private final boolean goalStatus;
+    private final int sortOrder;
 
-    public Goal (@Nullable Integer id, @Nullable String text, @NotNull int sortOrder) {
+    public Goal(@Nullable Integer id, @NonNull String text, boolean goalStatus, int sortOrder) {
         this.id = id;
         this.text = text;
+        this.goalStatus = false;
         this.sortOrder = sortOrder;
     }
 
-    @Nullable
-    public Integer id() {
+    public @Nullable Integer id() {
         return id;
     }
 
-    @Nullable
-    public String text() {
+    public @NonNull String text() {
         return text;
     }
 
-    @NotNull
-    public int sortOrder() { return sortOrder; }
+    public boolean goalStatus(){ return goalStatus;}
+
+
+    public int sortOrder() {
+        return sortOrder;
+    }
 
     public Goal withId(int id) {
-        return new Goal(id, this.text, this.sortOrder);
+        return new Goal(id, this.text, this.goalStatus, this.sortOrder);
     }
 
     public Goal withSortOrder(int sortOrder) {
-        return new Goal(this.id, this.text, sortOrder);
+        return new Goal(this.id, this.text, this.goalStatus, sortOrder);
     }
 
     @Override
@@ -50,11 +49,12 @@ public class Goal {
         Goal goal = (Goal) o;
         return sortOrder == goal.sortOrder &&
                 Objects.equals(id, goal.id) &&
+                Objects.equals(goalStatus, goal.goalStatus) &&
                 Objects.equals(text, goal.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, sortOrder);
+        return Objects.hash(id, text, goalStatus, sortOrder);
     }
 }

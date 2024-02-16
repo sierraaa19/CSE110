@@ -6,43 +6,18 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/task_edit_text"
+        android:id="@+id/card_front_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="New goal . . ."
+        android:hint="Task Name..."
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <RadioGroup
-        android:id="@+id/insert_mode_button_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_edit_text">
-
-        <RadioButton
-            android:id="@+id/append_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="Non-MIT" />
-
-        <RadioButton
-            android:id="@+id/prepend_radio_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="MIT" />
-    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
