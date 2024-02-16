@@ -31,6 +31,7 @@ public class InMemoryDataSource {
     public InMemoryDataSource() {
     }
 
+    /*
     public final static List<Goal> DEFAULT_CARDS = List.of(
             new Goal(0, "Do Homework", false, 0),
             new Goal(1, "Go to Gym", false, 1),
@@ -40,9 +41,11 @@ public class InMemoryDataSource {
             new Goal(5, "Club Activities", false, 5)
     );
 
+     */
+
     public static InMemoryDataSource fromDefault() {
         var data = new InMemoryDataSource();
-        data.putFlashcards(DEFAULT_CARDS);
+        //data.putFlashcards(DEFAULT_CARDS);
         return data;
     }
 

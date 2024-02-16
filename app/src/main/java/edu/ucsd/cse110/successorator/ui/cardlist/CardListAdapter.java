@@ -13,27 +13,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.ListItemCardBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
 public class CardListAdapter extends ArrayAdapter<Goal> {
-    Consumer<Integer> onDeleteClick;
-    public CardListAdapter(Context context, List<Goal> goals, Consumer<Integer> onDeleteClick) {
+    private final Consumer<Goal> onGoalClicked;
+    private final Consumer<Goal> onDeleteClicked;
+    public CardListAdapter(
+            Context context,
+            List<Goal> goals,
+            Consumer<Goal> onGoalClicked,
+            Consumer<Goal> onDeleteClicked
+    ) {
         // This sets a bunch of stuff internally, which we can access
         // with getContext() and getItem() for example.
         //
         // Also note that ArrayAdapter NEEDS a mutable List (ArrayList),
         // or it will crash!
         super(context, 0, new ArrayList<>(goals));
-        this.onDeleteClick = onDeleteClick;
+        this.onGoalClicked = onGoalClicked;
+        this.onDeleteClicked = onDeleteClicked;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the flashcard for this position.
-        var flashcard = getItem(position);
-        assert flashcard != null;
+        // Get the goal for this position.
+        var goal = getItem(position);
+
+        assert goal != null;
 
         // Check if a view is being reused...
         ListItemCardBinding binding;
@@ -46,19 +55,28 @@ public class CardListAdapter extends ArrayAdapter<Goal> {
             binding = ListItemCardBinding.inflate(layoutInflater, parent, false);
         }
 
-        // Populate the view with the flashcard's data.
-        binding.cardFrontText.setText(flashcard.text());
+        // Populate the view with the goal's data.
+        // M -> V
+        binding.cardFrontText.setText(goal.text());
+        if (goal.isCompleted()) {
+            // TODO: replace with strikethrough
+            binding.cardFrontText.setText(goal.text() + " DONE");
+        } else {
+            binding.cardFrontText.setText(goal.text());
+        }
 
-
-        //Bind the delete button to the callback.
-        binding.cardDeleteButton.setOnClickListener(v -> {
-            var id = flashcard.id();
-            assert id != null;
-            onDeleteClick.accept(id);
+        // V -> M
+        binding.cardFrontText.setOnClickListener(v->{
+            onGoalClicked.accept(goal);
         });
 
+        //Bind the delete button to the callback.
+       // binding.cardDeleteButton.setOnClickListener(v -> {
+           // onDeleteClicked.accept(goal);
+      //  });
+
         return binding.getRoot();
-    }
+   }
 
     // The below methods aren't strictly necessary, usually.
     // But get in the habit of defining them because they never hurt
