@@ -6,42 +6,45 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.jetbrains.annotations.NotNull;
-
-/**
- * Just a dummy domain model that does nothing in particular. Delete me.
- */
-public class Goal {
+public class Goal implements Serializable {
     private final @Nullable Integer id;
-    private final @Nullable String text;
-    private final @NotNull int sortOrder;
+    private final @NonNull String text;
+    private final boolean isCompleted;
+    private final int sortOrder;
 
-    public Goal (@Nullable Integer id, @Nullable String text, @NotNull int sortOrder) {
+    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder) {
         this.id = id;
         this.text = text;
+        this.isCompleted = isCompleted;
         this.sortOrder = sortOrder;
     }
 
-    @Nullable
-    public Integer id() {
+
+    public @Nullable Integer id() {
         return id;
     }
+    public Goal withId(int id) {
+        return new Goal(id, this.text, this.isCompleted, this.sortOrder);
+    }
 
-    @Nullable
-    public String text() {
+    public @NonNull String text() {
         return text;
     }
 
-    @NotNull
-    public int sortOrder() { return sortOrder; }
+    public boolean isCompleted(){ return isCompleted;}
 
-    public Goal withId(int id) {
-        return new Goal(id, this.text, this.sortOrder);
+    public Goal withCompleted(boolean isCompleted) {
+        return new Goal(id, text, isCompleted, sortOrder);
+    }
+
+    public int sortOrder() {
+        return sortOrder;
     }
 
     public Goal withSortOrder(int sortOrder) {
-        return new Goal(this.id, this.text, sortOrder);
+        return new Goal(this.id, this.text, this.isCompleted, sortOrder);
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -50,11 +53,12 @@ public class Goal {
         Goal goal = (Goal) o;
         return sortOrder == goal.sortOrder &&
                 Objects.equals(id, goal.id) &&
+                Objects.equals(isCompleted, goal.isCompleted) &&
                 Objects.equals(text, goal.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, sortOrder);
+        return Objects.hash(id, text, isCompleted, sortOrder);
     }
 }
