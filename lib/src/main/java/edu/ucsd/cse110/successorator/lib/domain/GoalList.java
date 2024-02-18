@@ -1,6 +1,5 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +14,10 @@ public class GoalList {
         uncompletedGoals = new ArrayList<>();
         completedGoals = new ArrayList<>();
         goals = new ArrayList<>();
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
     }
 
     public List<Goal> getGoals() {
@@ -76,7 +79,6 @@ public class GoalList {
 
         System.out.println("");
          */
-
 
         // Resets sortOrder to be correct
         // and create two new lists in the process

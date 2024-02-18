@@ -70,11 +70,10 @@ public class CardListAdapter extends ArrayAdapter<Goal> {
         binding.goalView.setOnClickListener(v->{
             onGoalClicked.accept(goal);
         });
-
         //Bind the delete button to the callback.
-       // binding.cardDeleteButton.setOnClickListener(v -> {
-           // onDeleteClicked.accept(goal);
-      //  });
+        // binding.cardDeleteButton.setOnClickListener(v -> {
+        // onDeleteClicked.accept(goal);
+        //  });
 
         return binding.getRoot();
    }

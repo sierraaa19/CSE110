@@ -23,7 +23,7 @@ public class RoomGoalRepository implements GoalRepository {
     }
 
     @Override
-    public Subject<Goal> find (int id){
+    public Subject<Goal> find (int id) {
         var entityLiveData= flashcardDao.findAsLiveData(id);
         var flashcardLiveData = map(entityLiveData,FlashcardEntity::toFlashcard);
         return new LiveDataSubjectAdapter<>(flashcardLiveData);

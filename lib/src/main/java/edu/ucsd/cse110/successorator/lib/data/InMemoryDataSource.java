@@ -43,7 +43,6 @@ public class InMemoryDataSource {
             new Goal(8, "Study for CSE110", true, 8)
     );
 
-
     public static InMemoryDataSource fromDefault() {
         var data = new InMemoryDataSource();
         data.putFlashcards(DEFAULT_CARDS);
