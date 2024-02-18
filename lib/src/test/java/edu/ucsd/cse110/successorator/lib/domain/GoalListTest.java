@@ -83,7 +83,7 @@ public class GoalListTest {
         // completed list, this sortOrder
         // is then used to sort the singular list
         // in the database.
-        int actual = goals.getGoalSortOrder(goal);
+        int actual = goals.getGoalSortOrder(goal, false);
         int expected = 0;
 
         assertEquals(expected, actual);

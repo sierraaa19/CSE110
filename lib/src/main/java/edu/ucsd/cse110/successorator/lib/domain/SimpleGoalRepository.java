@@ -20,6 +20,7 @@ public class SimpleGoalRepository implements GoalRepository {
         List<Goal> newGoalData;
         newGoalData = goalsLogic.fillGoals(goalsData);
 
+
         // remove all goals from data
         goalsData.forEach(goal -> {
             this.dataSource.removeFlashcard(goal.id());
@@ -70,26 +71,53 @@ public class SimpleGoalRepository implements GoalRepository {
 
     @Override
     public void append(Goal goal) {
+        // process in GoalList, simply call syncList
+        syncLists();
+        int sortOrder = goals.getGoalSortOrder(goal, true);
 
-        // process in GoalList
+        // get index of where insertion/start of moving goals
+        goal = goal.withSortOrder(sortOrder);
 
-        dataSource.putFlashcard(
-                goal.withSortOrder(dataSource.getMaxSortOrder() + 1)
-        );
+        if (goal.id() == null) {
+            // get next available Id if it is originally null
+            goal = dataSource.preInsert(goal);
+            goal = goal.withId(goal.id()+1);
+        }
+
+        // Shift all the existing cards up by one.
+        dataSource.shiftSortOrders(goal.sortOrder(), dataSource.getMaxSortOrder(), 1);
+        // Then insert the new card before the first one.
+
+        dataSource.putFlashcard(goal);
+
+        syncLists();
+
+
     }
 
     @Override
     public void prepend(Goal goal) {
         // process in GoalList, simply call syncList
         syncLists();
-        int sortOrder = goals.getGoalSortOrder(goal);
+        int sortOrder = goals.getGoalSortOrder(goal, false);
+
+        // get index of where insertion/start of moving goals
         goal = goal.withSortOrder(sortOrder);
+
+        if (goal.id() == null) {
+            // get next available Id if it is originally null
+            goal = dataSource.preInsert(goal);
+            goal = goal.withId(goal.id()+1);
+        }
 
         // Shift all the existing cards up by one.
         dataSource.shiftSortOrders(goal.sortOrder(), dataSource.getMaxSortOrder(), 1);
         // Then insert the new card before the first one.
+
         dataSource.putFlashcard(goal);
+
         syncLists();
+
     }
 
     @Override
