@@ -67,7 +67,7 @@ public class CardListAdapter extends ArrayAdapter<Goal> {
         }
 
         // V -> M
-        binding.cardFrontText.setOnClickListener(v->{
+        binding.goalView.setOnClickListener(v->{
             onGoalClicked.accept(goal);
         });
 

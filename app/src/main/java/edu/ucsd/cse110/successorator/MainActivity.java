@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void removeCompleted() {
-        System.out.println("Test Activity");
         viewModel.removeCompleted();
     }
 }
