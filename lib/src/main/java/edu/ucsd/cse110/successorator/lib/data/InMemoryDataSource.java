@@ -31,21 +31,21 @@ public class InMemoryDataSource {
     public InMemoryDataSource() {
     }
 
-    /*
     public final static List<Goal> DEFAULT_CARDS = List.of(
             new Goal(0, "Do Homework", false, 0),
             new Goal(1, "Go to Gym", false, 1),
             new Goal(2, "Eat Dinner", false, 2),
             new Goal(3, "Buy Groceries", false, 3),
             new Goal(4, "Meeting with CSE110", false, 4),
-            new Goal(5, "Club Activities", false, 5)
+            new Goal(5, "Club Activities", true, 5),
+            new Goal(6, "Watch Lecture", true, 6),
+            new Goal(7, "Visit family", true, 7),
+            new Goal(8, "Study for CSE110", true, 8)
     );
-
-     */
 
     public static InMemoryDataSource fromDefault() {
         var data = new InMemoryDataSource();
-        //data.putFlashcards(DEFAULT_CARDS);
+        data.putFlashcards(DEFAULT_CARDS);
         return data;
     }
 
@@ -82,6 +82,7 @@ public class InMemoryDataSource {
         var fixedCard = preInsert(card);
 
         flashcards.put(fixedCard.id(), fixedCard);
+
         postInsert();
         assertSortOrderConstraints();
 

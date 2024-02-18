@@ -17,8 +17,13 @@ public class RoomGoalRepository implements GoalRepository {
         this.flashcardDao = flashcardDao;
     }
 
+
     @Override
-    public Subject<Goal> find (int id){
+    public void syncLists() {
+    }
+
+    @Override
+    public Subject<Goal> find (int id) {
         var entityLiveData= flashcardDao.findAsLiveData(id);
         var flashcardLiveData = map(entityLiveData,FlashcardEntity::toFlashcard);
         return new LiveDataSubjectAdapter<>(flashcardLiveData);
@@ -56,6 +61,11 @@ public class RoomGoalRepository implements GoalRepository {
     @Override
     public void prepend(Goal goal){
         flashcardDao.prepend(FlashcardEntity.fromFlashcard(goal));
+    }
+
+    @Override
+    public void removeCompleted() {
+
     }
 
     @Override

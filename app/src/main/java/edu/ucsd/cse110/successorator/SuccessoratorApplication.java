@@ -9,6 +9,7 @@ import edu.ucsd.cse110.successorator.data.db.RoomGoalRepository;
 import edu.ucsd.cse110.successorator.data.db.SECardsDatabase;
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.domain.GoalRepository;
+import edu.ucsd.cse110.successorator.lib.domain.SimpleGoalRepository;
 
 
 public class SuccessoratorApplication extends Application {
@@ -19,11 +20,11 @@ public class SuccessoratorApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Old
-//         this.dataSource = InMemoryDataSource.fromDefault();
-//         this.goalRepository = new SimpleGoalRepository(dataSource);
+        // for testing purposes
+         this.dataSource = InMemoryDataSource.fromDefault();
+         this.goalRepository = new SimpleGoalRepository(dataSource);
 
-//         New
+        /*
         var database = Room.databaseBuilder(
                         getApplicationContext(),
                         SECardsDatabase.class,
@@ -44,6 +45,8 @@ public class SuccessoratorApplication extends Application {
                     .putBoolean("isFirstRun", false)
                     .apply();
         }
+
+         */
     }
 
     public GoalRepository getFlashcardRepository() {
