@@ -51,7 +51,9 @@ public class CardListFragment extends Fragment {
                 List.of(),
                 goal -> {
                     activityModel.remove(goal.id());
-                    activityModel.syncLists();
+                    goal = goal.withCompleted(!goal.isCompleted());
+                    activityModel.prepend(goal);
+
                     // var newGoal = goal.withCompleted(!goal.isCompleted());
                     // activityModel.save(newGoal);
                 },

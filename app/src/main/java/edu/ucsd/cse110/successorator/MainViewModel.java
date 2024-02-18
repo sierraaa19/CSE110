@@ -85,4 +85,8 @@ public class MainViewModel extends ViewModel {
     public void remove (int id){
         goalRepository.remove(id);
     }
+
+    public void removeCompleted() {
+        goalRepository.removeCompleted();
+    }
 }

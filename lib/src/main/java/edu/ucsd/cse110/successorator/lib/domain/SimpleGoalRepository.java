@@ -27,6 +27,8 @@ public class SimpleGoalRepository implements GoalRepository {
 
         // reinsert them
         this.dataSource.putFlashcards(newGoalData);
+        this.goals = goalsLogic;
+
     }
 
     @Override
@@ -59,6 +61,7 @@ public class SimpleGoalRepository implements GoalRepository {
     public void remove(int id) {
         // remove from GoalList
         dataSource.removeFlashcard(id);
+        syncLists();
 
         // prepend in GoalList, update sort order in process
         //dataSource.putFlashcard
@@ -77,7 +80,6 @@ public class SimpleGoalRepository implements GoalRepository {
 
     @Override
     public void prepend(Goal goal) {
-
         // process in GoalList, simply call syncList
         syncLists();
         int sortOrder = goals.getGoalSortOrder(goal);
@@ -88,6 +90,17 @@ public class SimpleGoalRepository implements GoalRepository {
         // Then insert the new card before the first one.
         dataSource.putFlashcard(goal);
         syncLists();
+    }
 
+    @Override
+    public void removeCompleted() {
+        List<Goal> goalsData = this.dataSource.getFlashcards();
+
+        goalsData.forEach(goal -> {
+            if (goal.isCompleted()) {
+                dataSource.removeFlashcard(goal.id());
+            }
+        });
+        syncLists();
     }
 }

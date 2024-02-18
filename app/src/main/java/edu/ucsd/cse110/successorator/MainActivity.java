@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
     private static Date date; // date show in Successorator
 
+    private MainViewModel viewModel;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         var binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         // Show Current Day
         date = new Date();
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 nextDay();
                 displayDate();
+                removeCompleted();
             }
         });
     }
@@ -80,5 +85,10 @@ public class MainActivity extends AppCompatActivity {
         String currentDate = dateFormat.format(date);
         TextView textViewDate = findViewById(R.id.text_view_date);
         textViewDate.setText(currentDate);
+    }
+
+    private void removeCompleted() {
+        System.out.println("Test Activity");
+        viewModel.removeCompleted();
     }
 }

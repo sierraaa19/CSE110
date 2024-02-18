@@ -59,7 +59,7 @@ public class CreateCardDialogFragment extends DialogFragment {
 
         // sort order is an invalid value here, because append/prepend will replace it
         var card = new Goal(null,front, false, -1);
-        activityModel.append(card);
+        activityModel.prepend(card);
 
         dialog.dismiss();
     }

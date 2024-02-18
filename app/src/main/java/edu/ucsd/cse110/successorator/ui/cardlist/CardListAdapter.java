@@ -63,7 +63,7 @@ public class CardListAdapter extends ArrayAdapter<Goal> {
             // TODO: replace with strikethrough
             binding.cardFrontText.setPaintFlags(binding.cardFrontText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-            binding.cardFrontText.setPaintFlags(binding.cardFrontText.getPaintFlags() | (~Paint.STRIKE_THRU_TEXT_FLAG));
+            binding.cardFrontText.setPaintFlags(binding.cardFrontText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
         // V -> M

@@ -64,6 +64,11 @@ public class RoomGoalRepository implements GoalRepository {
     }
 
     @Override
+    public void removeCompleted() {
+
+    }
+
+    @Override
     public void remove(int id){
         flashcardDao.delete(id);
     }
