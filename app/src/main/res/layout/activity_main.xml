@@ -9,8 +9,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:name="edu.ucsd.cse110.successorator.ui.cardlist.CardListFragment"
-        android:layout_width="406dp"
-        android:layout_height="665dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

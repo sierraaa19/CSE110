@@ -116,21 +116,33 @@ public class GoalList {
     // for the goal being added
     // to a different list
     // depending on the goals.isCompleted() flag
-    public int getGoalSortOrder(Goal goal) {
+    public int getGoalSortOrder(Goal goal, boolean append) {
         boolean done = false;
         int sortOrder = -1;
 
-        for (int i = 0; i < goals.size(); i++) {
-            if (goal.isCompleted() && goals.get(i).isCompleted() && !done) {
-                sortOrder = goals.get(i).sortOrder();
-                done = true;
-            } else if (!goal.isCompleted() && !goals.get(i).isCompleted() && !done) {
-                sortOrder = goals.get(i).sortOrder();
-                done = true;
-            } else {
-                sortOrder = 0;
-                done = true;
+        if (append) {
+            if (!goal.isCompleted() && completedGoals.size() == 0 && goals.size() != 0) {
+                sortOrder = uncompletedGoals.get(uncompletedGoals.size()-1).sortOrder() + 1;
+            } else if (uncompletedGoals.size() != 0){
+                sortOrder = goals.get(0).sortOrder();
             }
+        } else {
+            for (int i = 0; i < goals.size(); i++) {
+                if (goal.isCompleted() && goals.get(i).isCompleted() && !done) {
+                    sortOrder = goals.get(i).sortOrder();
+                    done = true;
+                } else if (!goal.isCompleted() && !goals.get(i).isCompleted() && !done) {
+                    sortOrder = goals.get(i).sortOrder();
+                    done = true;
+                }
+            }
+        }
+
+        if ((goals.size() == 0
+                || completedGoals.size() == 0
+                || uncompletedGoals.size() == 0)
+                && sortOrder == -1) {
+            sortOrder = 0;
         }
 
         return sortOrder;
