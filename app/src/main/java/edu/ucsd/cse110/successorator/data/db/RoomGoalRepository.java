@@ -17,6 +17,11 @@ public class RoomGoalRepository implements GoalRepository {
         this.flashcardDao = flashcardDao;
     }
 
+
+    @Override
+    public void syncLists() {
+    }
+
     @Override
     public Subject<Goal> find (int id){
         var entityLiveData= flashcardDao.findAsLiveData(id);

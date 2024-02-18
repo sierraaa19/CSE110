@@ -22,10 +22,9 @@ public class MainViewModel extends ViewModel {
     private final GoalRepository goalRepository;
 
     // UI state
-    private final MutableSubject<List<Goal>> orderedCards;
-    private final MutableSubject<Goal> topCard;
-    private final MutableSubject<Boolean> isShowingFront;
-    private final MutableSubject<String> displayedText;
+    private final MutableSubject<List<Goal>> goals;
+    private final MutableSubject<Goal> goal;
+    private final MutableSubject<Boolean> isCompleted;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -40,78 +39,47 @@ public class MainViewModel extends ViewModel {
         this.goalRepository = goalRepository;
 
         // Create the observable subjects.
-        this.orderedCards = new SimpleSubject<>();
-        this.topCard = new SimpleSubject<>();
-        this.isShowingFront = new SimpleSubject<>();
-        this.displayedText = new SimpleSubject<>();
-
-        // Initialize...
-        isShowingFront.setValue(true);
+        this.goals = new SimpleSubject<>();
+        this.goal = new SimpleSubject<>();
+        this.isCompleted = new SimpleSubject<>();
 
         // When the list of cards changes (or is first loaded), reset the ordering.
-        goalRepository.findAll().observe(cards -> {
-            if (cards == null) return; // not ready yet, ignore
+        goalRepository.findAll().observe(goalList -> {
+            if (goalList == null) return; // not ready yet, ignore
 
-            var newOrderedCards = cards.stream()
+            var goalListSorted = goalList.stream()
                     .sorted(Comparator.comparingInt(Goal::sortOrder))
                     .collect(Collectors.toList());
-            orderedCards.setValue(newOrderedCards);
+            goals.setValue(goalListSorted);
         });
 
-        // When the ordering changes, update the top card.
-        orderedCards.observe(cards -> {
-            if (cards == null || cards.size() == 0) return;
-            var card = cards.get(0);
-            this.topCard.setValue(card);
+        // When the ordering changes do something
+        goals.observe(goalList -> {
+            if (goalList == null || goalList.size() == 0) return;
         });
 
-        // When the top card changes, update the displayed text and display the front side.
-        topCard.observe(card -> {
-            if (card == null) return;
+        // if the goal status changes do something
+        isCompleted.observe(status -> {
 
-            displayedText.setValue(card.text());
-            isShowingFront.setValue(true);
         });
-
-        // When isShowingFront changes, update the displayed text.
-        isShowingFront.observe(isShowingFront -> {
-            if (isShowingFront == null) return;
-
-            var card = topCard.getValue();
-            if (card == null) return;
-
-            var text =card.text();
-            displayedText.setValue(text);
-        });
-
     }
 
-    public Subject<List<Goal>> getOrderedCards() {
-        return orderedCards;
+    public Subject<List<Goal>> getGoals() {
+        return goals;
     }
-
- //   public Subject<String> getDisplayedText() {
- //       return displayedText;
- //   }
-
-//    public void flipTopCard() {
-//        var isShowingFront = this.isShowingFront.getValue();
-//        if (isShowingFront == null) return;
-//        this.isShowingFront.setValue(!isShowingFront);
-//    }
-
-
-
-
 
     public void save(Goal goal) { goalRepository.save(goal); }
 
-    public void append(Goal card) {
-        goalRepository.append(card);
+    public void append(Goal goal) {
+        goalRepository.append(goal);
     }
 
-    public void prepend(Goal card) {
-        goalRepository.prepend(card);
+    public void prepend(Goal goal) {
+        goalRepository.prepend(goal);
+    }
+
+    public void syncLists() {
+        goalRepository.syncLists();
     }
 
     public void remove (int id){

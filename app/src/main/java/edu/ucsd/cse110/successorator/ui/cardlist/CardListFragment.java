@@ -50,18 +50,20 @@ public class CardListFragment extends Fragment {
                 requireContext(),
                 List.of(),
                 goal -> {
-                    var newGoal = goal.withCompleted(!goal.isCompleted());
-                    activityModel.save(newGoal);
+                    activityModel.remove(goal.id());
+                    activityModel.syncLists();
+                    // var newGoal = goal.withCompleted(!goal.isCompleted());
+                    // activityModel.save(newGoal);
                 },
                 goal -> {
                     var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
                     dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
                 }
         );
-        activityModel.getOrderedCards().observe(cards -> {
-            if (cards == null) return;
+        activityModel.getGoals().observe(goals -> {
+            if (goals == null) return;
             adapter.clear();
-            adapter.addAll(new ArrayList<>(cards)); // remember the mutable copy here!
+            adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
         });
     }
@@ -73,7 +75,6 @@ public class CardListFragment extends Fragment {
 
         // Set the adapter on the ListView
         view.cardList.setAdapter(adapter);
-
 
         // Show CreateCardDialogFragment
         // TODO: eventually get rid of this button

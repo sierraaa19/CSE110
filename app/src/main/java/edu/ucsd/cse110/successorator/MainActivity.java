@@ -21,8 +21,6 @@ import edu.ucsd.cse110.successorator.ui.cardlist.dialog.CreateCardDialogFragment
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
-    private boolean isShowingStudy = true;
-
     private static Date date; // date show in Successorator
 
     @Override
@@ -63,16 +61,11 @@ public class MainActivity extends AppCompatActivity {
             // TODO: make swap button do somnething
             var dialogFragment = CreateCardDialogFragment.newInstance();
             dialogFragment.show(getSupportFragmentManager(), "CreateDialogFragment");
-
-//            swapFragments();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void swapFragments() {
-
-    }
     // next day
     private void nextDay(){
         Calendar calendar = Calendar.getInstance();
@@ -88,7 +81,4 @@ public class MainActivity extends AppCompatActivity {
         TextView textViewDate = findViewById(R.id.text_view_date);
         textViewDate.setText(currentDate);
     }
-
-
-
 }
