@@ -20,7 +20,6 @@ public class SimpleGoalRepository implements GoalRepository {
         List<Goal> newGoalData;
         newGoalData = goalsLogic.fillGoals(goalsData);
 
-
         // remove all goals from data
         goalsData.forEach(goal -> {
             this.dataSource.removeFlashcard(goal.id());

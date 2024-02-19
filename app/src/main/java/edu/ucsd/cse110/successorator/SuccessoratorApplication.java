@@ -21,10 +21,11 @@ public class SuccessoratorApplication extends Application {
         super.onCreate();
 
         // for testing purposes
+        /*
          this.dataSource = InMemoryDataSource.fromDefault();
          this.goalRepository = new SimpleGoalRepository(dataSource);
+         */
 
-        /*
         var database = Room.databaseBuilder(
                         getApplicationContext(),
                         SECardsDatabase.class,
@@ -32,24 +33,22 @@ public class SuccessoratorApplication extends Application {
                 )
                 .allowMainThreadQueries()
                 .build();
-        this.goalRepository = new RoomGoalRepository(database.flashcardDao());
+        this.goalRepository = new RoomGoalRepository(database.goalDao());
 
         // Populate the database with some initial data on the first run.
         var sharedPreferances = getSharedPreferences("successorator", MODE_PRIVATE);
         var isFirstRun = sharedPreferances.getBoolean("isFirstRun", true);
 
-        if (isFirstRun && database.flashcardDao().count() == 0){
+        if (isFirstRun && database.goalDao().count() == 0){
             //goalRepository.save(InMemoryDataSource.DEFAULT_CARDS);
 
             sharedPreferances.edit()
                     .putBoolean("isFirstRun", false)
                     .apply();
         }
-
-         */
     }
 
-    public GoalRepository getFlashcardRepository() {
+    public GoalRepository getGoalRepository() {
         return goalRepository;
     }
 }

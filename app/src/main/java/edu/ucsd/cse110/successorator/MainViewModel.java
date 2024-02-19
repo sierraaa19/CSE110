@@ -32,7 +32,7 @@ public class MainViewModel extends ViewModel {
                     creationExtras -> {
                         var app = (SuccessoratorApplication) creationExtras.get(APPLICATION_KEY);
                         assert app != null;
-                        return new MainViewModel(app.getFlashcardRepository());
+                        return new MainViewModel(app.getGoalRepository());
                     });
 
     public MainViewModel(GoalRepository goalRepository) {
