@@ -45,7 +45,6 @@ public class Goal implements Serializable {
         return new Goal(this.id, this.text, this.isCompleted, sortOrder);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

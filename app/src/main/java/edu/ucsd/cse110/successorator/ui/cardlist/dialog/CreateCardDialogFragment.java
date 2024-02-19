@@ -55,11 +55,11 @@ public class CreateCardDialogFragment extends DialogFragment {
     }
 
     private void onPositiveButtonClick(DialogInterface dialog, int which){
-        var front = view.cardFrontEditText.getText().toString();
+        var text = view.cardFrontEditText.getText().toString();
 
         // sort order is an invalid value here, because append/prepend will replace it
-        var card = new Goal(null,front, false, -1);
-        activityModel.append(card);
+        var goal = new Goal(null,text, false, -1);
+        activityModel.append(goal);
 
         dialog.dismiss();
     }
