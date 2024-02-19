@@ -54,16 +54,6 @@ public interface GoalDao{
 
     @Transaction
     default int prepend(GoalEntity flashcard){
-        // NOTE: Converts from Goal to GoalEntity type
-        // GoalEntity.fromFlashcard(goal)
-
-        // NOTE: Convert from GoalEntity to Goal
-        // GoalEntity fe ...
-        // fe.toFlashcard();
-
-        // NOTE: Get List<GoalEntity>
-        //
-
         shiftSortOrders(getMinSortOrder(),getMaxSortOrder(),1);
         var newFlashcard = new GoalEntity(
                 flashcard.text, flashcard.isCompleted,

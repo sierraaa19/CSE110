@@ -9,15 +9,18 @@ public class GoalList {
     private List<Goal> uncompletedGoals;
     private List<Goal> completedGoals;
     private List<Goal> goals;
+    private int nextId;
 
     public GoalList() {
         uncompletedGoals = new ArrayList<>();
         completedGoals = new ArrayList<>();
         goals = new ArrayList<>();
+        nextId = 5;
     }
 
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
+        this.nextId = goals.size() + 1;
     }
 
     public List<Goal> getGoals() {
@@ -25,6 +28,7 @@ public class GoalList {
     }
 
     public void addGoal(Goal goal) {
+        nextId += 1;
         if (goal.isCompleted()) {
             completedGoals.add(goal);
         } else {
@@ -38,7 +42,9 @@ public class GoalList {
 
         // NOTE: the data coming in may not be in correct order.
         // rn we are simply ...
+        nextId = 5;
         for (int i = 0; i < goalsData.size(); i++) {
+            nextId += 1;
             // separate into two lists of completed and uncompleted.
             if (goalsData.get(i).isCompleted()) {
                 completedGoals.add(goalsData.get(i));
@@ -146,6 +152,22 @@ public class GoalList {
         }
 
         return sortOrder;
+    }
+
+    public Goal preInsert(Goal goal) {
+        var id = goal.id();
+        if (id == null) {
+            // If the card has no id, give it one.
+            goal = goal.withId(nextId++);
+        }
+
+        else if (id > nextId) {
+            // If the card has an id, update nextId if necessary to avoid giving out the same
+            // one. This is important for when we pre-load cards like in fromDefault().
+            nextId = id + 1;
+        }
+
+        return goal;
     }
 
     @Override
