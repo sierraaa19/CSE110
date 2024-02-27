@@ -109,7 +109,38 @@ And 三 (yellow) changes to 三
 
 ![US8-1](images/US8.PNG)  
 
+## Tasks for the first Iteration  
 
+US1-1(5hrs, high): Implement UI component for goal input with frequency selection (one-time, daily, weekly, monthly, yearly).  
+US1-2(3hrs, high): Create a function to save the goal with the selected frequency to the database.  
+US1-3(2hrs, high): Update views (Today, Tomorrow, Recurring) to dynamically display goals based on their frequency.  
+
+US2-1(3hrs, high): Implement UI components for Today, Tomorrow, Pending, and Recurring views.  
+US2-2(4hrs, high): Develop functionality to filter and display goals in their respective views.  
+US2-3(2hrs, high): Implement a view switcher to navigate between different goal views.  
+
+US3-1(2hrs, low): Implement a drag-and-drop or selection mechanism for moving goals between views.  
+US3-2(2hrs, low): Update the database to reflect the new category of the moved goal.  
+
+US4-1(5hrs, medium): Implement UI for adding recurring goals with start time and frequency.  
+US4-2(2hrs, medium): Create functionality to calculate and store recurring instances of the goal.  
+
+Developer Story 1-1(8hrs, high): Finish MS1 left tasks.  
+
+## Tasks for the second Iteration   
+
+US5-1(3hrs, high): Create UI components for goal input with context tagging options (Home, Work, School, Errands).  
+US5-2(2hrs, high): Implement functionality to store goals with their selected context in the database.  
+US5-3(3hrs, high): Modify Today, Tomorrow, and Recurring views to display goals with their context tags.  
+
+US6-1(2hrs, low): Implement functionality to sort and group goals by their work context in the views.  
+US6-2(2hrs, low): Adjust the UI to visually distinguish between different work context groups.  
+
+US7-1(4hrs, medium): Design and implement a Focus mode menu for selecting a specific work context.  
+US7-2(2hrs, medium): Create functionality to filter and display only the goals related to the selected work context.  
+US7-3(2hrs, medium): Implement a mechanism to archive (hide) goals not related to the selected context.  
+
+US8-1(2hrs, medium): Implement functionality to exit Focus mode and return to the normal view, showing all goals.  
 
 
 
