@@ -1,5 +1,7 @@
 # User Stories
 
+## End-to-End Scenario: Jessica Struggles, and becomes a serial planner  
+
 ### 1. Current date (16hr, Medium)  
 
 As a user with a lot of goals  
