@@ -2,7 +2,7 @@
 
 ## End-to-End Scenario: Jessica Struggles, and becomes a serial planner  
 
-### 1. Current date (16hr, Medium)  
+### US1: Frequency of the goal(one-time, daily, weekly, monthly, yearly) (10hrs, High)  
 
 As a user with a lot of goals  
 I want to know the current day of the week and the date   
