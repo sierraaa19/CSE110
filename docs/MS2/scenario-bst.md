@@ -209,14 +209,14 @@
 - Additionally you will see four circles with the letters ‘H(home), W(work), S(shool), E(errands)’, with yellow, blue, red, and green coloring respectively. These are directly beneath the top Date bar.
 - Type in the text box “Context MST #20”, select Daily, select the blue ‘W’ and press ‘save’. You will now see “(blue W) Context MST #20” beneath “(blue W) Context MST #17 list for Today because they are now sorted by color of Context.
 - You will also note that they are in the order of Home, Work, School, and Errands.
-Exit app.
-	*contains US-1/US-2/US-3/US-4/US-5/US-6/US-7
+- Exit app.
+- *contains US-1/US-2/US-3/US-4/US-5/US-6/US-7
 
 ## SBST 20: Focusing MITs from View(Today) w/ Context
-Start the app by tapping the app icon. You should see the present date at top center, for example “Today, Tues 2/20” , a ‘v’ drop-down button, and a ‘+’ button for adding MIT events and a ‘hamburger’ button in the top left for entering and exiting ‘Focus’ mode..
-Given that there is already MST’s for the Today view, you will see “One-Time MST #1” above “Daily MST #2 above “Weekly MST #3” above “Monthly MST #4” above “(yellow H) Context MST #16” above “(blue W) Context MST #17” above “(blue W) Context MST #20” above “(red S) Context MST #18” above “(green E) Context MST #19”.
-Click the ‘hamburger’ button and a Focus menu will pop up with the four options of Home, Work, School, and Errands with a cancel button option as well.
-Click on the blue ‘School’ option and you will see that you have entered focus mode with only attention given to the items that were tagged blue ‘School’ in order of their entry: “(blue W) Context MST #17” above “(blue W) Context MST #20”.
+- Start the app by tapping the app icon. You should see the present date at top center, for example “Today, Tues 2/20” , a ‘v’ drop-down button, and a ‘+’ button for adding MIT events and a ‘hamburger’ button in the top left for entering and exiting ‘Focus’ mode..
+- Given that there is already MST’s for the Today view, you will see “One-Time MST #1” above “Daily MST #2 above “Weekly MST #3” above “Monthly MST #4” above “(yellow H) Context MST #16” above “(blue W) Context MST #17” above “(blue W) Context MST #20” above “(red S) Context MST #18” above “(green E) Context MST #19”.
+- Click the ‘hamburger’ button and a Focus menu will pop up with the four options of Home, Work, School, and Errands with a cancel button option as well.
+- Click on the blue ‘School’ option and you will see that you have entered focus mode with only attention given to the items that were tagged blue ‘School’ in order of their entry: “(blue W) Context MST #17” above “(blue W) Context MST #20”.
 - Exit app.
 - *contains US-1/US-2/US-3/US-4/US-5/US-6/US-7/US-8
 
