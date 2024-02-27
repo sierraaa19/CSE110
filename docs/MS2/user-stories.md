@@ -74,6 +74,29 @@ Then the goal “H Cook Dinner” shows in Today, Tomorrow, and Recurring views
 
 ### US6: Group goals by work context instead of order (4hrs, Low)  
 
+As a user, I want my goals to be grouped by work context   
+So that my to-do’s are more organized.  
+
+Given a list of goals in the Today view  
+When I open the Today view  
+Then all goals are grouped by work context  
+
+![US6-1](images/US6.PNG)  
+
+### US7: Choose context focus with a Focus mode menu (8hrs, Medium)  
+
+As a user, I want to have a Focus mode  
+So that the app shows just the goals I want to finish right now.  
+
+Given Today view have two “Home” goals, one “School” goal and one “Errands” goal  
+When I press 三   
+And I press H  
+Then Today view shows two “Home” goals and archives other goals.  
+And 三 changes to 三 (yellow)  
+
+![US7-1](images/US7.PNG)  
+  
+
 
 
 
