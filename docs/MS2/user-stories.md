@@ -14,7 +14,7 @@ When I press Save
 Then the goal “Cook Dinner” shows in Today, Tomorrow, and Recurring views  
 
 
-![US1-1](images/US1-1.PNG)  
+![US1-1](images/US1.PNG)  
 
 ### 2. Add goal (25hr, High)  
 
