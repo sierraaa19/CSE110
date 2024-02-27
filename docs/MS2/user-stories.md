@@ -95,8 +95,19 @@ Then Today view shows two “Home” goals and archives other goals.
 And 三 changes to 三 (yellow)  
 
 ![US7-1](images/US7.PNG)  
-  
 
+### US8: Exit the Focus mode menu (2hrs, Medium)  
+
+As a user, I want to be able to exit the Focus mode   
+So that I can see my entire goal list when I need to.  
+
+Given Today view shows two “Home” goals and archives other goals.  
+When I press 三 (yellow)  
+And I press Cancel  
+Then Today view shows two “Home” goals, one “School” goal and one “Errands” goal  
+And 三 (yellow) changes to 三  
+
+![US8-1](images/US8.PNG)  
 
 
 
