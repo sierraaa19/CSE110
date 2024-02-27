@@ -1,51 +1,52 @@
 ## Risk Analysis 1
 - Risk: Team Member Unavailability
-- Description: There is a risk that some team members may be unavailable attending meetings or working on tasks due to unexpected circumstances (sick, time conflict…), which may lead to miscommunication and impact the progress and the overall timeline of the project. 
+- Description: There is a risk that some team members may be unavailable attending meetings or working on tasks due to busy midterms and heavy workload in the last few weeks of the quarter, which may lead to miscommunication and impact the progress and the overall timeline of the project.
 - Severity: High
-- Resolution: We use slack to communicate and share the most recent updates on the project to keep everyone on the same page and reasonably assign tasks to each iteration to ensure progress.   
+- Resolution: We use Slack to communicate and share the most recent updates on the project to keep everyone on the same page and reasonably assign tasks to each iteration to ensure progress.   
 - Status: Resolved
 
 ## Risk Analysis 2
-- Risk: Inaccurate Voice Recognition Using the Mic
-- Description: There is a risk that the mic feature falsely recognizes the user’s input, leading to the addition of incorrect goals to the app. 
+- Risk: Missing app features from MS1
+- Description: App lacks expected features, such as the initial message upon opening and time keeping. 
 - Severity: High
-- Resolution: We can conduct accuracy testing with different voices and update the feature based on user feedback. 
+- Resolution: Prioritize feature implementation in the backlog for MS 2. 
 - Status: In progress
 
 ## Risk Analysis 3
-- Risk: Incorrect Ranking of the Goal List
-- Description: There is a risk that the ranking of the goal list is messed up in the scenario where users add and cross out goals frequently, leading to false placement of the prioritized goals. 
-- Severity: Medium
-- Resolution: We can clearly implement the logic for ranking goals and perform testing of different scenarios to ensure its functionality. 
+- Risk: Inadequate testings
+- Description: Integration tests and UI tests are insufficient and more testing is required for each user story.
+- Severity: High
+- Resolution: Allocate more time for testing in MS 2 and ensure adequate coverage for all user stories. 
 - Status: In progress
 
 ## Risk Analysis 4
-- Risk: Lack of experience with Android APIs and Database Implementation
-- Description: There is a risk that the team has limited familiarity with Android APIs, which may lead to challenges in implementing certain features and functionalities of the app, for example the mic feature that requires translating voice to text and the need to persistently store events in app even when it is closed. 
+- Risk: GitHub action improvements
+- Description: Github actions such as committing and opening pull requests did not include issue numbers and lack of comprehensive code review comments. 
 - Severity: Medium
-- Resolution: We can conduct research on specific Android APIs that are relevant to the features of our apps and learn how to implement databases that satisfy our requirements for persistent data storage. 
-- Status: In progress
+- Resolution: Enforce the requirement for issue numbers in all commits and pull requests and meaningful comments in code reviews. 
+- Status: Resolved
  
-## Risk Analysis 5
-- Risk: UI Design Challenges 
-- Description: There is a risk that the team may face difficulties in creating the user interface such as issues related to design and navigation. 
-- Severity: Medium
-- Resolution: We can focus on keeping the design of the app simple and easy to use and conduct usability testing and incorporate the feedback for improvements.  
-- Status: In progress
+## Calculation of Velocity with justification based on MS 1 results
 
-## Velocity and Iteration Length
+We missed iteration 1 during MS1 so we divided iteration 2 into half.  
 
-Per week we have (7 working hrs) dedicated to the project.
+Iteration 1:  
+2/12 to 2/15: 4 days  
+Estimate working hours: 28 hrs  
+People:6  
+Working hours per day: 2 hrs  
+V1 = (Estimate working hour) / (Working Hour) = 28 hrs / (4 days * 6 people * 2 hrs/day) = 0.583  
+Iteration 2:  
+2/16 to 2/18: 3 days  
+Estimate working hours: 21 hrs  
+People: 6  
+Working hours per day: 2 hrs  
+V2 = (Estimate working hour) / (Working Hour) = 21 hrs / (3 days * 6 people * 2 hrs/day) = 0.583  
+MS1 Velocity Result  
+V total = 49 / (48+36) = 0.583  
 
-Which can be reduced to (4 productive hrs) per week.
-
-Iteration 1 will take around 2 weeks.
-
-(6 group members) * (14 working hrs in iteration 1 per person) * Velocity = (4 productive hrs per week) * (6 group members) * (2 weeks)
-
-Velocity = 0.57
-
-If V = 0.57, for iteration 1 we have 84 working hrs available, but 84 * V = 48 hrs that we can get actual work done.
-
-So our user story time estimates for iteration 1 should add up to something less than or equal to 48 hrs.
+MS2 Planning  
+Iteration 1 would be 3/3 - 3/8 (6 days)  
+We estimated the overall task would require 38 hours, and considering that we have 6 people working together approximately 2 hrs/ day and there are 6 working days in iteration1, we get (6 days * 6 people * 2 hrs/day) = 72 hrs.   
+38 hrs / 72 hrs = 0.5277  so we plan to perform approximately the same velocity as MS1.   
 
