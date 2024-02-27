@@ -30,22 +30,28 @@
 
 We missed iteration 1 during MS1 so we divided iteration 2 into half.  
 
-Iteration 1:  
+### Iteration 1:  
+
 2/12 to 2/15: 4 days  
 Estimate working hours: 28 hrs  
 People:6  
 Working hours per day: 2 hrs  
 V1 = (Estimate working hour) / (Working Hour) = 28 hrs / (4 days * 6 people * 2 hrs/day) = 0.583  
-Iteration 2:  
+
+### Iteration 2:  
+
 2/16 to 2/18: 3 days  
 Estimate working hours: 21 hrs  
 People: 6  
 Working hours per day: 2 hrs  
 V2 = (Estimate working hour) / (Working Hour) = 21 hrs / (3 days * 6 people * 2 hrs/day) = 0.583  
-MS1 Velocity Result  
+
+### MS1 Velocity Result  
+
 V total = 49 / (48+36) = 0.583  
 
-MS2 Planning  
+### MS2 Planning  
+
 Iteration 1 would be 3/3 - 3/8 (6 days)  
 We estimated the overall task would require 38 hours, and considering that we have 6 people working together approximately 2 hrs/ day and there are 6 working days in iteration1, we get (6 days * 6 people * 2 hrs/day) = 72 hrs.   
 38 hrs / 72 hrs = 0.5277  so we plan to perform approximately the same velocity as MS1.   
