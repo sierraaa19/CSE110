@@ -4,18 +4,15 @@
 
 ### US1: Frequency of the goal(one-time, daily, weekly, monthly, yearly) (10hrs, High)  
 
-As a user with a lot of goals  
-I want to know the current day of the week and the date   
-So that I can set my daily goals based on the current date  
+As a user, I want to set the frequency of the goal   
+So that the goal can be added as one-time, daily, weekly, monthly, or yearly.  
+  
+Given a daily goal “Cook Dinner”   
+When I press “+“  
+Then I Type in “Cook Dinner” and press Daily  
+When I press Save  
+Then the goal “Cook Dinner” shows in Today, Tomorrow, and Recurring views  
 
-Scenario 1: When the current day passed  
-Given the current date is Mon 1/23  
-And Goal1 is crossed  
-And Goal2 is still there  
-When the current date has passed  
-Then the current date should become to Tue 1/24  
-And Goal1 has been removed  
-And Goal2 will have remained  
 
 ![US1-1](images/US1-1.PNG)  
 
