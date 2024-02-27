@@ -1,10 +1,12 @@
-## SBST 1: Adding 1st MIT (Happy Path)
-- Start the app by tapping the app icon. You should see the present date at top center, for example “Tuesday 1/23” with a ‘+’ button for adding MIT events.
-- Click the ‘+’ button and you should see a keyboard pop up with a mic option for entering your MIT.
-- Click the mic and state your MIT : “My First MIT”. You should see the text translation.
-- Click the check-mark button and without latency, your MIT should be below the present date.
+## SBST 1: Adding 1st MIT w/ Frequency(One-Time) - View(Today)
+- Start the app by tapping the app icon. You should see the present date at top center, for example “Today, Tues 2/20”, a ‘v’ drop-down button, and a ‘+’ button for adding MIT events.
+- Given that this is the first entry, there will be the following text in the center of the screen: “No goals for the Day.  Click the + at the upper right to enter your Most Important Thing."
+- Click the ‘+’ button and you should see a new view with the original text box above a list with a ‘save’ button next to it as well as a list of options as radio buttons: one-time, daily, weekly on Tu, monthly 3rd Tu, yearly on 2/20 beneath. 
+- Type in “One-Time MST #1” in the text box and select the radio button for “one - time” and tap ‘save’.
+- You will now, in the Today view, see a singular item “One-Time MST #1”
 - Exit app.
-- *contains US-1
+- *contains US-1/US-2
+
 
 ## SBST 2: Adding Large Amount of MITs
 - Start the app by tapping the app icon. You should see the present date at top center, for example “Tuesday 1/23” with a ‘+’ button for adding MIT events.
