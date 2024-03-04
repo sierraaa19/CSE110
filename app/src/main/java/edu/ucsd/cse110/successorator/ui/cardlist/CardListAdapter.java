@@ -2,6 +2,7 @@ package edu.ucsd.cse110.successorator.ui.cardlist;
 
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,20 +61,19 @@ public class CardListAdapter extends ArrayAdapter<Goal> {
         binding.cardFrontText.setText(goal.text());
         if (goal.isCompleted()) {
             // TODO: replace with strikethrough
-            binding.cardFrontText.setText(goal.text() + " DONE");
+            binding.cardFrontText.setPaintFlags(binding.cardFrontText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-            binding.cardFrontText.setText(goal.text());
+            binding.cardFrontText.setPaintFlags(binding.cardFrontText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
         // V -> M
-        binding.cardFrontText.setOnClickListener(v->{
+        binding.goalView.setOnClickListener(v->{
             onGoalClicked.accept(goal);
         });
-
         //Bind the delete button to the callback.
-       // binding.cardDeleteButton.setOnClickListener(v -> {
-           // onDeleteClicked.accept(goal);
-      //  });
+        // binding.cardDeleteButton.setOnClickListener(v -> {
+        // onDeleteClicked.accept(goal);
+        //  });
 
         return binding.getRoot();
    }

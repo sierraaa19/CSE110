@@ -31,21 +31,20 @@ public class InMemoryDataSource {
     public InMemoryDataSource() {
     }
 
-    /*
-    public final static List<Goal> DEFAULT_CARDS = List.of(
-            new Goal(0, "Do Homework", false, 0),
-            new Goal(1, "Go to Gym", false, 1),
-            new Goal(2, "Eat Dinner", false, 2),
-            new Goal(3, "Buy Groceries", false, 3),
-            new Goal(4, "Meeting with CSE110", false, 4),
-            new Goal(5, "Club Activities", false, 5)
-    );
-
-     */
+    public final static List<Goal> DEFAULT_CARDS = List.of();
+            //new Goal(0, "Do Homework", false, 0));
+//            new Goal(1, "Go to Gym", false, 1),
+//            new Goal(2, "Eat Dinner", false, 2),
+//            new Goal(3, "Buy Groceries", false, 3),
+//            new Goal(4, "Meeting with CSE110", false, 4),
+//            new Goal(5, "Club Activities", false, 5),
+//            new Goal(6, "Watch Lecture", false, 6),
+//            new Goal(7, "Visit family", false, 7),
+//            new Goal(8, "Study for CSE110", false, 8)
 
     public static InMemoryDataSource fromDefault() {
         var data = new InMemoryDataSource();
-        //data.putFlashcards(DEFAULT_CARDS);
+        data.putFlashcards(DEFAULT_CARDS);
         return data;
     }
 
@@ -82,6 +81,7 @@ public class InMemoryDataSource {
         var fixedCard = preInsert(card);
 
         flashcards.put(fixedCard.id(), fixedCard);
+
         postInsert();
         assertSortOrderConstraints();
 
@@ -134,7 +134,7 @@ public class InMemoryDataSource {
      * Private utility method to maintain state of the fake DB: ensures that new
      * cards inserted have an id, and updates the nextId if necessary.
      */
-    private Goal preInsert(Goal card) {
+    public Goal preInsert(Goal card) {
         var id = card.id();
         if (id == null) {
             // If the card has no id, give it one.

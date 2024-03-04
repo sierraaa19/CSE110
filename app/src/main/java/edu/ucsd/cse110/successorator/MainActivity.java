@@ -10,6 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,17 +25,17 @@ import edu.ucsd.cse110.successorator.ui.cardlist.dialog.CreateCardDialogFragment
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
-    private boolean isShowingStudy = true;
-
     private static Date date; // date show in Successorator
+
+    private MainViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
-
         var binding = ActivityMainBinding.inflate(getLayoutInflater());
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         setContentView(binding.getRoot());
 
         // Show Current Day
@@ -44,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 nextDay();
                 displayDate();
+                removeCompleted();
             }
         });
+
     }
 
     @Override
@@ -63,16 +69,11 @@ public class MainActivity extends AppCompatActivity {
             // TODO: make swap button do somnething
             var dialogFragment = CreateCardDialogFragment.newInstance();
             dialogFragment.show(getSupportFragmentManager(), "CreateDialogFragment");
-
-//            swapFragments();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void swapFragments() {
-
-    }
     // next day
     private void nextDay(){
         Calendar calendar = Calendar.getInstance();
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         textViewDate.setText(currentDate);
     }
 
-
-
+    private void removeCompleted() {
+        viewModel.removeCompleted();
+    }
 }

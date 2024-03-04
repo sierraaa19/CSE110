@@ -45,7 +45,6 @@ public class Goal implements Serializable {
         return new Goal(this.id, this.text, this.isCompleted, sortOrder);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,5 +59,15 @@ public class Goal implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, text, isCompleted, sortOrder);
+    }
+
+    @Override
+    public String toString() {
+        return "\nGoal{" +
+                "id=" + id +
+                "\n, text='" + text + '\'' +
+                "\n, isCompleted=" + isCompleted +
+                "\n, sortOrder=" + sortOrder +
+                '}';
     }
 }
