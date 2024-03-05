@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GoalRepository {
 
-    List<Goal> syncLists();
+    //void syncLists();
 
     Subject<Goal> find(int id);
 
@@ -17,11 +17,11 @@ public interface GoalRepository {
 
     void save(List<Goal> goals);
 
-    List<Goal> remove(int id);
+    void remove(int id);
 
-    List<Goal> append(Goal goal);
+    void append(Goal goal);
 
-    List<Goal> prepend(Goal goal);
+    void prepend(Goal goal);
 
-    List<Goal> removeCompleted();
+    void removeAllCompleted();
 }

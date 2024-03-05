@@ -47,15 +47,15 @@ public class SuccessoratorApplication extends Application {
                 .putBoolean("isFirstRun", false)
                 .apply();
 
-        InMemoryDataSource newIM = new InMemoryDataSource();
-        if (this.goalRepositoryDB.findAll().getValue() != null) {
-            newIM.putFlashcards(this.goalRepositoryDB.findAll().getValue());
-        } else {
-            newIM.putFlashcards(List.of());
-        }
+       //InMemoryDataSource newIM = new InMemoryDataSource();
+       // if (this.goalRepositoryDB.findAll().getValue() != null) {
+       //     newIM.putFlashcards(this.goalRepositoryDB.findAll().getValue());
+       // } else {
+       //     newIM.putFlashcards(List.of());
+       // }
+        // this.dataSource = newIM;
 
-        this.dataSource = newIM;
-        this.goalRepository = new SimpleGoalRepository(dataSource);
+        //this.goalRepository = new SimpleGoalRepository(dataSource);
     }
 
     public GoalRepository getGoalRepository() {

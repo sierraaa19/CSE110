@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface GoalDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insert(GoalEntity flashcard);
+    Long insert(GoalEntity goal);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insert(List<GoalEntity> goals);
@@ -43,20 +43,20 @@ public interface GoalDao{
     void shiftSortOrders(int from, int to, int by);
 
     @Transaction
-    default int append(GoalEntity flashcard){
+    default int append(GoalEntity goal){
         var maxSortOrder = getMaxSortOrder();
         var newFlashcard = new GoalEntity(
-                flashcard.text, flashcard.isCompleted,
+                goal.text, goal.isCompleted,
                 maxSortOrder +1
         );
         return Math.toIntExact(insert(newFlashcard));
     }
 
     @Transaction
-    default int prepend(GoalEntity flashcard){
+    default int prepend(GoalEntity goal){
         shiftSortOrders(getMinSortOrder(),getMaxSortOrder(),1);
         var newFlashcard = new GoalEntity(
-                flashcard.text, flashcard.isCompleted,
+                goal.text, goal.isCompleted,
                 getMinSortOrder() -1
         );
         return Math.toIntExact(insert(newFlashcard));

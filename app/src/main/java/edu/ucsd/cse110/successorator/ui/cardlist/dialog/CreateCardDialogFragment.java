@@ -60,9 +60,8 @@ public class CreateCardDialogFragment extends DialogFragment {
         var text = view.cardFrontEditText.getText().toString();
 
         // sort order is an invalid value here, because append/prepend will replace it
-        var goal = new Goal(null,text, false, -1);
+        var goal = new Goal(null, text, false, -1);
         activityModel.append(goal);
-
         dialog.dismiss();
     }
 

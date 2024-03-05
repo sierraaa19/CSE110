@@ -49,7 +49,9 @@ public class CardListFragment extends Fragment {
         this.adapter = new CardListAdapter(
                 requireContext(),
                 List.of(),
-                goal -> {
+                goal -> { // onGoalClicked
+                    // When goal is tapped, this is lambda function is called.
+                    // NOTE: ConfirmDeleteCardDialogFragment is NOT called.
                     activityModel.remove(goal.id());
                     goal = goal.withCompleted(!goal.isCompleted());
                     activityModel.prepend(goal);
@@ -57,11 +59,13 @@ public class CardListFragment extends Fragment {
                     // var newGoal = goal.withCompleted(!goal.isCompleted());
                     // activityModel.save(newGoal);
                 },
-                goal -> {
-                    var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
-                    dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
+                goal -> { // something else?
+                    // var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
+                    // dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
                 }
         );
+
+        // when goal list changes in ModelView, we update it
         activityModel.getGoals().observe(goals -> {
             if (goals == null) return;
             adapter.clear();

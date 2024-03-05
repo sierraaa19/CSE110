@@ -18,10 +18,8 @@ import edu.ucsd.cse110.successorator.lib.util.Subject;
 import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 
-
 public class MainViewModel extends ViewModel {
     // Domain state (true "Model" state)
-    private final GoalRepository goalRepository;
     private final GoalRepository goalRepositoryDB;
 
     // UI state
@@ -31,18 +29,16 @@ public class MainViewModel extends ViewModel {
 
     private final MutableSubject<Boolean> isEmpty;
 
-
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
                     MainViewModel.class,
                     creationExtras -> {
                         var app = (SuccessoratorApplication) creationExtras.get(APPLICATION_KEY);
                         assert app != null;
-                        return new MainViewModel(app.getGoalRepository(), app.getGoalRepositoryDB());
+                        return new MainViewModel(app.getGoalRepositoryDB());
                     });
 
-    public MainViewModel(GoalRepository goalRepository, GoalRepository goalRepositoryDB) {
-        this.goalRepository = goalRepository;
+    public MainViewModel(GoalRepository goalRepositoryDB) {
         this.goalRepositoryDB = goalRepositoryDB;
 
         // Create the observable subjects.
@@ -52,38 +48,24 @@ public class MainViewModel extends ViewModel {
         this.isEmpty = new SimpleSubject<>();
 
         isEmpty.setValue(true);
-
         // When the list of cards changes (or is first loaded), reset the ordering.
-        goalRepositoryDB.findAll().observe(goalList -> {
-                if (goalList == null) return; // not ready yet, ignore
+        //goalRepositoryDB.findAll().observe(goalList -> {
+        //        if (goalList == null) return; // not ready yet, ignore
+        //        var goalListSorted = goalList.stream()
+        //                .sorted(Comparator.comparingInt(Goal::sortOrder))
+        //                .collect(Collectors.toList());
+        //        // goalRepository.save(goalListSorted);
+        //});
 
-                var goalListSorted = goalList.stream()
-                        .sorted(Comparator.comparingInt(Goal::sortOrder))
-                        .collect(Collectors.toList());
-
-                goalRepository.save(goalListSorted);
-        });
-
-       goalRepository.findAll().observe(goalList -> {
+       goalRepositoryDB.findAll().observe(goalList -> {
             if (goalList == null) return; // not ready yet, ignore
-
-            var goalListSorted = goalList.stream()
-                    .sorted(Comparator.comparingInt(Goal::sortOrder))
-                    .collect(Collectors.toList());
-            goals.setValue(goalListSorted);
-
-            goalRepositoryDB.save(goals.getValue());
-       });
-
-       goalRepository.findAll().observe(goals -> {
-           if (goals.isEmpty()) {
-               isEmpty.setValue(true);
-           }
-           else {
-               isEmpty.setValue(false);
-           }
+            goals.setValue(goalList);
        });
     }
+
+    //public Subject<List<Goal>> getGoals() {
+    //    return goals;
+    //}
 
     public Subject<List<Goal>> getGoals() {
         return goals;
@@ -94,32 +76,35 @@ public class MainViewModel extends ViewModel {
         return isEmpty;
     }
 
-    public void save(Goal goal) { goalRepository.save(goal); }
+    public void save(Goal goal) { goalRepositoryDB.save(goal); }
 
+    // Mainly gets called when a new goal is added.
     public void append(Goal goal) {
-        List<Goal> saveGoals = goalRepository.append(goal);
-        goalRepositoryDB.save(saveGoals);
+        // List<Goal> saveGoals = goalRepository.append(goal);
+        goalRepositoryDB.append(goal);
     }
 
+    // Mainly gets called from CardListFragment when goal is tapped.
     public void prepend(Goal goal) {
-        List<Goal> saveGoals = goalRepository.prepend(goal);
-        goalRepositoryDB.save(saveGoals);
+        goalRepositoryDB.prepend(goal);
     }
 
-    public void syncLists() {
-        List<Goal> saveGoals = goalRepository.syncLists();
-        goalRepositoryDB.save(saveGoals);
-    }
+    //public void syncLists() {
+    //    // List<Goal> saveGoals = goalRepository.syncLists();
+    //    // goalRepositoryDB.save(saveGoals);
+    //}
 
     public void remove (int id){
-        List<Goal> saveGoals = goalRepository.remove(id);
-        goalRepositoryDB.save(saveGoals);
+        // List<Goal> saveGoals = goalRepository.remove(id);
+        goalRepositoryDB.remove(id);
     }
 
-    public void removeCompleted() {
-        List<Goal> deleteGoals = goalRepository.removeCompleted();
-        deleteGoals.forEach(goal -> {
-            goalRepositoryDB.remove(goal.id());
-        });
+    public void removeAllCompleted() {
+        // List<Goal> deleteGoals = goalRepository.removeCompleted();
+        //deleteGoals.forEach(goal -> {
+        // goalRepositoryDB.remove(goal.id());
+        // });
     }
+
+
 }

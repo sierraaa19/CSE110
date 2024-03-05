@@ -15,7 +15,7 @@ import edu.ucsd.cse110.successorator.MainViewModel;
 
 public class ConfirmDeleteCardDialogFragment extends DialogFragment {
     private static final String ARG_FLASHCARD_ID = "flashcard_id";
-    private int flashcardID;
+    private int goalID;
 
     private MainViewModel activityModel;
 
@@ -37,7 +37,7 @@ public class ConfirmDeleteCardDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         // Retrieve the ID from the arguments (crash if no args)
-        this.flashcardID = requireArguments().getInt(ARG_FLASHCARD_ID);
+        this.goalID = requireArguments().getInt(ARG_FLASHCARD_ID);
 
         var modelOwner = requireActivity();
         var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
@@ -57,7 +57,7 @@ public class ConfirmDeleteCardDialogFragment extends DialogFragment {
     }
 
     private void onPositiveButtonClick (DialogInterface dialog, int which){
-        activityModel.remove(flashcardID);
+        activityModel.remove(goalID);
         dialog.dismiss();
     }
 

@@ -26,10 +26,9 @@ public class RoomGoalRepository implements GoalRepository {
         this.goalDao = goalDao;
     }
 
-    @Override
-    public List<Goal> syncLists() {
-        return null;
-    }
+    //@Override
+    //public void syncLists() {
+    //}
 
     @Override
     public Subject<Goal> find (int id) {
@@ -64,25 +63,23 @@ public class RoomGoalRepository implements GoalRepository {
     }
 
     @Override
-    public List<Goal> append(Goal goal){
+    public void append(Goal goal){
         goalDao.append(GoalEntity.fromGoal(goal));
-        return null;
     }
 
     @Override
-    public List<Goal> prepend(Goal goal){
+    public void prepend(Goal goal){
+
         goalDao.prepend(GoalEntity.fromGoal(goal));
-        return null;
     }
 
     @Override
-    public List<Goal> removeCompleted() {
-        return null;
+    public void removeAllCompleted() {
+
     }
 
     @Override
-    public List<Goal> remove(int id){
+    public void remove(int id){
         goalDao.delete(id);
-        return null;
     }
 }
