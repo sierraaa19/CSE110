@@ -21,6 +21,8 @@ public class GoalEntity {
     public int sortOrder;
 
 
+
+
     GoalEntity(@NonNull String text, boolean isCompleted, int sortOrder){
         this.text = text;
         this.isCompleted = isCompleted;

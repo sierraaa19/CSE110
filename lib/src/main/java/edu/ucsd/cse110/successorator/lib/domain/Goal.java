@@ -12,6 +12,7 @@ public class Goal implements Serializable {
     private final boolean isCompleted;
     private final int sortOrder;
 
+
     public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder) {
         this.id = id;
         this.text = text;

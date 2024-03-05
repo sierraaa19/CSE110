@@ -19,6 +19,8 @@ import edu.ucsd.cse110.successorator.lib.domain.Goal;
 public class CreateCardDialogFragment extends DialogFragment {
     private FragmentDialogCreateTaskBinding view;
     private MainViewModel activityModel;
+
+    private String selectedFrequency = "One Time"; // Default value
     CreateCardDialogFragment(){
         // Required empty public constructor
     }
@@ -49,7 +51,7 @@ public class CreateCardDialogFragment extends DialogFragment {
                 .setTitle("New Task...")
                 .setMessage("Please provide the new task title.")
                 .setView(view.getRoot())
-                .setPositiveButton("Create",this::onPositiveButtonClick)
+                .setPositiveButton("Save",this::onPositiveButtonClick)
                 .setNegativeButton("Cancel",this::onNegativeButtonClick)
                 .create();
     }
@@ -67,4 +69,6 @@ public class CreateCardDialogFragment extends DialogFragment {
     private void onNegativeButtonClick(DialogInterface dialog, int which){
         dialog.cancel();
     }
+
+
 }
