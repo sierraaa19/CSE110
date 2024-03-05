@@ -29,6 +29,8 @@ public class MainViewModel extends ViewModel {
     private final MutableSubject<Goal> goal;
     private final MutableSubject<Boolean> isCompleted;
 
+    private final MutableSubject<Boolean> isEmpty;
+
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -47,6 +49,9 @@ public class MainViewModel extends ViewModel {
         this.goals = new SimpleSubject<>();
         this.goal = new SimpleSubject<>();
         this.isCompleted = new SimpleSubject<>();
+        this.isEmpty = new SimpleSubject<>();
+
+        isEmpty.setValue(true);
 
         // When the list of cards changes (or is first loaded), reset the ordering.
         goalRepositoryDB.findAll().observe(goalList -> {
@@ -69,10 +74,24 @@ public class MainViewModel extends ViewModel {
 
             goalRepositoryDB.save(goals.getValue());
        });
+
+       goalRepository.findAll().observe(goals -> {
+           if (goals.isEmpty()) {
+               isEmpty.setValue(true);
+           }
+           else {
+               isEmpty.setValue(false);
+           }
+       });
     }
 
     public Subject<List<Goal>> getGoals() {
         return goals;
+    }
+
+    public MutableSubject<Boolean> getGoalsSize() {
+        //List<Goal> goalsList = goals.getValue();
+        return isEmpty;
     }
 
     public void save(Goal goal) { goalRepository.save(goal); }
