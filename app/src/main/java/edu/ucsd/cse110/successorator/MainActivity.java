@@ -52,6 +52,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        viewModel.getGoalsSize().observe(isEmpty -> {
+            TextView textViewMessage = findViewById(R.id.text_view_no_goals);
+            if (isEmpty) {
+                // No goals present, show the message
+                textViewMessage.setVisibility(View.VISIBLE);
+            } else {
+                // Goals are present, hide the message
+                textViewMessage.setVisibility(View.GONE);
+            }
+        });
+
     }
 
     @Override
