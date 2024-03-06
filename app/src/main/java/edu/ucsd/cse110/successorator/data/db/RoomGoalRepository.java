@@ -2,20 +2,13 @@ package edu.ucsd.cse110.successorator.data.db;
 
 import static androidx.lifecycle.Transformations.map;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.util.LiveDataSubjectAdapter;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
-import edu.ucsd.cse110.successorator.lib.domain.GoalList;
 import edu.ucsd.cse110.successorator.lib.domain.GoalRepository;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 
@@ -26,9 +19,18 @@ public class RoomGoalRepository implements GoalRepository {
         this.goalDao = goalDao;
     }
 
-    @Override
-    public List<Goal> syncLists() {
-        return null;
+    List<Goal> getCompletedOrUncompleted(boolean isComplete) {
+        List<GoalEntity> goals = goalDao.findAll();
+        List<Goal> newGoals = new ArrayList<Goal>();
+        goals.forEach(goalEntity -> {
+            if (goalEntity.isCompleted == isComplete) {
+                newGoals.add(goalEntity.toGoal());
+            }
+        });
+        newGoals.forEach(goal -> {
+            goalDao.delete(goal.id());
+        });
+        return newGoals;
     }
 
     @Override
@@ -57,32 +59,65 @@ public class RoomGoalRepository implements GoalRepository {
 
     @Override
     public void save(List<Goal> goals){
-        var entities = goals.stream()
-                .map(GoalEntity::fromGoal)
-                .collect(Collectors.toList());
+         var entities = goals.stream()
+            .map(GoalEntity::fromGoal)
+            .collect(Collectors.toList());
         goalDao.insert(entities);
     }
 
     @Override
-    public List<Goal> append(Goal goal){
-        goalDao.append(GoalEntity.fromGoal(goal));
-        return null;
+    public void append(Goal goal){
+        List<Goal> goalsC = getCompletedOrUncompleted(true);
+        List<Goal> goalsU = getCompletedOrUncompleted(false);
+
+        if (goal.isCompleted()) {
+            goalsC.add(goal);
+        } else {
+            goalsU.add(goal);
+        }
+        List<Goal> newAllGoals = new ArrayList<Goal>();
+        List<Goal> allGoals = new ArrayList<Goal>(goalsU);
+        allGoals.addAll(goalsC);
+
+        // reset id and sortOrder?
+        for (int i = 0; i < allGoals.size(); i++) {
+            Goal g = allGoals.get(i).withId(i).withSortOrder(i+1);
+            newAllGoals.add(g);
+        }
+
+        save(newAllGoals);
     }
 
     @Override
-    public List<Goal> prepend(Goal goal){
-        goalDao.prepend(GoalEntity.fromGoal(goal));
-        return null;
+    public void prepend(Goal goal){
+        List<Goal> goalsC = getCompletedOrUncompleted(true);
+        List<Goal> goalsU = getCompletedOrUncompleted(false);
+
+        if (goal.isCompleted()) {
+            goalsC.add(0, goal);
+        } else {
+            goalsU.add(0, goal);
+        }
+        List<Goal> newAllGoals = new ArrayList<Goal>();
+        List<Goal> allGoals = new ArrayList<Goal>(goalsU);
+        allGoals.addAll(goalsC);
+
+        // reset id and sortOrder?
+        for (int i = 0; i < allGoals.size(); i++) {
+            Goal g = allGoals.get(i).withId(i).withSortOrder(i+1);
+            newAllGoals.add(g);
+        }
+
+        save(newAllGoals);
     }
 
     @Override
-    public List<Goal> removeCompleted() {
-        return null;
+    public void removeAllCompleted() {
+
     }
 
     @Override
-    public List<Goal> remove(int id){
+    public void remove(int id){
         goalDao.delete(id);
-        return null;
     }
 }

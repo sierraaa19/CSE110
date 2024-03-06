@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 nextDay();
                 displayDate();
-                removeCompleted();
+                removeAllCompleted();
             }
         });
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         textViewDate.setText(currentDate);
     }
 
-    private void removeCompleted() {
-        viewModel.removeCompleted();
+    private void removeAllCompleted() {
+        viewModel.removeAllCompleted();
     }
 }
