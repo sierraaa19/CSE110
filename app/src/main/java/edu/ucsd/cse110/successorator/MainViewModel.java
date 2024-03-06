@@ -2,6 +2,8 @@ package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
+import android.util.Log;
+
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
@@ -59,6 +61,12 @@ public class MainViewModel extends ViewModel {
 
        goalRepositoryDB.findAll().observe(goalList -> {
             if (goalList == null) return; // not ready yet, ignore
+
+           Log.d("findAll", "Start");
+           goalList.forEach(g -> {
+               Log.d("findAll", g.toString());
+           });
+
             goals.setValue(goalList);
        });
     }
