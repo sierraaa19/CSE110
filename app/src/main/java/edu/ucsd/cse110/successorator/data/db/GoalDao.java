@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -47,8 +48,8 @@ public interface GoalDao{
         var maxSortOrder = getMaxSortOrder();
         var newFlashcard = new GoalEntity(
                 goal.text, goal.isCompleted,
-                maxSortOrder +1
-        );
+                maxSortOrder +1,"Weekly",
+        new Date().toString());
         return Math.toIntExact(insert(newFlashcard));
     }
 
@@ -57,13 +58,29 @@ public interface GoalDao{
         shiftSortOrders(getMinSortOrder(),getMaxSortOrder(),1);
         var newFlashcard = new GoalEntity(
                 goal.text, goal.isCompleted,
-                getMinSortOrder() -1
-        );
+                getMinSortOrder() -1,"Weekly",
+        new Date().toString());
         return Math.toIntExact(insert(newFlashcard));
     }
 
     @Query("DELETE FROM goals WHERE id = :id")
     void delete(int id);
+
+    @Query("SELECT * FROM goals WHERE frequency = 'Weekly'")
+    LiveData<List<GoalEntity>> findAllWeeklyGoals();
+
+    @Query("SELECT * FROM goals WHERE frequency = 'Weekly' AND is_completed = 1")
+    LiveData<List<GoalEntity>> findAllCompletedWeeklyGoals();
+
+    @Query("DELETE FROM goals WHERE frequency = 'Weekly' AND is_completed = 1")
+    void deleteAllCompletedWeeklyGoals();
+
+    @Query("UPDATE goals SET is_completed = 1 WHERE frequency = 'Weekly'")
+    void markAllWeeklyGoalsAsCompleted();
+
+    @Query("SELECT * FROM goals WHERE frequency = 'Weekly' AND is_completed = 0")
+    LiveData<List<GoalEntity>> findAllUncompletedWeeklyGoals();
+
 }
 
 

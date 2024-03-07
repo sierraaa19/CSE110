@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.successorator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,12 +92,16 @@ public class MainActivity extends AppCompatActivity {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH,1);
         date = calendar.getTime();
+        // you want to refresg the list of goals currently being displayed
+
     }
 
     // display Date in textview
     private void displayDate(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
         String currentDate = dateFormat.format(date);
+        Log.d("===============", date.toString());
+        viewModel.setDate(date);
         TextView textViewDate = findViewById(R.id.text_view_date);
         textViewDate.setText(currentDate);
     }
