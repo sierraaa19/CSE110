@@ -1,6 +1,4 @@
 package edu.ucsd.cse110.successorator.ui.cardlist.dialog;
-
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,11 +12,14 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogCreateTaskBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
 
 public class CreateCardDialogFragment extends DialogFragment {
     private FragmentDialogCreateTaskBinding view;
@@ -85,9 +86,17 @@ public class CreateCardDialogFragment extends DialogFragment {
     private void onPositiveButtonClick(DialogInterface dialog, int which){
         var text = view.cardFrontEditText.getText().toString();
         var frequency = getSelectedFrequency(view.frequencyGroup);
+        var goalDateString = view.goalDate.getText().toString();
+        LocalDate goalDate;
+
+        if (goalDateString.equals("Date")) {
+            goalDate = SuccessDate.getCurrentDate();
+        } else {
+            goalDate = SuccessDate.stringToDate(goalDateString);
+        }
 
         // sort order is an invalid value here, because append/prepend will replace it
-        var goal = new Goal(null, text, false, -1,frequency,DisplayDate);
+        var goal = new Goal(null, text, false, -1, frequency, goalDate);
         activityModel.append(goal);
         dialog.dismiss();
     }
@@ -101,8 +110,5 @@ public class CreateCardDialogFragment extends DialogFragment {
 
         return selectedRadioButton.getText().toString();
     }
-
-
-
 
 }
