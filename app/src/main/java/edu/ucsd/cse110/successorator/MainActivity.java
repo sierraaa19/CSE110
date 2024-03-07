@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         if (itemId == R.id.action_bar_menu_swap_views) {
             // change to add button
             // TODO: make swap button do somnething
-            var dialogFragment = CreateCardDialogFragment.newInstance();
+            var dialogFragment = CreateCardDialogFragment.newInstance(date);
             dialogFragment.show(getSupportFragmentManager(), "CreateDialogFragment");
         }
 

@@ -15,29 +15,29 @@ public class GoalListTest {
     public void setUp() {
         goals = new GoalList();
         goals.setGoals(List.of(
-                new Goal(0, "Do Homework", false, 0),
-                new Goal(1, "Go to Gym", false, 1),
-                new Goal(2, "Eat Dinner", false, 2),
-                new Goal(3, "Buy Groceries", false, 3),
-                new Goal(4, "Meeting with CSE110", false, 4),
-                new Goal(5, "Club Activities", true, 5),
-                new Goal(6, "Watch Lecture", true, 6),
-                new Goal(7, "Visit family", true, 7),
-                new Goal(8, "Study for CSE110", true, 8)
+                new Goal(0, "Do Homework", false, 0,"Weekly",null),
+                new Goal(1, "Go to Gym", false, 1,"Weekly",null),
+                new Goal(2, "Eat Dinner", false, 2,"Weekly",null),
+                new Goal(3, "Buy Groceries", false, 3,"Weekly",null),
+                new Goal(4, "Meeting with CSE110", false, 4,"Weekly",null),
+                new Goal(5, "Club Activities", true, 5,"Weekly",null),
+                new Goal(6, "Watch Lecture", true, 6,"Weekly",null),
+                new Goal(7, "Visit family", true, 7,"Weekly",null),
+                new Goal(8, "Study for CSE110", true, 8,"Weekly",null)
         ));
     }
 
     @Test
     public void getGoals() {
-        List<Goal> expected = new ArrayList<Goal>(List.of(new Goal(0, "Do Homework", false, 0),
-                        new Goal(1, "Go to Gym", false, 1),
-                        new Goal(2, "Eat Dinner", false, 2),
-                        new Goal(3, "Buy Groceries", false, 3),
-                        new Goal(4, "Meeting with CSE110", false, 4),
-                        new Goal(5, "Club Activities", true, 5),
-                        new Goal(6, "Watch Lecture", true, 6),
-                        new Goal(7, "Visit family", true, 7),
-                        new Goal(8, "Study for CSE110", true, 8)
+        List<Goal> expected = new ArrayList<Goal>(List.of(new Goal(0, "Do Homework", false, 0,"Weekly",null),
+                        new Goal(1, "Go to Gym", false, 1,"Weekly",null),
+                        new Goal(2, "Eat Dinner", false, 2,"Weekly",null),
+                        new Goal(3, "Buy Groceries", false, 3,"Weekly",null),
+                        new Goal(4, "Meeting with CSE110", false, 4,"Weekly",null),
+                        new Goal(5, "Club Activities", true, 5,"Weekly",null),
+                        new Goal(6, "Watch Lecture", true, 6,"Weekly",null),
+                        new Goal(7, "Visit family", true, 7,"Weekly",null),
+                        new Goal(8, "Study for CSE110", true, 8,"Weekly",null)
                 ));
 
         assertEquals(expected, goals.getGoals());
@@ -46,27 +46,27 @@ public class GoalListTest {
     @Test
     public void fillGoals() {
         List<Goal> actual = goals.fillGoals(List.of(
-                new Goal(0, "Do Homework", false, 0),
-                new Goal(1, "Go to Gym", true, 1),
-                new Goal(2, "Eat Dinner", false, 2),
-                new Goal(3, "Buy Groceries", true, 3),
-                new Goal(4, "Meeting with CSE110", false, 4),
-                new Goal(5, "Club Activities", true, 5),
-                new Goal(6, "Watch Lecture", false, 6),
-                new Goal(7, "Visit family", true, 7),
-                new Goal(8, "Study for CSE110", false, 8)
+                new Goal(0, "Do Homework", false, 0,"Weekly",null),
+                new Goal(1, "Go to Gym", true, 1,"Weekly",null),
+                new Goal(2, "Eat Dinner", false, 2,"Weekly",null),
+                new Goal(3, "Buy Groceries", true, 3,"Weekly",null),
+                new Goal(4, "Meeting with CSE110", false, 4,"Weekly",null),
+                new Goal(5, "Club Activities", true, 5,"Weekly",null),
+                new Goal(6, "Watch Lecture", false, 6,"Weekly",null),
+                new Goal(7, "Visit family", true, 7,"Weekly",null),
+                new Goal(8, "Study for CSE110", false, 8,"Weekly",null)
         ));
 
         List<Goal> expected = new ArrayList<Goal>(List.of(
-                new Goal(0, "Do Homework", false, 0),
-                new Goal(2, "Eat Dinner", false, 1),
-                new Goal(4, "Meeting with CSE110", false, 2),
-                new Goal(6, "Watch Lecture", false, 3),
-                new Goal(8, "Study for CSE110", false, 4),
-                new Goal(1, "Go to Gym", true, 5),
-                new Goal(3, "Buy Groceries", true, 6),
-                new Goal(5, "Club Activities", true, 7),
-                new Goal(7, "Visit family", true, 8)
+                new Goal(0, "Do Homework", false, 0,"Weekly",null),
+                new Goal(2, "Eat Dinner", false, 1,"Weekly",null),
+                new Goal(4, "Meeting with CSE110", false, 2,"Weekly",null),
+                new Goal(6, "Watch Lecture", false, 3,"Weekly",null),
+                new Goal(8, "Study for CSE110", false, 4,"Weekly",null),
+                new Goal(1, "Go to Gym", true, 5,"Weekly",null),
+                new Goal(3, "Buy Groceries", true, 6,"Weekly",null),
+                new Goal(5, "Club Activities", true, 7,"Weekly",null),
+                new Goal(7, "Visit family", true, 8,"Weekly",null)
         ));
 
         assertEquals(expected, actual);
@@ -74,7 +74,7 @@ public class GoalListTest {
 
     @Test
     public void getGoalSortOrder() {
-        Goal goal = new Goal(9, "Do laundry", true, 9);
+        Goal goal = new Goal(9, "Do laundry", true, 9,"Weekly",null);
         List<Goal> throwAway = goals.fillGoals(goals.getGoals());
 
         // NOTE: Since the goal is completed, it is being added

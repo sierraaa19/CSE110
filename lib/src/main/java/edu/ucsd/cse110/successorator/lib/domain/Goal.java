@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Goal implements Serializable {
-    private final @Nullable Integer id;
+    private  @Nullable Integer id;
     private final @NonNull String text;
     private final boolean isCompleted;
     private final int sortOrder;
@@ -19,20 +19,21 @@ public class Goal implements Serializable {
     private Date creationDate;
 
 
-    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder) {
+    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder, String frequency, Date creationDate) {
         this.id = id;
         this.text = text;
         this.isCompleted = isCompleted;
         this.sortOrder = sortOrder;
-        this.frequency = "Weekly"; // Default value
-        this.creationDate = new Date();
+        this.frequency = frequency;
+        this.creationDate = creationDate;
     }
 
     public @Nullable Integer id() {
         return id;
     }
     public Goal withId(int id) {
-        return new Goal(id, this.text, this.isCompleted, this.sortOrder);
+        return new Goal(id, this.text, this.isCompleted, this.sortOrder, this.frequency, this.creationDate);
+
     }
 
     public @NonNull String text() {
@@ -42,7 +43,7 @@ public class Goal implements Serializable {
     public boolean isCompleted(){ return isCompleted;}
 
     public Goal withCompleted(boolean isCompleted) {
-        return new Goal(id, text, isCompleted, sortOrder);
+        return new Goal(this.id, this.text, isCompleted, this.sortOrder,this.frequency,this.creationDate);
     }
 
     public int sortOrder() {
@@ -50,7 +51,7 @@ public class Goal implements Serializable {
     }
 
     public Goal withSortOrder(int sortOrder) {
-        return new Goal(this.id, this.text, this.isCompleted, sortOrder);
+        return new Goal(this.id, this.text, this.isCompleted, sortOrder, this.frequency, this.creationDate);
     }
 
     public void setFrequency(@NonNull String frequency) {
@@ -79,12 +80,13 @@ public class Goal implements Serializable {
                 Objects.equals(id, goal.id) &&
                 Objects.equals(isCompleted, goal.isCompleted) &&
                 Objects.equals(text, goal.text) &&
-                Objects.equals(frequency,goal.frequency);
+                Objects.equals(frequency,goal.frequency)&&
+                Objects.equals(creationDate,goal.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, isCompleted, sortOrder,frequency);
+        return Objects.hash(id, text, isCompleted, sortOrder,frequency,creationDate);
     }
 
     @Override
@@ -93,6 +95,7 @@ public class Goal implements Serializable {
                 "id=" + id +
                 "\n, text='" + text + '\'' +
                 "\n, frequency='" + frequency + '\'' +
+                "\n, creationDate=" + creationDate +
                 "\n, isCompleted=" + isCompleted +
                 "\n, sortOrder=" + sortOrder +
                 '}';
