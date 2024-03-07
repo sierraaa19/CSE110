@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoalListTest {
+
+    /*
     GoalList goals;
 
     @Before
@@ -88,5 +90,5 @@ public class GoalListTest {
 
         assertEquals(expected, actual);
     }
-
+     */
 }

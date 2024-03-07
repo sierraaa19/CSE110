@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/goal_date"
+        android:layout_width="298dp"
+        android:layout_height="40dp"
+        android:text="Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frequencyGroup" />
+
     <EditText
         android:id="@+id/card_front_edit_text"
         android:layout_width="match_parent"
@@ -25,6 +34,7 @@
         android:layout_height="245dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:checkedButton="@id/one_time_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Yearly" />
+
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

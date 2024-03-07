@@ -21,7 +21,7 @@ public interface GoalDao{
     @Query("SELECT * FROM goals where id =:id")
     GoalEntity find(int id);
 
-    @Query("SELECT * FROM goals ORDER by sort_order")
+    @Query("SELECT * FROM goals ORDER by id")
     List<GoalEntity> findAll();
 
     @Query("SELECT * FROM goals where id =:id")

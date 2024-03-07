@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+// import java.util.Date;
 import java.util.Objects;
 
 public class Goal implements Serializable {
@@ -16,10 +18,10 @@ public class Goal implements Serializable {
     private String frequency;
 
 
-    private Date creationDate;
+    private LocalDate creationDate;
 
 
-    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder, String frequency, Date creationDate) {
+    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder, String frequency, LocalDate creationDate) {
         this.id = id;
         this.text = text;
         this.isCompleted = isCompleted;
@@ -33,7 +35,6 @@ public class Goal implements Serializable {
     }
     public Goal withId(int id) {
         return new Goal(id, this.text, this.isCompleted, this.sortOrder, this.frequency, this.creationDate);
-
     }
 
     public @NonNull String text() {
@@ -43,7 +44,7 @@ public class Goal implements Serializable {
     public boolean isCompleted(){ return isCompleted;}
 
     public Goal withCompleted(boolean isCompleted) {
-        return new Goal(this.id, this.text, isCompleted, this.sortOrder,this.frequency,this.creationDate);
+        return new Goal(this.id, this.text, isCompleted, this.sortOrder, this.frequency, this.creationDate);
     }
 
     public int sortOrder() {
@@ -58,14 +59,14 @@ public class Goal implements Serializable {
         this.frequency = frequency;
     }
 
-    public void setDate (Date current){
+    public void setDate (LocalDate current){
         this.creationDate = current;
     }
 
     public @NonNull String getFrequency() {
         return frequency;
     }
-    public @NonNull Date getDate() {
+    public @NonNull LocalDate getDate() {
         return this.creationDate;
     }
 

@@ -5,11 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
 
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
+import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
+
 @Entity(tableName = "goals")
 public class GoalEntity {
     @PrimaryKey(autoGenerate = false)
@@ -28,39 +30,38 @@ public class GoalEntity {
     public String frequency;
 
     @ColumnInfo(name = "date")
-    public String date;
+    public String creationDate;
 
 
 //    private Date dateObj;
-    GoalEntity(@NonNull String text, boolean isCompleted, int sortOrder,String frequency, String date){
+    GoalEntity(@NonNull String text, boolean isCompleted, int sortOrder,String frequency, String creationDate){
         this.text = text;
         this.isCompleted = isCompleted;
         this.sortOrder = sortOrder;
         this.frequency = frequency;
-        this.date = date; //maybe this works
+        this.creationDate = creationDate; //maybe this works
 //        this.dateObj = date;
     }
 
     public static GoalEntity fromGoal(@NonNull Goal goal){
-        var goalFE = new GoalEntity(goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), goal.getDate().toString());
+        var goalFE = new GoalEntity(goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), SuccessDate.dateToString(goal.getDate()));
         goalFE.id = goal.id();
         return goalFE;
     }
 
     public @NonNull Goal toGoal(){
-        Goal goal = new Goal(id, text, isCompleted, sortOrder,frequency,stringToDate(date));
-        return goal;
+        return new Goal(id, text, isCompleted, sortOrder, frequency, SuccessDate.stringToDate(creationDate));
     }
 
-    public static Date stringToDate(String dateString) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE M/d");
-        try {
-            return dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null; // or a default date as per your requirement
-        }
-    }
+//    public static Date stringToDate(String dateString) {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE M/d");
+//        try {
+//            return dateFormat.parse(dateString);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//            return new Date(); // or a default date as per your requirement
+//        }
+//    }
 
 }
 

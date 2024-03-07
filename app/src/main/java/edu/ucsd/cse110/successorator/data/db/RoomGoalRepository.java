@@ -25,9 +25,9 @@ public class RoomGoalRepository implements GoalRepository {
     List<Goal> getCompletedOrUncompleted(boolean isComplete) {
         List<GoalEntity> goals = goalDao.findAll();
         List<Goal> newGoals = new ArrayList<Goal>();
-        goals.forEach(goalEntity -> {
-            if (goalEntity.isCompleted == isComplete) {
-                newGoals.add(goalEntity.toGoal());
+        goals.forEach(goalE -> {
+            if (goalE.isCompleted == isComplete) {
+                newGoals.add(goalE.toGoal());
             }
         });
         newGoals.forEach(goal -> {
