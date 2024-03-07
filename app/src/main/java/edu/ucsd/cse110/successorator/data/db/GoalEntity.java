@@ -48,9 +48,7 @@ public class GoalEntity {
     }
 
     public @NonNull Goal toGoal(){
-        Goal goal = new Goal(id, text, isCompleted, sortOrder);
-        goal.setFrequency(frequency);
-        goal.setDate(stringToDate(date));
+        Goal goal = new Goal(id, text, isCompleted, sortOrder,frequency,stringToDate(date));
         return goal;
     }
 

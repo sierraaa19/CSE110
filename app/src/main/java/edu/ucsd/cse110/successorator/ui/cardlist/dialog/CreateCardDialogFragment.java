@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Date;
+
 import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogCreateTaskBinding;
@@ -21,14 +23,23 @@ import edu.ucsd.cse110.successorator.lib.domain.Goal;
 public class CreateCardDialogFragment extends DialogFragment {
     private FragmentDialogCreateTaskBinding view;
     private MainViewModel activityModel;
+    private Date DisplayDate;
 
     CreateCardDialogFragment(){
         // Required empty public constructor
     }
 
-    public static CreateCardDialogFragment newInstance(){
-        var fragment = new CreateCardDialogFragment();
+//    public static CreateCardDialogFragment newInstance(){
+//        var fragment = new CreateCardDialogFragment();
+//        Bundle args = new Bundle();
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
+
+    public static CreateCardDialogFragment newInstance(Date displayedDate) {
+        CreateCardDialogFragment fragment = new CreateCardDialogFragment();
         Bundle args = new Bundle();
+        args.putSerializable("displayedDate", displayedDate); // Assuming Date is Serializable
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,6 +52,10 @@ public class CreateCardDialogFragment extends DialogFragment {
 //        var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
 //        var modelProvider = new ViewModelProvider(modelOwner,modelFactory);
 //        this.activityModel = modelProvider.get(MainViewModel.class);
+//        activityModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        if (getArguments() != null) {
+            DisplayDate = (Date) getArguments().getSerializable("displayedDate");
+        }
         activityModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
@@ -72,8 +87,7 @@ public class CreateCardDialogFragment extends DialogFragment {
         var frequency = getSelectedFrequency(view.frequencyGroup);
 
         // sort order is an invalid value here, because append/prepend will replace it
-        var goal = new Goal(null, text, false, -1);
-        goal.setFrequency(frequency);
+        var goal = new Goal(null, text, false, -1,frequency,DisplayDate);
         activityModel.append(goal);
         dialog.dismiss();
     }
