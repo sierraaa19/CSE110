@@ -2,6 +2,9 @@ package edu.ucsd.cse110.successorator.data.db;
 
 import static androidx.lifecycle.Transformations.map;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -79,7 +82,8 @@ public class RoomGoalRepository implements GoalRepository {
         List<Goal> allGoals = new ArrayList<Goal>(goalsU);
         allGoals.addAll(goalsC);
 
-        // reset id and sortOrder?
+        // withId withSOrt order causes us to lose Goal creationDate and frequency by calling the constructor.
+        // all the information should basically be the same except for maybe the sort order and the id
         for (int i = 0; i < allGoals.size(); i++) {
             Goal g = allGoals.get(i).withId(i).withSortOrder(i+1);
             newAllGoals.add(g);
@@ -116,8 +120,32 @@ public class RoomGoalRepository implements GoalRepository {
 
     }
 
+
+
     @Override
     public void remove(int id){
         goalDao.delete(id);
     }
+
+    // Implementing repository methods for "Weekly" goals
+    public Subject<List<Goal>> findAllWeeklyGoals() {
+        LiveData<List<GoalEntity>> liveData = goalDao.findAllWeeklyGoals();
+        LiveData<List<Goal>> transformedLiveData = Transformations.map(liveData, entities ->
+                entities.stream().map(GoalEntity::toGoal).collect(Collectors.toList()));
+        return new LiveDataSubjectAdapter<>(transformedLiveData);
+    }
+
+    public Subject<List<Goal>> findAllCompletedWeeklyGoals() {
+        LiveData<List<GoalEntity>> liveData = goalDao.findAllCompletedWeeklyGoals();
+        LiveData<List<Goal>> transformedLiveData = Transformations.map(liveData, entities ->
+                entities.stream().map(GoalEntity::toGoal).collect(Collectors.toList()));
+        return new LiveDataSubjectAdapter<>(transformedLiveData);
+    }
+
+    public void deleteAllCompletedWeeklyGoals() {
+        // Since delete operations should not be done on the main thread, consider using an asynchronous approach
+        new Thread(() -> goalDao.deleteAllCompletedWeeklyGoals()).start();
+    }
+
+
 }

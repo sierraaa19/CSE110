@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
+        android:id="@+id/frequencyGroup"
         android:layout_width="302dp"
         android:layout_height="245dp"
         android:layout_marginStart="16dp"

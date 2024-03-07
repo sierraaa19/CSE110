@@ -189,4 +189,17 @@ public class InMemoryDataSource {
         assert sortOrders.stream().allMatch(i -> i >= minSortOrder);
         assert sortOrders.stream().allMatch(i -> i <= maxSortOrder);
     }
+
+    public List<Goal> getWeeklyGoals() {
+        return flashcards.values().stream()
+                .filter(goal -> "Weekly".equals(goal.getFrequency()))
+                .collect(Collectors.toList());
+    }
+
+    public Subject<List<Goal>> findAllWeeklyGoals() {
+        List<Goal> weeklyGoals = getWeeklyGoals();
+        MutableSubject<List<Goal>> weeklyGoalsSubject = new SimpleSubject<>();
+        weeklyGoalsSubject.setValue(weeklyGoals);
+        return weeklyGoalsSubject;
+    }
 }

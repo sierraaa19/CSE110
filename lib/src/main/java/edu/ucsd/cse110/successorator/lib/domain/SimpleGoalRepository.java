@@ -125,4 +125,8 @@ public class SimpleGoalRepository implements GoalRepository {
             }
         });
     }
+    public Subject<List<Goal>> findAllWeeklyGoals(){
+        return dataSource.findAllWeeklyGoals();
+    };
+
 }

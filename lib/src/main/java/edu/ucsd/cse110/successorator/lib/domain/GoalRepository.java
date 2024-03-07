@@ -24,4 +24,7 @@ public interface GoalRepository {
     void prepend(Goal goal);
 
     void removeAllCompleted();
+
+    Subject<List<Goal>> findAllWeeklyGoals();
+
 }
