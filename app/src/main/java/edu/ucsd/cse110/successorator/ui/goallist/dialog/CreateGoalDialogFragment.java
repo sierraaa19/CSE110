@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.successorator.ui.cardlist.dialog;
+package edu.ucsd.cse110.successorator.ui.goallist.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -13,20 +13,18 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogCreateTaskBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
 
-public class CreateCardDialogFragment extends DialogFragment {
+public class CreateGoalDialogFragment extends DialogFragment {
     private FragmentDialogCreateTaskBinding view;
     private MainViewModel activityModel;
     private Date DisplayDate;
 
-    CreateCardDialogFragment(){
+    CreateGoalDialogFragment(){
         // Required empty public constructor
     }
 
@@ -37,8 +35,8 @@ public class CreateCardDialogFragment extends DialogFragment {
 //        return fragment;
 //    }
 
-    public static CreateCardDialogFragment newInstance(Date displayedDate) {
-        CreateCardDialogFragment fragment = new CreateCardDialogFragment();
+    public static CreateGoalDialogFragment newInstance(Date displayedDate) {
+        CreateGoalDialogFragment fragment = new CreateGoalDialogFragment();
         Bundle args = new Bundle();
         args.putSerializable("displayedDate", displayedDate); // Assuming Date is Serializable
         fragment.setArguments(args);
