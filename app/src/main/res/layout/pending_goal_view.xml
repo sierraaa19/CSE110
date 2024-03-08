@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/text_view_no_goals"
         android:layout_width="341dp"
-        android:layout_height="53dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
@@ -18,7 +18,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tomorrow_date" />
+        app:layout_constraintTop_toBottomOf="@+id/tomorrow_view" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
@@ -37,22 +37,13 @@
         tools:layout="@layout/fragment_goal_list" />
 
     <TextView
-        android:id="@+id/tomorrow_date"
+        android:id="@+id/tomorrow_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:text="Pending"
         android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton_next"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_next"
-        android:contentDescription="next day"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
