@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
@@ -128,5 +130,9 @@ public class SimpleGoalRepository implements GoalRepository {
     public Subject<List<Goal>> findAllWeeklyGoals(){
         return dataSource.findAllWeeklyGoals();
     };
+
+    public LocalDate getDisplayDate (Goal goal){
+        return goal.getDate();
+    }
 
 }

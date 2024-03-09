@@ -2,6 +2,8 @@ package edu.ucsd.cse110.successorator.lib.domain;
 
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,5 +28,7 @@ public interface GoalRepository {
     void removeAllCompleted();
 
     Subject<List<Goal>> findAllWeeklyGoals();
+
+    LocalDate getDisplayDate (Goal goal);
 
 }

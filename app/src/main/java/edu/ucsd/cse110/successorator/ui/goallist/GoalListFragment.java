@@ -65,8 +65,9 @@ public class GoalListFragment extends Fragment {
         );
 
         // when goal list changes in ModelView, we update it
-        activityModel.getGoals().observe(goals -> {
+        activityModel.getGoalsForToday().observe(goals -> {
             if (goals == null) return;
+//            activityModel.updateDisplayedGoals();
             adapter.clear();
             adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();

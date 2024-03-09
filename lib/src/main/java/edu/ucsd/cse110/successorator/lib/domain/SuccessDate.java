@@ -2,6 +2,7 @@ package edu.ucsd.cse110.successorator.lib.domain;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 public class SuccessDate {
@@ -17,6 +18,10 @@ public class SuccessDate {
     static public String dateToString(LocalDate d) {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("MMM-d-yyyy", Locale.US);
         return d.format(f);
+    }
+
+     static public LocalDate dateToLocalDate(Date date) {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
 }
