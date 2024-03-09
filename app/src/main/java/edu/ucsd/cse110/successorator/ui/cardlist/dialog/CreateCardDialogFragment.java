@@ -87,17 +87,17 @@ public class CreateCardDialogFragment extends DialogFragment {
         var text = view.cardFrontEditText.getText().toString();
         var frequency = getSelectedFrequency(view.frequencyGroup);
         var goalDateString = view.goalDate.getText().toString();
-        LocalDate goalDate;
-
-        if (goalDateString.equals("Date")) {
-            goalDate = SuccessDate.getCurrentDate();
+        LocalDate goalCreationDate;
+        if (DisplayDate != null) {
+            goalCreationDate = SuccessDate.dateToLocalDate(DisplayDate); // Assuming SuccessDate has this method
         } else {
-            goalDate = SuccessDate.stringToDate(goalDateString);
+            // Fallback to the current date if DisplayDate is not available
+            goalCreationDate = SuccessDate.getCurrentDate();
         }
 
-        // sort order is an invalid value here, because append/prepend will replace it
-        var goal = new Goal(null, text, false, -1, frequency, goalDate);
+        var goal = new Goal(null, text, false, -1, frequency, goalCreationDate);
         activityModel.append(goal);
+//        activityModel.updateDisplayedGoals();
         dialog.dismiss();
     }
 

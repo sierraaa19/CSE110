@@ -19,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.cardlist.dialog.CreateCardDialogFragment;
@@ -53,15 +55,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.getGoalsSize().observe(isEmpty -> {
+        viewModel.getGoalsForToday().observe(goalsForToday -> {
             TextView textViewMessage = findViewById(R.id.text_view_no_goals);
-            if (isEmpty) {
+            if (goalsForToday.size()==0 ){
                 // No goals present, show the message
                 textViewMessage.setVisibility(View.VISIBLE);
             } else {
                 // Goals are present, hide the message
                 textViewMessage.setVisibility(View.GONE);
             }
+
         });
 
     }
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH,1);
         date = calendar.getTime();
+        viewModel.setCurrentDate(date);
+        displayDate();
         // you want to refresg the list of goals currently being displayed
 
     }
@@ -101,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
         String currentDate = dateFormat.format(date);
         Log.d("===============", date.toString());
-        //viewModel.setDate(date);
         TextView textViewDate = findViewById(R.id.text_view_date);
         textViewDate.setText(currentDate);
     }

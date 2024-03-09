@@ -5,7 +5,9 @@ import static androidx.lifecycle.Transformations.map;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -86,6 +88,8 @@ public class RoomGoalRepository implements GoalRepository {
         // all the information should basically be the same except for maybe the sort order and the id
         for (int i = 0; i < allGoals.size(); i++) {
             Goal g = allGoals.get(i).withId(i).withSortOrder(i+1);
+            g.setFrequency(allGoals.get(i).getFrequency());
+            g.setDate(allGoals.get(i).getDate());
             newAllGoals.add(g);
         }
 
@@ -109,6 +113,9 @@ public class RoomGoalRepository implements GoalRepository {
         // reset id and sortOrder?
         for (int i = 0; i < allGoals.size(); i++) {
             Goal g = allGoals.get(i).withId(i).withSortOrder(i+1);
+            g.setFrequency(allGoals.get(i).getFrequency());
+            g.setDate(allGoals.get(i).getDate());
+
             newAllGoals.add(g);
         }
 
@@ -135,17 +142,10 @@ public class RoomGoalRepository implements GoalRepository {
         return new LiveDataSubjectAdapter<>(transformedLiveData);
     }
 
-    public Subject<List<Goal>> findAllCompletedWeeklyGoals() {
-        LiveData<List<GoalEntity>> liveData = goalDao.findAllCompletedWeeklyGoals();
-        LiveData<List<Goal>> transformedLiveData = Transformations.map(liveData, entities ->
-                entities.stream().map(GoalEntity::toGoal).collect(Collectors.toList()));
-        return new LiveDataSubjectAdapter<>(transformedLiveData);
+    public LocalDate getDisplayDate (Goal goal){
+        return goal.getDate();
     }
 
-    public void deleteAllCompletedWeeklyGoals() {
-        // Since delete operations should not be done on the main thread, consider using an asynchronous approach
-        new Thread(() -> goalDao.deleteAllCompletedWeeklyGoals()).start();
-    }
 
 
 }
