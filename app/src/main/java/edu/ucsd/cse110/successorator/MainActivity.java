@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
         String currentDate = dateFormat.format(date);
         Log.d("===============", date.toString());
-        TextView textViewDate = findViewById(R.id.text_view_date);
+//        TextView textViewDate = findViewById(R.id.text_view_date);
         //viewModel.setDate(date);
         TextView textViewDate = findViewById(R.id.tomorrow_date);
         textViewDate.setText(currentDate);
