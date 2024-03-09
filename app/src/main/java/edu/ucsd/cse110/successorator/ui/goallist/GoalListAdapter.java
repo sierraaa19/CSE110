@@ -1,4 +1,5 @@
-package edu.ucsd.cse110.successorator.ui.cardlist;
+
+package edu.ucsd.cse110.successorator.ui.goallist;
 
 
 import android.content.Context;
@@ -14,14 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import edu.ucsd.cse110.successorator.R;
-import edu.ucsd.cse110.successorator.databinding.ListItemCardBinding;
+import edu.ucsd.cse110.successorator.databinding.ListItemGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
-public class CardListAdapter extends ArrayAdapter<Goal> {
+public class GoalListAdapter extends ArrayAdapter<Goal> {
     private final Consumer<Goal> onGoalClicked;
     private final Consumer<Goal> onDeleteClicked;
-    public CardListAdapter(
+    public GoalListAdapter(
             Context context,
             List<Goal> goals,
             Consumer<Goal> onGoalClicked,
@@ -46,24 +46,24 @@ public class CardListAdapter extends ArrayAdapter<Goal> {
         assert goal != null;
 
         // Check if a view is being reused...
-        ListItemCardBinding binding;
+        ListItemGoalBinding binding;
         if (convertView != null) {
             // if so, bind to it
-            binding = ListItemCardBinding.bind(convertView);
+            binding = ListItemGoalBinding.bind(convertView);
         } else {
             // otherwise inflate a new view from our layout XML.
             var layoutInflater = LayoutInflater.from(getContext());
-            binding = ListItemCardBinding.inflate(layoutInflater, parent, false);
+            binding = ListItemGoalBinding.inflate(layoutInflater, parent, false);
         }
 
         // Populate the view with the goal's data.
         // M -> V
-        binding.cardFrontText.setText(goal.text());
+        binding.goalText.setText(goal.text());
         if (goal.isCompleted()) {
             // TODO: replace with strikethrough
-            binding.cardFrontText.setPaintFlags(binding.cardFrontText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-            binding.cardFrontText.setPaintFlags(binding.cardFrontText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
         // V -> M

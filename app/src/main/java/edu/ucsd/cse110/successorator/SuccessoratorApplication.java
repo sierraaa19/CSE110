@@ -5,15 +5,10 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import edu.ucsd.cse110.successorator.data.db.GoalsDatabase;
 import edu.ucsd.cse110.successorator.data.db.RoomGoalRepository;
-import edu.ucsd.cse110.successorator.data.db.SECardsDatabase;
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
-import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.GoalRepository;
-import edu.ucsd.cse110.successorator.lib.domain.SimpleGoalRepository;
 
 
 public class SuccessoratorApplication extends Application {
@@ -28,7 +23,7 @@ public class SuccessoratorApplication extends Application {
 
         var database = Room.databaseBuilder(
                         getApplicationContext(),
-                        SECardsDatabase.class,
+                        GoalsDatabase.class,
                         "successorator"
                 )
                 .allowMainThreadQueries()

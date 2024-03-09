@@ -11,9 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +20,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
-import edu.ucsd.cse110.successorator.ui.cardlist.dialog.CreateCardDialogFragment;
+import edu.ucsd.cse110.successorator.ui.expandviews.ExpandViewsFragment;
+import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
+import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private static Date date; // date show in Successorator
 
     private MainViewModel viewModel;
+
+    private boolean isShowingToday = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,15 +80,37 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         var itemId = item.getItemId();
 
-        if (itemId == R.id.action_bar_menu_swap_views) {
+        if (itemId == R.id.action_bar_add_goal_views) {
             // change to add button
             // TODO: make swap button do somnething
-            var dialogFragment = CreateCardDialogFragment.newInstance(date);
+            var dialogFragment = CreateGoalDialogFragment.newInstance(date);
             dialogFragment.show(getSupportFragmentManager(), "CreateDialogFragment");
+        }
+
+        if (itemId == R.id.action_bar_expand_more_views){
+            swapFragment();
+
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void swapFragment() {
+        if (!isShowingToday){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, GoalListFragment.newInstance())
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, ExpandViewsFragment.newInstance())
+                    .commit();
+        }
+        isShowingToday = !isShowingToday;
+    }
+
+
 
     // next day
     private void nextDay(){
@@ -107,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         String currentDate = dateFormat.format(date);
         Log.d("===============", date.toString());
         TextView textViewDate = findViewById(R.id.text_view_date);
+        //viewModel.setDate(date);
+        TextView textViewDate = findViewById(R.id.tomorrow_date);
         textViewDate.setText(currentDate);
     }
 

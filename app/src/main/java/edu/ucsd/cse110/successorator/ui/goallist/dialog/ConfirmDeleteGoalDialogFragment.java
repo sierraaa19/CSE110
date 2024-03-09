@@ -1,3 +1,4 @@
+/*
 package edu.ucsd.cse110.successorator.ui.cardlist.dialog;
 
 
@@ -13,19 +14,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 
-public class ConfirmDeleteCardDialogFragment extends DialogFragment {
+public class ConfirmDeleteGoalDialogFragment extends DialogFragment {
     private static final String ARG_FLASHCARD_ID = "flashcard_id";
     private int goalID;
 
     private MainViewModel activityModel;
 
-    ConfirmDeleteCardDialogFragment(){
+    ConfirmDeleteGoalDialogFragment(){
         // Required empty public constructor
     }
 
     // make sure you return the right type;
-    public static ConfirmDeleteCardDialogFragment newInstance(int flashcardID){
-        var fragment = new ConfirmDeleteCardDialogFragment();
+    public static ConfirmDeleteGoalDialogFragment newInstance(int flashcardID){
+        var fragment = new ConfirmDeleteGoalDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_FLASHCARD_ID, flashcardID);
         fragment.setArguments(args);
@@ -65,3 +66,4 @@ public class ConfirmDeleteCardDialogFragment extends DialogFragment {
         dialog.cancel();
     }
 }
+*/

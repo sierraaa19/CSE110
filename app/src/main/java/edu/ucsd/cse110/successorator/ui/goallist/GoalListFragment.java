@@ -1,4 +1,5 @@
-package edu.ucsd.cse110.successorator.ui.cardlist;
+
+package edu.ucsd.cse110.successorator.ui.goallist;
 
 
 import android.os.Bundle;
@@ -15,21 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
-import edu.ucsd.cse110.successorator.databinding.FragmentCardListBinding;
-import edu.ucsd.cse110.successorator.ui.cardlist.dialog.ConfirmDeleteCardDialogFragment;
-import edu.ucsd.cse110.successorator.ui.cardlist.dialog.CreateCardDialogFragment;
+import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
 
-public class CardListFragment extends Fragment {
+public class GoalListFragment extends Fragment {
     private MainViewModel activityModel;
-    private FragmentCardListBinding view;
-    private CardListAdapter adapter;
+    private FragmentGoalListBinding view;
+    private GoalListAdapter adapter;
 
-    public CardListFragment() {
+    public GoalListFragment() {
         // Required empty public constructor
     }
 
-    public static CardListFragment newInstance() {
-        CardListFragment fragment = new CardListFragment();
+    public static GoalListFragment newInstance() {
+        GoalListFragment fragment = new GoalListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -46,7 +45,7 @@ public class CardListFragment extends Fragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
 
         // Initialize the Adapter (with an empty list for now)
-        this.adapter = new CardListAdapter(
+        this.adapter = new GoalListAdapter(
                 requireContext(),
                 List.of(),
                 goal -> { // onGoalClicked
@@ -78,7 +77,7 @@ public class CardListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = FragmentCardListBinding.inflate(inflater, container, false);
+        this.view = FragmentGoalListBinding.inflate(inflater, container, false);
 
         // Set the adapter on the ListView
         view.cardList.setAdapter(adapter);
@@ -93,3 +92,4 @@ public class CardListFragment extends Fragment {
         return view.getRoot();
     }
 }
+
