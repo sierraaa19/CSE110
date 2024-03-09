@@ -32,6 +32,10 @@ public class MainViewModel extends ViewModel {
 
     private final MutableSubject<Boolean> isEmpty;
     private MutableSubject<List<Goal>> weeklyGoals;
+    private MutableSubject<List<Goal>> dailyGoals;
+    private MutableSubject<List<Goal>> oneTimeGoals;
+    private MutableSubject<List<Goal>> monthlyGoals;
+    private MutableSubject<List<Goal>> yearlyGoals;
     MutableSubject<List<Goal>> todayGoals = new SimpleSubject<>();
     private Date currentDate;
 
@@ -55,11 +59,16 @@ public class MainViewModel extends ViewModel {
         this.isEmpty = new SimpleSubject<>();
         isEmpty.setValue(true);
         this.weeklyGoals = new SimpleSubject<>();
+        this.oneTimeGoals = new SimpleSubject<>();
+        this.dailyGoals =  new SimpleSubject<>();
+        this.monthlyGoals = new SimpleSubject<>();
+        this.yearlyGoals = new SimpleSubject<>();
 
        goalRepositoryDB.findAll().observe(goalList -> {
             if (goalList == null) return; // not ready yet, ignore
             isEmpty.setValue(goalList.isEmpty());
             goals.setValue(goalList);
+           updateGoalsForToday();
        });
         goalRepositoryDB.findAllWeeklyGoals().observe(goalList -> {
             weeklyGoals.setValue(goalList);
@@ -67,31 +76,10 @@ public class MainViewModel extends ViewModel {
 
 
 
-        weeklyGoals.observe(weeklyGoalsList -> {
-            LocalDate currentLocalDate = currentDate.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
-//        Log.d("======================", currentLocalDate.toString());
-
-            DayOfWeek currentDayOfWeek = currentLocalDate.getDayOfWeek();
-
-            if (weeklyGoalsList == null) {
-                todayGoals.setValue(new ArrayList<>()); // No goals available
-                return;
+        goals.observe(GoalList -> {
+            if (GoalList == null) {
+                todayGoals.setValue(new ArrayList<>());
             }
-
-            List<Goal> filteredGoals = new ArrayList<>();
-            for (Goal goal : weeklyGoalsList) {
-                LocalDate goalCreationLocalDate = goal.getDate();
-                DayOfWeek goalDayOfWeek = goalCreationLocalDate.getDayOfWeek();
-
-                if (goalDayOfWeek == currentDayOfWeek) {
-                    filteredGoals.add(goal);
-                }
-            }
-
-            todayGoals.setValue(filteredGoals);
-//            updateDisplayedGoals();
         });
 
 
@@ -140,7 +128,18 @@ public class MainViewModel extends ViewModel {
         return weeklyGoals;
     }
 
-
+    public Subject<List<Goal>> getOneTimeGoals() {
+        return oneTimeGoals;
+    }
+    public Subject<List<Goal>> getDailyGoals() {
+        return dailyGoals;
+    }
+    public Subject<List<Goal>> getMonthlyGoals() {
+        return monthlyGoals;
+    }
+    public Subject<List<Goal>> getYearlyGoals() {
+        return yearlyGoals;
+    }
 
 
     public Subject<List<Goal>> getGoalsForToday() {
@@ -150,7 +149,7 @@ public class MainViewModel extends ViewModel {
 
     public void setCurrentDate(Date date) {
         this.currentDate = date;
-        updateDisplayedGoals();
+        updateGoalsForToday();
     }
 
     public void updateDisplayedGoals() {
@@ -169,5 +168,61 @@ public class MainViewModel extends ViewModel {
         }
         this.todayGoals.setValue(updatedWeeklyGoals);
 
+    }
+    private void updateGoalsForToday() {
+        LocalDate displayLocalDate = currentDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        List<Goal> currentGoals = goals.getValue();
+        if (currentGoals != null) {
+            List<Goal> filteredGoalsForToday = new ArrayList<>();
+
+            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Daily"));
+
+            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Weekly", displayLocalDate));
+
+            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Monthly", displayLocalDate));
+
+            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Yearly", displayLocalDate));
+
+            filteredGoalsForToday.addAll(currentGoals.stream()
+                    .filter(goal -> "One Time".equals(goal.getFrequency()) &&
+                            goal.getDate().isEqual(displayLocalDate))
+                    .collect(Collectors.toList()));
+
+            todayGoals.setValue(filteredGoalsForToday);
+        }
+    }
+
+
+    private List<Goal> filterGoalsByFrequency(List<Goal> goals, String frequency) {
+        return goals.stream()
+                .filter(goal -> goal.getFrequency().equals(frequency))
+                .collect(Collectors.toList());
+    }
+
+    private List<Goal> filterGoalsByFrequency(List<Goal> goals, String frequency, LocalDate referenceDate) {
+        switch (frequency) {
+            case "Weekly":
+                DayOfWeek referenceDayOfWeek = referenceDate.getDayOfWeek();
+                return goals.stream()
+                        .filter(goal -> goal.getFrequency().equals(frequency) && goal.getDate().getDayOfWeek() == referenceDayOfWeek)
+                        .collect(Collectors.toList());
+            case "Monthly":
+                int referenceDayOfMonth = referenceDate.getDayOfMonth();
+                return goals.stream()
+                        .filter(goal -> goal.getFrequency().equals(frequency) && goal.getDate().getDayOfMonth() == referenceDayOfMonth)
+                        .collect(Collectors.toList());
+            case "Yearly":
+                referenceDayOfMonth = referenceDate.getDayOfMonth();
+                return goals.stream()
+                        .filter(goal -> goal.getFrequency().equals(frequency) &&
+                                goal.getDate().getMonth() == referenceDate.getMonth() &&
+                                goal.getDate().getDayOfMonth() == referenceDayOfMonth)
+                        .collect(Collectors.toList());
+            default:
+                return filterGoalsByFrequency(goals, frequency);
+        }
     }
 }
