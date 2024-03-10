@@ -149,9 +149,10 @@ public class MainViewModel extends ViewModel {
 
     public void setCurrentDate(Date date) {
         this.currentDate = date;
+        resetRecursiveGoalstoIncomplete();
         updateGoalsForToday();
     }
-
+    /*
     public void updateDisplayedGoals() {
         LocalDate displayLocalDate = Instant.ofEpochMilli(currentDate.getTime())
                 .atZone(ZoneId.systemDefault())
@@ -169,6 +170,7 @@ public class MainViewModel extends ViewModel {
         this.todayGoals.setValue(updatedWeeklyGoals);
 
     }
+     */
     private void updateGoalsForToday() {
         LocalDate displayLocalDate = currentDate.toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -225,4 +227,24 @@ public class MainViewModel extends ViewModel {
                 return filterGoalsByFrequency(goals, frequency);
         }
     }
+    public void resetRecursiveGoalstoIncomplete () {
+        List<Goal> currentGoals = goals.getValue();
+        if (currentGoals != null) {
+            List<Goal> updatedGoals = new ArrayList<>();
+
+            for (Goal goal : currentGoals) {
+                if (!goal.getFrequency().equals("One Time") && goal.isCompleted()) {
+                    updatedGoals.add(goal.withCompleted(false));
+                } else {
+                    updatedGoals.add(goal);
+                }
+            }
+            goalRepositoryDB.save(updatedGoals);
+
+            goals.setValue(updatedGoals);
+
+            updateGoalsForToday();
+        }
+    }
+
 }
