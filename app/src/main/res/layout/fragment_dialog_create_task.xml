@@ -5,6 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/home_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/home_button"
+        android:text="H"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@id/frequencyGroup"
+        app:layout_constraintEnd_toStartOf="@id/work_button"
+        app:layout_constraintTop_toBottomOf="@id/card_front_edit_text"
+        app:layout_constraintBottom_toTopOf="@id/frequencyGroup" />
+
+    <Button
+        android:id="@+id/work_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/work_button"
+        android:text="W"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/home_button"
+        app:layout_constraintEnd_toStartOf="@id/school_button"
+        app:layout_constraintTop_toBottomOf="@id/card_front_edit_text"
+        app:layout_constraintBottom_toTopOf="@id/frequencyGroup" />
+
+    <Button
+        android:id="@+id/school_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/school_button"
+        android:text="S"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/work_button"
+        app:layout_constraintEnd_toStartOf="@id/errands_button"
+        app:layout_constraintTop_toBottomOf="@id/card_front_edit_text"
+        app:layout_constraintBottom_toTopOf="@id/frequencyGroup" />
+
+    <Button
+        android:id="@+id/errands_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/errands_button"
+        android:text="E"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/school_button"
+        app:layout_constraintEnd_toEndOf="@id/frequencyGroup"
+        app:layout_constraintTop_toBottomOf="@id/card_front_edit_text"
+        app:layout_constraintBottom_toTopOf="@id/frequencyGroup" />
+
     <TextView
         android:id="@+id/goal_date"
         android:layout_width="298dp"
@@ -33,7 +85,8 @@
         android:layout_width="302dp"
         android:layout_height="245dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="16dp"
         android:checkedButton="@id/one_time_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,5 +125,16 @@
             android:text="Yearly" />
 
     </RadioGroup>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

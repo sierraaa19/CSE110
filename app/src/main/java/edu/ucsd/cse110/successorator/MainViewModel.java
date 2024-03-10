@@ -152,7 +152,7 @@ public class MainViewModel extends ViewModel {
         resetRecursiveGoalstoIncomplete();
         updateGoalsForToday();
     }
-
+    /*
     public void updateDisplayedGoals() {
         LocalDate displayLocalDate = Instant.ofEpochMilli(currentDate.getTime())
                 .atZone(ZoneId.systemDefault())
@@ -170,6 +170,7 @@ public class MainViewModel extends ViewModel {
         this.todayGoals.setValue(updatedWeeklyGoals);
 
     }
+     */
     private void updateGoalsForToday() {
         LocalDate displayLocalDate = currentDate.toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -245,4 +246,5 @@ public class MainViewModel extends ViewModel {
             updateGoalsForToday();
         }
     }
+
 }
