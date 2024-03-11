@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -65,16 +66,37 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
         binding.goalText.setText(goal.text());
         String context = goal.getContext(); // Get the context
 
-        if ("Home".equals(context)) {
-            binding.ContextLabelView.setImageResource(R.drawable.home_button);
-        } else if ("School".equals(context)) {
-            binding.ContextLabelView.setImageResource(R.drawable.school_button);
-        } else if ("Work".equals(context)) {
-            binding.ContextLabelView.setImageResource(R.drawable.work_button);
-        } else if ("Errands".equals(context)) {
-            binding.ContextLabelView.setImageResource(R.drawable.errands_button);
-        } else{
-            binding.ContextLabelView.setVisibility(View.INVISIBLE);
+        // Set visibility of the context icon
+        binding.ContextLabelView.setVisibility(context != null && !context.isEmpty() ? View.VISIBLE : View.INVISIBLE);
+
+        // Set visibility and text of the context label
+        TextView contextLabelTextView = binding.contextLabelText;
+        if (context != null && !context.isEmpty()) {
+            contextLabelTextView.setVisibility(View.VISIBLE);
+            switch (context) {
+                case "Home":
+                    binding.ContextLabelView.setImageResource(R.drawable.home_button);
+                    contextLabelTextView.setText("H");
+                    break;
+                case "School":
+                    binding.ContextLabelView.setImageResource(R.drawable.school_button);
+                    contextLabelTextView.setText("S");
+                    break;
+                case "Work":
+                    binding.ContextLabelView.setImageResource(R.drawable.work_button);
+                    contextLabelTextView.setText("W");
+                    break;
+                case "Errands":
+                    binding.ContextLabelView.setImageResource(R.drawable.errands_button);
+                    contextLabelTextView.setText("E");
+                    break;
+                default:
+                    contextLabelTextView.setVisibility(View.GONE); // Hide if context does not match known types
+                    break;
+            }
+        } else {
+            // Hide if no context is set
+            contextLabelTextView.setVisibility(View.GONE);
         }
 
         if (goal.isCompleted()) {
