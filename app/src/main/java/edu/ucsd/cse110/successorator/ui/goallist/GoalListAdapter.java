@@ -2,8 +2,11 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
 
+import static android.view.View.GONE;
+
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.ListItemGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 
@@ -59,21 +63,37 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
         // Populate the view with the goal's data.
         // M -> V
         binding.goalText.setText(goal.text());
+        String context = goal.getContext(); // Get the context
+
+        if ("Home".equals(context)) {
+            binding.ContextLabelView.setImageResource(R.drawable.home_button);
+        } else if ("School".equals(context)) {
+            binding.ContextLabelView.setImageResource(R.drawable.school_button);
+        } else if ("Work".equals(context)) {
+            binding.ContextLabelView.setImageResource(R.drawable.work_button);
+        } else if ("Errands".equals(context)) {
+            binding.ContextLabelView.setImageResource(R.drawable.errands_button);
+        } else{
+            binding.ContextLabelView.setVisibility(View.INVISIBLE);
+        }
+
         if (goal.isCompleted()) {
             // TODO: replace with strikethrough
             binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
-
+//
         // V -> M
-        binding.goalView.setOnClickListener(v->{
+        binding.getRoot().setOnClickListener(v->{
             onGoalClicked.accept(goal);
         });
+
         //Bind the delete button to the callback.
         // binding.cardDeleteButton.setOnClickListener(v -> {
         // onDeleteClicked.accept(goal);
         //  });
+
 
         return binding.getRoot();
    }

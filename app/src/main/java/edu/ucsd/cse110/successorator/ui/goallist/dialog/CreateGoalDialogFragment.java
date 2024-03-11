@@ -15,6 +15,7 @@ import java.util.Date;
 import java.time.LocalDate;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
+import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogCreateTaskBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
@@ -23,6 +24,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
     private FragmentDialogCreateTaskBinding view;
     private MainViewModel activityModel;
     private Date DisplayDate;
+    private String context;
 
     CreateGoalDialogFragment(){
         // Required empty public constructor
@@ -78,12 +80,14 @@ public class CreateGoalDialogFragment extends DialogFragment {
                 .setView(view.getRoot())
                 .setPositiveButton("Save", this::onPositiveButtonClick)
                 .setNegativeButton("Cancel", this::onNegativeButtonClick);
+        setupContextButtons();
         return builder.create();
     }
 
     private void onPositiveButtonClick(DialogInterface dialog, int which){
         var text = view.cardFrontEditText.getText().toString();
         var frequency = getSelectedFrequency(view.frequencyGroup);
+
         var goalDateString = view.goalDate.getText().toString();
         LocalDate goalCreationDate;
         if (DisplayDate != null) {
@@ -92,8 +96,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
             // Fallback to the current date if DisplayDate is not available
             goalCreationDate = SuccessDate.getCurrentDate();
         }
-
-        var goal = new Goal(null, text, false, -1, frequency, goalCreationDate);
+        var goal = new Goal(null, text, false, -1, frequency, goalCreationDate,context);
         activityModel.append(goal);
 //        activityModel.updateDisplayedGoals();
         dialog.dismiss();
@@ -108,5 +111,14 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
         return selectedRadioButton.getText().toString();
     }
+    private void setupContextButtons() {
+        // Assuming you have access to your buttons in view binding
+        view.homeButton.setOnClickListener(v -> context = "Home");
+        view.workButton.setOnClickListener(v -> context = "Work");
+        view.schoolButton.setOnClickListener(v -> context = "School");
+        view.errandsButton.setOnClickListener(v -> context = "Errands");
+    }
+
+
 
 }
