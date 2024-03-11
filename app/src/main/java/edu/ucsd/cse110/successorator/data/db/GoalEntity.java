@@ -32,25 +32,28 @@ public class GoalEntity {
     @ColumnInfo(name = "date")
     public String creationDate;
 
+    @ColumnInfo(name = "context")
+    public String context;
+
 
 //    private Date dateObj;
-    GoalEntity(@NonNull String text, boolean isCompleted, int sortOrder,String frequency, String creationDate){
+    GoalEntity(@NonNull String text, boolean isCompleted, int sortOrder,String frequency, String creationDate,String context){
         this.text = text;
         this.isCompleted = isCompleted;
         this.sortOrder = sortOrder;
         this.frequency = frequency;
-        this.creationDate = creationDate; //maybe this works
-//        this.dateObj = date;
+        this.creationDate = creationDate;
+        this.context = context;
     }
 
     public static GoalEntity fromGoal(@NonNull Goal goal){
-        var goalFE = new GoalEntity(goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), SuccessDate.dateToString(goal.getDate()));
+        var goalFE = new GoalEntity(goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), SuccessDate.dateToString(goal.getDate()),goal.getContext());
         goalFE.id = goal.id();
         return goalFE;
     }
 
     public @NonNull Goal toGoal(){
-        return new Goal(id, text, isCompleted, sortOrder, frequency, SuccessDate.stringToDate(creationDate));
+        return new Goal(id, text, isCompleted, sortOrder, frequency, SuccessDate.stringToDate(creationDate),context);
     }
 
 //    public static Date stringToDate(String dateString) {

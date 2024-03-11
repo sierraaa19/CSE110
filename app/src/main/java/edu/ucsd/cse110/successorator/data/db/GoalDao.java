@@ -49,7 +49,7 @@ public interface GoalDao{
         var newFlashcard = new GoalEntity(
                 goal.text, goal.isCompleted,
                 maxSortOrder +1,"Weekly",
-        new Date().toString());
+        new Date().toString(),goal.context);
         return Math.toIntExact(insert(newFlashcard));
     }
 
@@ -59,7 +59,7 @@ public interface GoalDao{
         var newFlashcard = new GoalEntity(
                 goal.text, goal.isCompleted,
                 getMinSortOrder() -1,"Weekly",
-        new Date().toString());
+        new Date().toString(),goal.context);
         return Math.toIntExact(insert(newFlashcard));
     }
 
