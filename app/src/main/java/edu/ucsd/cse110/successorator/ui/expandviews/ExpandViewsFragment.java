@@ -24,7 +24,7 @@ import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
 
-public class ExpandViewsFragment extends Fragment {
+public class ExpandViewsFragment extends DialogFragment {
     private FragmentExpandMoreViewsBinding view;
     private MainViewModel activityModel;
     //private Date DisplayDate;
@@ -33,31 +33,40 @@ public class ExpandViewsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-    public static ExpandViewsFragment newInstance(){
+    public static ExpandViewsFragment newInstance() {
         ExpandViewsFragment fragment = new ExpandViewsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize the ViewModel.
-        activityModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-
-
+        // Initialize the Model
+        var modelOwner = requireActivity();
+        var modelFactory = ViewModelProvider.Factory.from(MainViewModel.initializer);
+        var modelProvider = new ViewModelProvider(modelOwner, modelFactory);
+        this.activityModel = modelProvider.get(MainViewModel.class);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = FragmentExpandMoreViewsBinding.inflate(inflater, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Initialize the View
+        view = FragmentExpandMoreViewsBinding.inflate(inflater, container, false);
+
+        setupMvp();
 
         return view.getRoot();
+    }
+
+    private void setupMvp() {
+        // Observe View -> call Model
+        view.todayViewLabel.setOnClickListener(v -> activityModel.toToday());
+        view.tomorrowViewLabel.setOnClickListener(v -> activityModel.toTomorrow());
+        view.pendingViewLabel.setOnClickListener(v -> activityModel.toPending());
+        view.recurringViewLabel.setOnClickListener(v -> activityModel.toRecurring());
     }
 
 }
