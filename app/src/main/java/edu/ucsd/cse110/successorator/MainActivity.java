@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     // next day
     private void nextDay(){
         Calendar calendar = Calendar.getInstance();
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         date = calendar.getTime();
         viewModel.setCurrentDate(date);
         displayDate();
+
         // you want to refresg the list of goals currently being displayed
 
     }
@@ -127,12 +128,14 @@ public class MainActivity extends AppCompatActivity {
     // display Date in textview
     private void displayDate(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
+        SimpleDateFormat dayFormat = new SimpleDateFormat("M/d");
         String currentDate = dateFormat.format(date);
+        String currentDay = dayFormat.format(date);
         Log.d("===============", date.toString());
-//        TextView textViewDate = findViewById(R.id.text_view_date);
-        //viewModel.setDate(date);
         TextView textViewDate = findViewById(R.id.tomorrow_date);
         textViewDate.setText(currentDate);
+
+
     }
 
     private void removeAllCompleted() {

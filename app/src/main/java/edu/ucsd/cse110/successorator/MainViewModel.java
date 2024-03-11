@@ -216,6 +216,13 @@ public class MainViewModel extends ViewModel {
                 return goals.stream()
                         .filter(goal -> goal.getFrequency().equals(frequency) && goal.getDate().getDayOfMonth() == referenceDayOfMonth)
                         .collect(Collectors.toList());
+                /*
+                if (day % 7 == 0) {
+                    x = day / 7 - 1;
+                } else {
+                    x = (int) day / 7
+                }
+                 */
             case "Yearly":
                 referenceDayOfMonth = referenceDate.getDayOfMonth();
                 return goals.stream()

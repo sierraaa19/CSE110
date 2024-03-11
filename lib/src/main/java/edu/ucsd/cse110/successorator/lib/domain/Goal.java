@@ -19,22 +19,23 @@ public class Goal implements Serializable {
 
 
     private LocalDate creationDate;
+    private String context;
 
-
-    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder, String frequency, LocalDate creationDate) {
+    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder, String frequency, LocalDate creationDate, String context) {
         this.id = id;
         this.text = text;
         this.isCompleted = isCompleted;
         this.sortOrder = sortOrder;
         this.frequency = frequency;
         this.creationDate = creationDate;
+        this.context = context;
     }
 
     public @Nullable Integer id() {
         return id;
     }
     public Goal withId(int id) {
-        return new Goal(id, this.text, this.isCompleted, this.sortOrder, this.frequency, this.creationDate);
+        return new Goal(id, this.text, this.isCompleted, this.sortOrder, this.frequency, this.creationDate, this.context);
     }
 
     public @NonNull String text() {
@@ -44,7 +45,7 @@ public class Goal implements Serializable {
     public boolean isCompleted(){ return isCompleted;}
 
     public Goal withCompleted(boolean isCompleted) {
-        return new Goal(this.id, this.text, isCompleted, this.sortOrder, this.frequency, this.creationDate);
+        return new Goal(this.id, this.text, isCompleted, this.sortOrder, this.frequency, this.creationDate,this.context);
     }
 
     public int sortOrder() {
@@ -52,7 +53,7 @@ public class Goal implements Serializable {
     }
 
     public Goal withSortOrder(int sortOrder) {
-        return new Goal(this.id, this.text, this.isCompleted, sortOrder, this.frequency, this.creationDate);
+        return new Goal(this.id, this.text, this.isCompleted, sortOrder, this.frequency, this.creationDate,this.context);
     }
 
     public void setFrequency(@NonNull String frequency) {
@@ -70,6 +71,8 @@ public class Goal implements Serializable {
         return this.creationDate;
     }
 
+    public @NonNull String getContext(){ return context;}
+
 
 
     @Override
@@ -81,13 +84,14 @@ public class Goal implements Serializable {
                 Objects.equals(id, goal.id) &&
                 Objects.equals(isCompleted, goal.isCompleted) &&
                 Objects.equals(text, goal.text) &&
+                Objects.equals(context,goal.context)&&
                 Objects.equals(frequency,goal.frequency)&&
                 Objects.equals(creationDate,goal.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, isCompleted, sortOrder,frequency,creationDate);
+        return Objects.hash(id, text, isCompleted, sortOrder,frequency,creationDate,context);
     }
 
     @Override
@@ -96,6 +100,7 @@ public class Goal implements Serializable {
                 "id=" + id +
                 "\n, text='" + text + '\'' +
                 "\n, frequency='" + frequency + '\'' +
+                "\n, context='" + context + '\'' +
                 "\n, creationDate=" + creationDate +
                 "\n, isCompleted=" + isCompleted +
                 "\n, sortOrder=" + sortOrder +
