@@ -2,6 +2,8 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
 
+import static android.view.View.GONE;
+
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -71,6 +73,8 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
             binding.ContextLabelView.setImageResource(R.drawable.work_button);
         } else if ("Errands".equals(context)) {
             binding.ContextLabelView.setImageResource(R.drawable.errands_button);
+        } else{
+            binding.ContextLabelView.setVisibility(View.INVISIBLE);
         }
 
         if (goal.isCompleted()) {
