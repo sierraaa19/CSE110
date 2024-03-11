@@ -38,21 +38,32 @@
 
     <TextView
         android:id="@+id/tomorrow_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="24dp"
         android:text="TextView"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/imageButton_next"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButton_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_next"
         android:contentDescription="next day"
+        android:src="@drawable/ic_next"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_no_goals"
+        app:layout_constraintEnd_toStartOf="@+id/tomorrow_date"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLI
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
@@ -37,7 +38,10 @@ public class MainViewModel extends ViewModel {
     private MutableSubject<List<Goal>> monthlyGoals;
     private MutableSubject<List<Goal>> yearlyGoals;
     MutableSubject<List<Goal>> todayGoals = new SimpleSubject<>();
+    MutableSubject<List<Goal>> tomorrowGoals = new SimpleSubject<>();
     private Date currentDate;
+
+    private MutableSubject<String> label ;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -57,7 +61,9 @@ public class MainViewModel extends ViewModel {
         this.currentDate = new Date();
         this.isCompleted = new SimpleSubject<>();
         this.isEmpty = new SimpleSubject<>();
+        this.label = new SimpleSubject<>();
         isEmpty.setValue(true);
+        label.setValue("Today");
         this.weeklyGoals = new SimpleSubject<>();
         this.oneTimeGoals = new SimpleSubject<>();
         this.dailyGoals =  new SimpleSubject<>();
@@ -145,6 +151,8 @@ public class MainViewModel extends ViewModel {
     public Subject<List<Goal>> getGoalsForToday() {
         return todayGoals;
     }
+
+
 
 
     public void setCurrentDate(Date date) {
@@ -253,5 +261,44 @@ public class MainViewModel extends ViewModel {
             updateGoalsForToday();
         }
     }
+
+    public void toToday(){
+        label.setValue("Today");
+
+        // TODO
+        // update goal list
+    }
+
+    public void toTomorrow(){
+        label.setValue("Tomorrow");
+
+        // TODO
+        // update goal list
+    }
+    public void toPending(){
+        label.setValue("Pending");
+
+        // TODO
+        // update goal list
+    }
+    public void toRecurring(){
+        label.setValue("Recurring");
+
+        // TODO
+        // update goal list
+    }
+    public void setLabel(String l) {
+        label.setValue(l);
+    }
+
+    public Subject<String> getLabel(){
+        return label;
+    }
+
+
+    public Subject<List<Goal>>  getGoalsForTomorrow() {
+        return tomorrowGoals;
+    }
+
 
 }

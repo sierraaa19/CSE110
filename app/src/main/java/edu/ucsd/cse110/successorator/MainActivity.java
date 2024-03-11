@@ -17,8 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.expandviews.ExpandViewsFragment;
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 nextDay();
                 displayDate();
-                removeAllCompleted();
+//                removeAllCompleted();
             }
         });
 
@@ -67,6 +65,24 @@ public class MainActivity extends AppCompatActivity {
                 textViewMessage.setVisibility(View.GONE);
             }
 
+        });
+
+        // TODO:
+        // update label and date for Today, Tomorrow, Pending, Recurring
+        viewModel.getLabel().observe(label -> {
+                // update label for Today, Tomorrow, Pending, Recurring
+                TextView textViewDate = findViewById(R.id.text_label);
+                textViewDate.setText(label);
+                // update date for Today, Tomorrow, Pending, Recurring
+                if(label.equals("Today")){
+                    displayDate();
+                }
+                else if(label.equals("Tomorrow")){
+                    nextDayOneTime();
+                }
+                else{
+                    displayNoDate();
+                }
         });
 
     }
@@ -136,6 +152,34 @@ public class MainActivity extends AppCompatActivity {
         textViewDate.setText(currentDate);
 
 
+    }
+
+    private void displayNoDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
+        String currentDate = dateFormat.format(date);
+        Log.d("===============", date.toString());
+//        TextView textViewDate = findViewById(R.id.text_view_date);
+        //viewModel.setDate(date);
+        TextView textViewDate = findViewById(R.id.tomorrow_date);
+        textViewDate.setText("");
+    }
+
+    private void nextDayOneTime(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH,1);
+        Date date = calendar.getTime();
+        displayDate(date);
+    }
+
+    private void displayDate(Date d){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, M/d");
+        String currentDate = dateFormat.format(d);
+        Log.d("===============", date.toString());
+//        TextView textViewDate = findViewById(R.id.text_view_date);
+        //viewModel.setDate(date);
+        TextView textViewDate = findViewById(R.id.tomorrow_date);
+        textViewDate.setText(currentDate);
     }
 
     private void removeAllCompleted() {
