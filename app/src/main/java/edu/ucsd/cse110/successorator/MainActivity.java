@@ -105,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (itemId == R.id.action_bar_expand_more_views){
-            swapFragment();
+//            swapFragment();
+            var dialogFragment = ExpandViewsFragment.newInstance();
+            dialogFragment.show(getSupportFragmentManager(), "ExpandDialogFragment");
 
         }
 
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 //        TextView textViewDate = findViewById(R.id.text_view_date);
         //viewModel.setDate(date);
         TextView textViewDate = findViewById(R.id.tomorrow_date);
-//        textViewDate.setText("");
+        textViewDate.setText("");
     }
 
     private void nextDayOneTime(){

@@ -19,10 +19,12 @@ import java.util.Date;
 import java.time.LocalDate;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
+import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentExpandMoreViewsBinding;
 import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
+import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
 public class ExpandViewsFragment extends DialogFragment {
     private FragmentExpandMoreViewsBinding view;
@@ -63,10 +65,42 @@ public class ExpandViewsFragment extends DialogFragment {
 
     private void setupMvp() {
         // Observe View -> call Model
-        view.todayViewLabel.setOnClickListener(v -> activityModel.toToday());
-        view.tomorrowViewLabel.setOnClickListener(v -> activityModel.toTomorrow());
-        view.pendingViewLabel.setOnClickListener(v -> activityModel.toPending());
-        view.recurringViewLabel.setOnClickListener(v -> activityModel.toRecurring());
+        view.todayViewLabel.setOnClickListener(v -> toToday());
+        view.tomorrowViewLabel.setOnClickListener(v -> toTomorrow());
+        view.pendingViewLabel.setOnClickListener(v -> toPending());
+        view.recurringViewLabel.setOnClickListener(v -> toRecurring());
+    }
+
+    private void toToday() {
+            activityModel.toToday();
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, GoalListFragment.newInstance())
+                    .commit();
+    }
+
+    private void toTomorrow() {
+        activityModel.toTomorrow();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, TomorrowFragment.newInstance())
+                .commit();
+    }
+
+    private void toPending() {
+        activityModel.toPending();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, PendingFragment.newInstance())
+                .commit();
+    }
+
+    private void toRecurring() {
+        activityModel.toRecurring();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, RecurringFragment.newInstance())
+                .commit();
     }
 
 }

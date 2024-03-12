@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,10 @@ public class MainViewModel extends ViewModel {
     private MutableSubject<List<Goal>> yearlyGoals;
     MutableSubject<List<Goal>> todayGoals = new SimpleSubject<>();
     MutableSubject<List<Goal>> tomorrowGoals = new SimpleSubject<>();
+
+    MutableSubject<List<Goal>> pendingGoals = new SimpleSubject<>();
+
+    MutableSubject<List<Goal>> recurringGoals = new SimpleSubject<>();
     private Date currentDate;
 
     private MutableSubject<String> label ;
@@ -80,6 +85,8 @@ public class MainViewModel extends ViewModel {
             isEmpty.setValue(goalList.isEmpty());
             goals.setValue(goalList);
            updateGoalsForToday();
+           updateGoalsForTomorrow();
+           updateGoalsForRecurring();
        });
         goalRepositoryDB.findAllWeeklyGoals().observe(goalList -> {
             weeklyGoals.setValue(goalList);
@@ -90,6 +97,9 @@ public class MainViewModel extends ViewModel {
         goals.observe(GoalList -> {
             if (GoalList == null) {
                 todayGoals.setValue(new ArrayList<>());
+                tomorrowGoals.setValue(new ArrayList<>());
+                pendingGoals.setValue(new ArrayList<>());
+                recurringGoals.setValue(new ArrayList<>());
             }
         });
 
@@ -152,7 +162,6 @@ public class MainViewModel extends ViewModel {
         return yearlyGoals;
     }
 
-
     public Subject<List<Goal>> getGoalsForToday() {
         return todayGoals;
     }
@@ -164,6 +173,8 @@ public class MainViewModel extends ViewModel {
         this.currentDate = date;
         resetRecursiveGoalstoIncomplete();
         updateGoalsForToday();
+        updateGoalsForTomorrow();
+        updateGoalsForRecurring();
     }
     /*
     public void updateDisplayedGoals() {
@@ -213,6 +224,55 @@ public class MainViewModel extends ViewModel {
     }
 
 
+    private void updateGoalsForTomorrow() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DAY_OF_MONTH,1);
+        LocalDate displayLocalDate = calendar.getTime().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+
+        List<Goal> currentGoals = goals.getValue();
+        if (currentGoals != null) {
+            List<Goal> filteredGoalsForTomorrow = new ArrayList<>();
+
+            filteredGoalsForTomorrow.addAll(filterGoalsByFrequency(currentGoals, "Daily"));
+
+            filteredGoalsForTomorrow.addAll(filterGoalsByFrequency(currentGoals, "Weekly", displayLocalDate));
+
+            filteredGoalsForTomorrow.addAll(filterGoalsByFrequency(currentGoals, "Monthly", displayLocalDate));
+
+            filteredGoalsForTomorrow.addAll(filterGoalsByFrequency(currentGoals, "Yearly", displayLocalDate));
+
+
+            filteredGoalsForTomorrow.sort(Comparator.comparing(Goal::getContext));
+            tomorrowGoals.setValue(filteredGoalsForTomorrow);
+
+        }
+    }
+
+    private void updateGoalsForRecurring() {
+
+
+        List<Goal> currentGoals = goals.getValue();
+        if (currentGoals != null) {
+            List<Goal> filteredGoalsForRecurring = new ArrayList<>();
+
+            filteredGoalsForRecurring.addAll(filterGoalsByFrequency(currentGoals, "Daily"));
+
+            filteredGoalsForRecurring.addAll(filterGoalsByFrequency(currentGoals, "Weekly"));
+
+            filteredGoalsForRecurring.addAll(filterGoalsByFrequency(currentGoals, "Monthly"));
+
+            filteredGoalsForRecurring.addAll(filterGoalsByFrequency(currentGoals, "Yearly"));
+
+
+            filteredGoalsForRecurring.sort(Comparator.comparing(Goal::getContext));
+            recurringGoals.setValue(filteredGoalsForRecurring);
+
+        }
+    }
     private List<Goal> filterGoalsByFrequency(List<Goal> goals, String frequency) {
         return goals.stream()
                 .filter(goal -> goal.getFrequency().equals(frequency))
@@ -282,14 +342,13 @@ public class MainViewModel extends ViewModel {
             goals.setValue(updatedGoals);
 
             updateGoalsForToday();
+            updateGoalsForTomorrow();
+            updateGoalsForRecurring();
         }
     }
 
     public void toToday(){
         label.setValue("Today");
-
-        // TODO
-        // update goal list
     }
 
     public Date getDate(){
@@ -298,30 +357,17 @@ public class MainViewModel extends ViewModel {
 
     public void toTomorrow(){
         label.setValue("Tomorrow");
-
-        // TODO
-        // update goal list
     }
     public void toPending(){
         label.setValue("Pending");
-
-        // TODO
-        // update goal list
     }
     public void toRecurring(){
         label.setValue("Recurring");
-
-        // TODO
-        // update goal list
-    }
-    public void setLabel(String l) {
-        label.setValue(l);
     }
 
     public Subject<String> getLabel(){
         return label;
     }
-
 
     public Subject<List<Goal>>  getGoalsForTomorrow() {
         return tomorrowGoals;
@@ -344,5 +390,11 @@ public class MainViewModel extends ViewModel {
     }
 
 
+    public Subject<List<Goal>> getGoalsForPending() {
+        return pendingGoals;
+    }
 
+    public Subject<List<Goal>> getGoalsForRecurring() {
+        return recurringGoals;
+    }
 }
