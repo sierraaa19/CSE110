@@ -16,6 +16,17 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
+        android:id="@+id/context_label_text"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/ContextLabel_view"
+        app:layout_constraintTop_toTopOf="@id/ContextLabel_view"
+        app:layout_constraintBottom_toBottomOf="@id/ContextLabel_view" />
+
+    <TextView
         android:id="@+id/goal_text"
         android:layout_width="318dp"
         android:layout_height="39dp"
