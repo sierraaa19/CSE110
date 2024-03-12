@@ -3,6 +3,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -58,6 +59,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
             DisplayDate = (Date) getArguments().getSerializable("displayedDate");
         }
         activityModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
     }
 
     @NonNull
@@ -81,6 +83,32 @@ public class CreateGoalDialogFragment extends DialogFragment {
                 .setPositiveButton("Save", this::onPositiveButtonClick)
                 .setNegativeButton("Cancel", this::onNegativeButtonClick);
         setupContextButtons();
+
+
+        RadioButton weeklyButton = view.weeklyButton;
+        weeklyButton.setText("weekly on " + activityModel.getDate().toString().substring(0,4));
+        RadioButton yearlyButton = view.yearlyButton;
+        yearlyButton.setText("yearly on "+ activityModel.getDate().toString().substring(4,10));
+        RadioButton monthlyButton = view.monthlyButton;
+        String day = activityModel.getDate().toString().substring(8,10);
+        int int_day = Integer.parseInt(day);
+        int x = (int_day+6)/7;
+        String temp;
+        if (x==1){
+            temp = "st ";
+        }
+        else if (x==2){
+            temp = "nd ";
+        }
+        else if(x==3){
+            temp = "rd ";
+        }
+        else{
+            temp = "th ";
+        }
+
+        String X = String.valueOf(x);
+        monthlyButton.setText("monthly on "+X+temp+activityModel.getDate().toString().substring(0,4));
         return builder.create();
     }
 
@@ -108,7 +136,15 @@ public class CreateGoalDialogFragment extends DialogFragment {
     private String getSelectedFrequency(RadioGroup radioGroup) {
         int selectedId = radioGroup.getCheckedRadioButtonId();
         RadioButton selectedRadioButton = view.getRoot().findViewById(selectedId);
-
+        if (selectedId == view.monthlyButton.getId()){
+            return "Monthly";
+        }
+        if (selectedId == view.weeklyButton.getId()){
+            return "Weekly";
+        }
+        if (selectedId == view.yearlyButton.getId()){
+            return "Yearly";
+        }
         return selectedRadioButton.getText().toString();
     }
     private void setupContextButtons() {

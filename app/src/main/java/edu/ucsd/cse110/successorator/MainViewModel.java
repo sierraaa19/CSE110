@@ -8,10 +8,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 // import java.util.Date; NOTE: Use java.time API instead
 import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -201,7 +206,9 @@ public class MainViewModel extends ViewModel {
                             goal.getDate().isEqual(displayLocalDate))
                     .collect(Collectors.toList()));
 
+            filteredGoalsForToday.sort(Comparator.comparing(Goal::getContext));
             todayGoals.setValue(filteredGoalsForToday);
+
         }
     }
 
@@ -221,16 +228,32 @@ public class MainViewModel extends ViewModel {
                         .collect(Collectors.toList());
             case "Monthly":
                 int referenceDayOfMonth = referenceDate.getDayOfMonth();
+                Month referenceMonth = referenceDate.getMonth();
+                int referenceWeekInMonth = (referenceDate.getDayOfMonth() + 6) / 7;
+                DayOfWeek referenceWeekDay = referenceDate.getDayOfWeek();
+
                 return goals.stream()
-                        .filter(goal -> goal.getFrequency().equals(frequency) && goal.getDate().getDayOfMonth() == referenceDayOfMonth)
+                        .filter(goal -> {
+                            if (!goal.getFrequency().equals(frequency)) {
+                                return false;
+                            }
+
+                            LocalDate goalDate = goal.getDate();
+                            Month goalMonth = goalDate.getMonth();
+                            int goalWeekInMonth = (goalDate.getDayOfMonth() + 6) / 7;
+                            DayOfWeek goalWeekDay = goalDate.getDayOfWeek();
+                            LocalDate firstDayOfNextMonth = referenceDate.plusMonths(1).withDayOfMonth(1);
+                            LocalDate firstSameDayOfWeekNextMonth = firstDayOfNextMonth.with(TemporalAdjusters.firstInMonth(goalWeekDay));
+                            LocalDate lastSameDayOfWeekLasttMonth = referenceDate.minusMonths(1).with(TemporalAdjusters.lastInMonth(referenceWeekDay));
+                            int lastWeekInMonth = (lastSameDayOfWeekLasttMonth.getDayOfMonth()+6)/7;
+                            if (goalWeekInMonth==5 && !referenceDate.equals(goalDate)&&referenceWeekInMonth!=5 &&lastWeekInMonth<5 ){
+                                return goalWeekDay == referenceWeekDay && referenceWeekInMonth==1 && referenceMonth.getValue()>goalMonth.plus(1).getValue();
+                            }
+
+                            return goalWeekInMonth == referenceWeekInMonth && goalWeekDay == referenceWeekDay;
+                        })
                         .collect(Collectors.toList());
-                /*
-                if (day % 7 == 0) {
-                    x = day / 7 - 1;
-                } else {
-                    x = (int) day / 7
-                }
-                 */
+
             case "Yearly":
                 referenceDayOfMonth = referenceDate.getDayOfMonth();
                 return goals.stream()
@@ -269,6 +292,10 @@ public class MainViewModel extends ViewModel {
         // update goal list
     }
 
+    public Date getDate(){
+        return currentDate;
+    }
+
     public void toTomorrow(){
         label.setValue("Tomorrow");
 
@@ -299,6 +326,23 @@ public class MainViewModel extends ViewModel {
     public Subject<List<Goal>>  getGoalsForTomorrow() {
         return tomorrowGoals;
     }
+
+    public static LocalDate getNextMonthSameDayOfWeek() {
+        LocalDate today = LocalDate.now();
+        DayOfWeek dayOfWeek = today.getDayOfWeek();
+
+        // Calculate the ordinal (nth occurrence) of today's dayOfWeek in the current month
+        int ordinal = (today.getDayOfMonth() - 1) / 7 + 1;
+
+        // Get the first day of the next month
+        LocalDate firstDayOfNextMonth = today.plusMonths(1).withDayOfMonth(1);
+
+        // Find the nth occurrence of today's dayOfWeek in the next month
+        LocalDate nextMonthSameDayOfWeek = firstDayOfNextMonth.with(TemporalAdjusters.dayOfWeekInMonth(ordinal, dayOfWeek));
+
+        return nextMonthSameDayOfWeek;
+    }
+
 
 
 }

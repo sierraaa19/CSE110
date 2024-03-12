@@ -4,5 +4,6 @@
     <string name="hello_world">Hello, World!</string>
     <string name="swap_views">Swap Views</string>
     <string name="task_name">Task name . . .</string>
+    <string name="yearly_tue">Yearly on Tue</string>
 
 </resources>

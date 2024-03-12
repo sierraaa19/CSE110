@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         textViewDate.setText(currentDate);
 
 
+
     }
 
     private void displayNoDate(){
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 //        TextView textViewDate = findViewById(R.id.text_view_date);
         //viewModel.setDate(date);
         TextView textViewDate = findViewById(R.id.tomorrow_date);
-        textViewDate.setText("");
+//        textViewDate.setText("");
     }
 
     private void nextDayOneTime(){
