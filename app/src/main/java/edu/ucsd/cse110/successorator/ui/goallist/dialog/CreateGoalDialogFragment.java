@@ -36,10 +36,10 @@ public class CreateGoalDialogFragment extends DialogFragment {
     private FragmentDialogCreateTaskBinding view;
     private MainViewModel activityModel;
     private Date DisplayDate;
-    private String context;
+    private String context = "Home";
 
     private CalendarDialogFragment calendarFragment = CalendarDialogFragment.newInstance();
-    CreateGoalDialogFragment(){
+    CreateGoalDialogFragment() {
         // Required empty public constructor
     }
 
@@ -77,7 +77,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 //        this.view = FragmentDialogCreateTaskBinding.inflate(getLayoutInflater());
 //        return new AlertDialog.Builder(getActivity())
 //                .setTitle("New Task...")
@@ -88,7 +88,7 @@ public class CreateGoalDialogFragment extends DialogFragment {
 //                .create();
         view = FragmentDialogCreateTaskBinding.inflate(getLayoutInflater());
 
-        view.goalDate.setOnClickListener( v -> {
+        view.goalDate.setOnClickListener(v -> {
             FragmentManager fmng = getActivity().getSupportFragmentManager();
             calendarFragment.show(fmng, "ChooseCalendarFragment");
         });
@@ -156,18 +156,19 @@ public class CreateGoalDialogFragment extends DialogFragment {
         }
         // END HEAD
         // US 4
-        LocalDate goalDate;
+        LocalDate goalDate = null;
 
         if (goalDateString.equals("Click here to choose a date ...")) {
             goalDate = SuccessDate.getCurrentDate();
             // END US4
         } else {
+            goalDate = SuccessDate.stringToDate(goalDateString);
             // Fallback to the current date if DisplayDate is not available
             goalCreationDate = SuccessDate.getCurrentDate();
         }
-        var goal = new Goal(null, text, false, -1, frequency, goalCreationDate, context);
+        var goal = new Goal(null, text, false, -1, frequency, goalDate, context);
         activityModel.append(goal);
-//        activityModel.updateDisplayedGoals();
+        // activityModel.updateDisplayedGoals();
         dialog.dismiss();
     }
 
