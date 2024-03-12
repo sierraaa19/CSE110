@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -205,7 +206,9 @@ public class MainViewModel extends ViewModel {
                             goal.getDate().isEqual(displayLocalDate))
                     .collect(Collectors.toList()));
 
+            filteredGoalsForToday.sort(Comparator.comparing(Goal::getContext));
             todayGoals.setValue(filteredGoalsForToday);
+
         }
     }
 
@@ -339,5 +342,7 @@ public class MainViewModel extends ViewModel {
 
         return nextMonthSameDayOfWeek;
     }
+
+
 
 }
