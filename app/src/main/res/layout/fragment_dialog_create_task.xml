@@ -110,20 +110,20 @@
             android:id="@+id/weekly_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Weekly" />
+            />
 
         <RadioButton
             android:id="@+id/monthly_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Monthly"/>
+            />
 
         <RadioButton
             android:id="@+id/yearly_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Yearly"/>
-        />
+            />
+
 
     </RadioGroup>
 

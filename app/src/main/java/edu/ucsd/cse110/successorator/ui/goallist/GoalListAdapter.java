@@ -2,11 +2,8 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
 
-import static android.view.View.GONE;
-
 import android.content.Context;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -17,9 +17,13 @@ import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -204,22 +208,48 @@ public class MainViewModel extends ViewModel {
         if (currentGoals != null) {
             List<Goal> filteredGoalsForToday = new ArrayList<>();
 
+            // Collect goals based on frequency
             filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Daily"));
-
-            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Weekly", displayLocalDate));
-
-            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Monthly", displayLocalDate));
-
-            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Yearly", displayLocalDate));
-
+            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Weekly", LocalDate.from(displayLocalDate)));
+            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Monthly", LocalDate.from(displayLocalDate)));
+            filteredGoalsForToday.addAll(filterGoalsByFrequency(currentGoals, "Yearly", LocalDate.from(displayLocalDate)));
             filteredGoalsForToday.addAll(currentGoals.stream()
-                    .filter(goal -> "One Time".equals(goal.getFrequency()) &&
-                            goal.getDate().isEqual(displayLocalDate))
+                    .filter(goal -> "One Time".equals(goal.getFrequency()) && goal.getDate().isEqual(displayLocalDate))
                     .collect(Collectors.toList()));
 
-            filteredGoalsForToday.sort(Comparator.comparing(Goal::getContext));
-            todayGoals.setValue(filteredGoalsForToday);
+            // Separate into incomplete and complete goals
+            List<Goal> incompleteGoals = filteredGoalsForToday.stream()
+                    .filter(goal -> !goal.isCompleted())
+                    .collect(Collectors.toList());
+            List<Goal> completeGoals = filteredGoalsForToday.stream()
+                    .filter(Goal::isCompleted)
+                    .collect(Collectors.toList());
 
+            // Define context order
+            List<String> contextOrder = List.of("Home", "Work", "School", "Errands");
+            Map<String, Integer> contextPriority = new HashMap<>();
+            for (int i = 0; i < contextOrder.size(); i++) {
+                contextPriority.put(contextOrder.get(i), i);
+            }
+            incompleteGoals.sort((goal1, goal2) -> {
+                // First, compare by context priority
+                int contextCompare = Integer.compare(
+                        contextPriority.getOrDefault(goal1.getContext(), Integer.MAX_VALUE),
+                        contextPriority.getOrDefault(goal2.getContext(), Integer.MAX_VALUE));
+                if (contextCompare != 0) {
+                    return contextCompare;
+                }
+
+                // If contexts are the same, directly compare by sortOrder
+                return Integer.compare(goal2.sortOrder(), goal1.sortOrder());
+            });
+
+
+            // Combine the sorted incomplete goals with complete goals
+            List<Goal> sortedGoals = new ArrayList<>(incompleteGoals);
+            sortedGoals.addAll(completeGoals);
+
+            todayGoals.setValue(sortedGoals);
         }
     }
 
@@ -269,6 +299,7 @@ public class MainViewModel extends ViewModel {
 
 
             filteredGoalsForRecurring.sort(Comparator.comparing(Goal::getContext));
+
             recurringGoals.setValue(filteredGoalsForRecurring);
 
         }
