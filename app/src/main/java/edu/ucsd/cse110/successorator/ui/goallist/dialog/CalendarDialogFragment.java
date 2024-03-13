@@ -100,7 +100,11 @@ public class CalendarDialogFragment extends DialogFragment {
        // var dateInMillis = view.calendarView.getDate();
        // Instant instant = Instant.ofEpochMilli(dateInMillis);
        // LocalDate actualDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-        chosenDate.setValue(saveDate);
+        if (saveDate == null) {
+            chosenDate.setValue(SuccessDate.getCurrentDateAsString());
+        } else {
+            chosenDate.setValue(saveDate);
+        }
 
         // sort order is an invalid value here, because append/prepend will replace it
         // activityModel.passSelectedDate(actualDateString);
