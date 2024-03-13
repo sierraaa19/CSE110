@@ -2,11 +2,8 @@
 package edu.ucsd.cse110.successorator.ui.goallist;
 
 
-import static android.view.View.GONE;
-
 import android.content.Context;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +99,7 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
         if (goal.isCompleted()) {
             // TODO: replace with strikethrough
             binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            binding.ContextLabelView.setImageResource(R.drawable.grey_background);
+            binding.ContextLabelView.setImageResource(R.drawable.grey);
         } else {
             binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
