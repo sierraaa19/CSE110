@@ -29,11 +29,11 @@ public interface GoalRepository {
 
     Subject<List<Goal>> findAllWeeklyGoals();
 
-    LocalDate getDisplayDate (Goal goal);
+    String getDisplayDate (Goal goal);
 
     Subject<List<Goal>> findAllFrequencyGoals(String freq);
 
     Subject<List<Goal>> findAllContextsGoals(String context);
 
-    Subject<List<Goal>> findAllDropdownGoals(String choice);
+    Subject<List<Goal>> findAllDropdownGoalsLiveData(String choice);
 }

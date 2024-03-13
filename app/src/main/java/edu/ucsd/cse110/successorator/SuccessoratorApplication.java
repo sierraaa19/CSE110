@@ -35,7 +35,7 @@ public class SuccessoratorApplication extends Application {
         var isFirstRun = sharedPreferances.getBoolean("isFirstRun", true);
 
         if (isFirstRun && database.goalDao().count() == 0){
-            goalRepositoryDB.save(InMemoryDataSource.DEFAULT_CARDS);
+            //goalRepositoryDB.save(InMemoryDataSource.DEFAULT_CARDS);
         }
 
         sharedPreferances.edit()

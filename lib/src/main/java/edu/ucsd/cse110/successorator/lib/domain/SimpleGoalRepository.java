@@ -131,7 +131,7 @@ public class SimpleGoalRepository implements GoalRepository {
         return dataSource.findAllWeeklyGoals();
     };
 
-    public LocalDate getDisplayDate (Goal goal){
+    public String getDisplayDate (Goal goal){
         return goal.getDate();
     }
 
@@ -146,7 +146,7 @@ public class SimpleGoalRepository implements GoalRepository {
     }
 
     @Override
-    public Subject<List<Goal>> findAllDropdownGoals(String choice) {
+    public Subject<List<Goal>> findAllDropdownGoalsLiveData(String choice) {
         return null;
     }
 

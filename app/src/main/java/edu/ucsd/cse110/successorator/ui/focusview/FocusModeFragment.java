@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.ViewModelProvider;
 
+import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogChooseFocusBinding;
@@ -70,13 +71,14 @@ public class FocusModeFragment extends Fragment {
     }
 
     private void switchToMainView() {
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, GoalListFragment.newInstance());
-            transaction.addToBackStack(null);  // Optional
-            transaction.commit();
-        }
+        MainActivity activity = (MainActivity) getActivity();
+        activity.swapFocusFragment();
+        //if (activity != null) {
+        //    FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        //    transaction.replace(R.id.fragment_container, GoalListFragment.newInstance());
+        //    transaction.addToBackStack(null);  // Optional
+        //    transaction.commit();
+        //}
     }
 }
 

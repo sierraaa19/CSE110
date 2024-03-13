@@ -149,24 +149,8 @@ public class CreateGoalDialogFragment extends DialogFragment {
         var frequency = getSelectedFrequency(view.frequencyGroup);
 
         var goalDateString = view.goalDate.getText().toString();
-        // HEAD
-        LocalDate goalCreationDate = null;
-        if (DisplayDate != null) {
-            goalCreationDate = SuccessDate.dateToLocalDate(DisplayDate); // Assuming SuccessDate has this method
-        }
-        // END HEAD
-        // US 4
-        LocalDate goalDate = null;
 
-        if (goalDateString.equals("Pending")) {
-            goalDate = SuccessDate.getCurrentDate();
-            // END US4
-        } else {
-            goalDate = SuccessDate.stringToDate(goalDateString);
-            // Fallback to the current date if DisplayDate is not available
-            goalCreationDate = SuccessDate.getCurrentDate();
-        }
-        var goal = new Goal(null, text, false, -1, frequency, goalDate, context);
+        var goal = new Goal(null, text, false, -1, frequency, goalDateString, context);
         activityModel.append(goal);
         // activityModel.updateDisplayedGoals();
         dialog.dismiss();

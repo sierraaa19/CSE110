@@ -47,13 +47,13 @@ public class GoalEntity {
     }
 
     public static GoalEntity fromGoal(@NonNull Goal goal){
-        var goalFE = new GoalEntity(goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), SuccessDate.dateToString(goal.getDate()),goal.getContext());
+        var goalFE = new GoalEntity(goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), goal.getDate(),goal.getContext());
         goalFE.id = goal.id();
         return goalFE;
     }
 
     public @NonNull Goal toGoal(){
-        return new Goal(id, text, isCompleted, sortOrder, frequency, SuccessDate.stringToDate(creationDate),context);
+        return new Goal(id, text, isCompleted, sortOrder, frequency, creationDate,context);
     }
 
 //    public static Date stringToDate(String dateString) {

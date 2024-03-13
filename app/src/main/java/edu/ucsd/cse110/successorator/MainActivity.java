@@ -20,6 +20,9 @@ import java.util.Date;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.expandviews.ExpandViewsFragment;
+import edu.ucsd.cse110.successorator.ui.expandviews.PendingFragment;
+import edu.ucsd.cse110.successorator.ui.expandviews.RecurringFragment;
+import edu.ucsd.cse110.successorator.ui.expandviews.TomorrowFragment;
 import edu.ucsd.cse110.successorator.ui.focusview.FocusModeFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
     private boolean isShowingToday = true;
+    private boolean isShowingFocus = true;
+    public String label;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel.getGoalsForToday().observe(goalsForToday -> {
             TextView textViewMessage = findViewById(R.id.text_view_no_goals);
+            assert goalsForToday != null;
             if (goalsForToday.size()==0 ){
                 // No goals present, show the message
                 textViewMessage.setVisibility(View.VISIBLE);
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO:
         // update label and date for Today, Tomorrow, Pending, Recurring
         viewModel.getLabel().observe(label -> {
+                if (label == null) return;
                 // update label for Today, Tomorrow, Pending, Recurring
                 TextView textViewDate = findViewById(R.id.text_label);
                 textViewDate.setText(label);
@@ -128,21 +135,38 @@ public class MainActivity extends AppCompatActivity {
         isShowingToday = !isShowingToday;
     }
 
-    private void swapFocusFragment() {
-        if (!isShowingToday){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, GoalListFragment.newInstance())
-                    .commit();
+    public void swapFocusFragment() {
+        label = viewModel.getLabel().getValue();
+        if (!isShowingFocus){
+            if (label.equals("Today")) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, GoalListFragment.newInstance())
+                        .commit();
+            } else if (label.equals("Tomorrow")) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, TomorrowFragment.newInstance())
+                        .commit();
+            } else if (label.equals("Pending")) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, PendingFragment.newInstance())
+                        .commit();
+            } else if (label.equals("Recurring")) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, RecurringFragment.newInstance())
+                        .commit();
+            }
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, FocusModeFragment.newInstance())
                     .commit();
         }
-        isShowingToday = !isShowingToday;
+        isShowingFocus = !isShowingFocus;
     }
-
 
     // next day
     private void nextDay(){

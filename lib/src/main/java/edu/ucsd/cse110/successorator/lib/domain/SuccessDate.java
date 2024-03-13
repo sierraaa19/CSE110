@@ -11,6 +11,14 @@ public class SuccessDate {
         return LocalDate.now();
     }
 
+    static public String getCurrentDateAsString() {
+        return dateToString(LocalDate.now());
+    }
+
+    static public String getTmwsDateAsString() {
+        return dateToString(LocalDate.now().plusDays(1));
+    }
+
     static public LocalDate stringToDate(String s) {
         DateTimeFormatter f = DateTimeFormatter.ofPattern(getFormatString(), Locale.US);
         return LocalDate.parse(s, f);
