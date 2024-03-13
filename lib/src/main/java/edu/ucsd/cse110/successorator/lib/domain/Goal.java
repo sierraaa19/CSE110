@@ -18,10 +18,10 @@ public class Goal implements Serializable {
     private String frequency;
 
 
-    private LocalDate creationDate;
+    private String creationDate;
     private String context;
 
-    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder, String frequency, LocalDate creationDate, String context) {
+    public Goal(@Nullable Integer id, @NonNull String text, boolean isCompleted, int sortOrder, String frequency, String creationDate, String context) {
         this.id = id;
         this.text = text;
         this.isCompleted = isCompleted;
@@ -60,20 +60,18 @@ public class Goal implements Serializable {
         this.frequency = frequency;
     }
 
-    public void setDate (LocalDate current){
+    public void setDate (String current){
         this.creationDate = current;
     }
 
     public @NonNull String getFrequency() {
         return frequency;
     }
-    public @NonNull LocalDate getDate() {
+    public @NonNull String getDate() {
         return this.creationDate;
     }
 
     public @NonNull String getContext(){ return context;}
-
-
 
     @Override
     public boolean equals(Object o) {

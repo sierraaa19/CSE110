@@ -1,0 +1,227 @@
+package edu.ucsd.cse110.successorator.lib.domain;
+
+import androidx.annotation.Nullable;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
+import edu.ucsd.cse110.successorator.lib.util.Observer;
+import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
+import edu.ucsd.cse110.successorator.lib.util.Subject;
+import java.time.temporal.ChronoUnit;
+
+public class FilterGoals {
+
+    // Filter goals by Frequency, Date and Context
+    // just pass in your goals and specify Frequency, Date or Context
+    // e.g. filter strictly by frequency:
+    // frequency = "Yearly", date = null, context = null
+    // will return back the Goals in the list provided that have frequencies
+    // equal to "Yearly"
+    public static Subject<List<Goal>> filterGoalsByFDC(List<Goal> unfilteredGoals, String frequency, String dateString, String context) {
+        boolean filtered = false;
+        List<Goal> filteredGoals = unfilteredGoals;
+        List<Goal> parseGoals = unfilteredGoals;
+        // first filter by frequency
+        if (frequency != null && !filtered) {
+            filtered = true;
+            filteredGoals = parseGoals.stream()
+                    .filter(goal -> frequency.equals(goal.getFrequency()))
+                    .collect(Collectors.toList());
+        }
+
+        if (dateString != null && !filtered) {
+            filtered = true;
+            filteredGoals = parseGoals.stream()
+                    .filter(goal -> dateString.equals(goal.getDate()))
+                    .collect(Collectors.toList());
+        }
+
+        if (context != null && context != "All" && !filtered) {
+            filtered = true;
+            filteredGoals = parseGoals.stream()
+                    .filter(goal -> context.equals(goal.getContext()))
+                    .collect(Collectors.toList());
+        }
+
+        MutableSubject<List<Goal>> fgSubject = new SimpleSubject<List<Goal>>();
+
+        if (filtered) {
+            fgSubject.setValue(filteredGoals);
+        } else {
+            fgSubject.setValue(unfilteredGoals);
+        }
+
+        return fgSubject;
+    }
+
+    public static Subject<List<Goal>> filterGoalsByLabel(List<Goal> oldGoals, String label) {
+        MutableSubject<List<Goal>> filteredFocusGoals = new SimpleSubject<>();
+        if (label.equals("Today") && oldGoals != null) {
+            //filteredFocusGoals = (MutableSubject<List<Goal>>) filterGoalsByFDC(oldGoals, null, SuccessDate.dateToString(SuccessDate.getCurrentDate()), null);
+            // do more things here
+            filteredFocusGoals.setValue(recurringFilter(oldGoals, SuccessDate.getCurrentDateAsString(), false));
+        } else if (label.equals("Tomorrow") && oldGoals != null) {
+            // filteredFocusGoals = (MutableSubject<List<Goal>>) filterGoalsByFDC(oldGoals, null, SuccessDate.dateToString(SuccessDate.getCurrentDate().plusDays(1)), null);
+            filteredFocusGoals.setValue(recurringFilter(oldGoals, SuccessDate.getTmwsDateAsString(), false));
+        } else if (label.equals("Pending") && oldGoals != null) {
+            filteredFocusGoals = (MutableSubject<List<Goal>>) filterGoalsByFDC(oldGoals, null, "Pending", null);
+        } else if (label.equals("Recurring") && oldGoals != null) {
+            MutableSubject<List<Goal>> filteredDaily = (MutableSubject<List<Goal>>) filterGoalsByFDC(oldGoals, "Daily", null, null);
+            MutableSubject<List<Goal>> filteredWeekly = (MutableSubject<List<Goal>>) filterGoalsByFDC(oldGoals, "Weekly", null, null);
+            MutableSubject<List<Goal>> filteredMonthly = (MutableSubject<List<Goal>>) filterGoalsByFDC(oldGoals, "Monthly", null, null);
+            MutableSubject<List<Goal>> filteredYearly = (MutableSubject<List<Goal>>) filterGoalsByFDC(oldGoals, "Yearly", null, null);
+
+            ArrayList<Goal> fGoals = new ArrayList<>();
+            ArrayList<Goal> fDaily = (ArrayList<Goal>) filteredDaily.getValue();
+            ArrayList<Goal> fWeekly = (ArrayList<Goal>) filteredWeekly.getValue();
+            ArrayList<Goal> fMonthly = (ArrayList<Goal>) filteredMonthly.getValue();
+            ArrayList<Goal> fYearly = (ArrayList<Goal>) filteredYearly.getValue();
+
+            fGoals.addAll(fDaily);
+            fGoals.addAll(fWeekly);
+            fGoals.addAll(fMonthly);
+            fGoals.addAll(fYearly);
+
+            fGoals.sort(Comparator.comparing(Goal::getDate));
+            filteredFocusGoals.setValue(fGoals);
+        }
+
+        return filteredFocusGoals;
+    }
+
+    // we specify a target date, if the goals land on this target date we add it
+    // to the list of weekly goals that land on this date
+    public static Subject<List<Goal>> filterWeeklyGoals(List<Goal> oldGoals, String target) {
+        MutableSubject<List<Goal>> newWeeklyGoals = new SimpleSubject<>();
+        LocalDate targetAsDate = SuccessDate.stringToDate(target);
+
+        List<Goal> newGoals = new ArrayList<>();
+        oldGoals.forEach(goal -> {
+            LocalDate weeksMinus = SuccessDate.stringToDate(goal.getDate());
+            LocalDate weeksPlus = SuccessDate.stringToDate(goal.getDate());
+            long weeksBetween = ChronoUnit.WEEKS.between(SuccessDate.stringToDate(goal.getDate()), targetAsDate);
+            weeksPlus = weeksPlus.plusWeeks(weeksBetween);
+            weeksMinus = weeksMinus.minusWeeks(weeksBetween);
+            if (weeksPlus.isEqual(targetAsDate) || weeksMinus.isEqual(targetAsDate)) {
+                newGoals.add(goal);
+            }
+        });
+        newWeeklyGoals.setValue(newGoals);
+        return newWeeklyGoals;
+    }
+
+    public static Subject<List<Goal>> filterMonthlyGoals(List<Goal> oldGoals, String target) {
+        MutableSubject<List<Goal>> newMonthlyGoals = new SimpleSubject<>();
+        LocalDate targetAsDate = SuccessDate.stringToDate(target);
+
+        List<Goal> newGoals = new ArrayList<>();
+        oldGoals.forEach(goal -> {
+            LocalDate monthsMinus = SuccessDate.stringToDate(goal.getDate());
+            LocalDate monthsPlus = SuccessDate.stringToDate(goal.getDate());
+            long monthsBetween = ChronoUnit.MONTHS.between(SuccessDate.stringToDate(goal.getDate()), targetAsDate);
+            monthsPlus = monthsPlus.plusMonths(monthsBetween);
+            monthsMinus = monthsMinus.minusMonths(monthsBetween);
+            if (monthsPlus.isEqual(targetAsDate) || monthsMinus.isEqual(targetAsDate)) {
+                newGoals.add(goal);
+            }
+        });
+        newMonthlyGoals.setValue(newGoals);
+        return newMonthlyGoals;
+    }
+
+    public static Subject<List<Goal>> filterYearlyGoals(List<Goal> oldGoals, String target) {
+        MutableSubject<List<Goal>> newYearlyGoals = new SimpleSubject<>();
+        LocalDate targetAsDate = SuccessDate.stringToDate(target);
+
+        List<Goal> newGoals = new ArrayList<>();
+        oldGoals.forEach(goal -> {
+            LocalDate yearsMinus = SuccessDate.stringToDate(goal.getDate());
+            LocalDate yearsPlus = SuccessDate.stringToDate(goal.getDate());
+            long yearsBetween = ChronoUnit.YEARS.between(SuccessDate.stringToDate(goal.getDate()), targetAsDate);
+            yearsPlus = yearsPlus.plusYears(yearsBetween);
+            yearsMinus = yearsMinus.minusYears(yearsBetween);
+            if (yearsPlus.isEqual(targetAsDate) || yearsMinus.isEqual(targetAsDate)) {
+                newGoals.add(goal);
+            }
+        });
+        newYearlyGoals.setValue(newGoals);
+        return newYearlyGoals;
+    }
+
+    public static List<Goal> labelFilter(List<Goal> allGoals, String value) {
+        MutableSubject<List<Goal>> goalsFiltered = null;
+        goalsFiltered = (MutableSubject<List<Goal>>) FilterGoals.filterGoalsByLabel(allGoals, value);
+
+        // sort by context
+        // then sort by uncompleted vs completed
+        goalsFiltered.getValue().sort(Comparator.comparing(Goal::getContext));
+        goalsFiltered.getValue().sort(Comparator.comparing(Goal::isCompleted));
+
+        return goalsFiltered.getValue();
+    }
+
+    public static List<Goal> focusFilter(List<Goal> goalsList, String value) {
+        MutableSubject<List<Goal>> goalsFiltered = null;
+        goalsFiltered = (MutableSubject<List<Goal>>) FilterGoals.filterGoalsByFDC(goalsList, null, null, value);
+
+        // sort by context
+        // then sort by uncompleted vs completed
+        goalsFiltered.getValue().sort(Comparator.comparing(Goal::getContext));
+        goalsFiltered.getValue().sort(Comparator.comparing(Goal::isCompleted));
+
+        return goalsFiltered.getValue();
+    }
+
+    public static List<Goal> pendingFilter(List<Goal> goalList) {
+        List<Goal> pendingGoals = FilterGoals.filterGoalsByFDC(goalList, null, "Pending", null).getValue();
+        return pendingGoals;
+    }
+
+    public static List<Goal> recurringFilter(List<Goal> goalList, String theDate, boolean recurringOnly) {
+        List<Goal> gatheredGoals = new ArrayList<>();
+
+        List<Goal> tgls2 = FilterGoals.filterGoalsByFDC(goalList, "Daily", null, null).getValue(); // get daily, date doesn't matter
+        List<Goal> tgls3 = FilterGoals.filterGoalsByFDC(goalList, "Weekly", null, null).getValue(); // get all weekly
+        List<Goal> tgls5 = FilterGoals.filterGoalsByFDC(goalList, "Monthly", null, null).getValue(); // get all weekly
+        List<Goal> tgls7 = FilterGoals.filterGoalsByFDC(goalList, "Yearly", null, null).getValue(); // get all weekly
+        List<Goal> tgls1 = new ArrayList<>();
+        List<Goal> tgls4 = new ArrayList<>();
+        List<Goal> tgls6 = new ArrayList<>();
+        List<Goal> tgls8 = new ArrayList<>();
+
+        if (theDate != null) {
+            // call filterGoalsByFDC in this format, 1/3 parameter only.
+            tgls1 = FilterGoals.filterGoalsByFDC(goalList, "One Time", theDate, null).getValue(); // one-time on same date
+            tgls1 = FilterGoals.filterGoalsByFDC(tgls1, null, theDate, null).getValue(); // one-time on same date
+
+            tgls4 = FilterGoals.filterWeeklyGoals(tgls3, theDate).getValue(); // get new date, if it lands on today keep it
+            tgls6 = FilterGoals.filterMonthlyGoals(tgls5, theDate).getValue(); // get new date, if it lands on today keep it
+            tgls8 = FilterGoals.filterYearlyGoals(tgls7, theDate).getValue(); // get new date, if it lands on today keep it
+        }
+
+        gatheredGoals.addAll(tgls2);
+        if (recurringOnly) {
+            gatheredGoals.addAll(tgls3);
+            gatheredGoals.addAll(tgls5);
+            gatheredGoals.addAll(tgls7);
+            // sort by date
+            gatheredGoals.sort(Comparator.comparing(Goal::getDate));
+        } else {
+            gatheredGoals.addAll(tgls1);
+            gatheredGoals.addAll(tgls4);
+            gatheredGoals.addAll(tgls6);
+            gatheredGoals.addAll(tgls8);
+            // sort by context
+            // then sort by uncompleted vs completed
+            gatheredGoals.sort(Comparator.comparing(Goal::getContext));
+            gatheredGoals.sort(Comparator.comparing(Goal::isCompleted));
+        }
+
+        return gatheredGoals;
+    }
+}

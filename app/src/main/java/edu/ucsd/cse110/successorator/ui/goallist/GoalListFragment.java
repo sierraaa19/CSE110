@@ -12,8 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
@@ -49,7 +51,7 @@ public class GoalListFragment extends Fragment {
                 requireContext(),
                 List.of(),
                 goal -> { // onGoalClicked
-                    // When goal is tapped, this is lambda function is called.
+                    // When goal is tapped, this lambda function is called.
                     // NOTE: ConfirmDeleteCardDialogFragment is NOT called.
                     activityModel.remove(goal.id());
                     goal = goal.withCompleted(!goal.isCompleted());
@@ -65,9 +67,11 @@ public class GoalListFragment extends Fragment {
         );
 
         // when goal list changes in ModelView, we update it
-        activityModel.getGoalsForToday().observe(goals -> {
+        activityModel.getGoals().observe(goals -> {
+            //activityModel.getGoalsForToday().observe(goals -> {
+            //activityModel.updateDisplayedGoals();
+
             if (goals == null) return;
-//            activityModel.updateDisplayedGoals();
             adapter.clear();
             adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
@@ -78,17 +82,8 @@ public class GoalListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.view = FragmentGoalListBinding.inflate(inflater, container, false);
-
         // Set the adapter on the ListView
         view.cardList.setAdapter(adapter);
-
-        // Show CreateCardDialogFragment
-        // TODO: eventually get rid of this button
-//        view.createCardButton.setOnClickListener(v -> {
-//            var dialogFragment = CreateCardDialogFragment.newInstance();
-//            dialogFragment.show(getParentFragmentManager(), "CreateCardDialogFragment");
-//        });
-
         return view.getRoot();
     }
 }
