@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.successorator.ui.expandviews;
+package edu.ucsd.cse110.successorator.ui.goallist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,27 +14,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
-import edu.ucsd.cse110.successorator.databinding.FragmentPendingBinding;
-import edu.ucsd.cse110.successorator.ui.goallist.GoalListAdapter;
-import edu.ucsd.cse110.successorator.ui.goallist.dialog.MovePendingDialogFragment;
+import edu.ucsd.cse110.successorator.databinding.FragmentTomorrowBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PendingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PendingFragment extends Fragment {
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.ucsd.cse110.successorator.MainViewModel;
+import edu.ucsd.cse110.successorator.R;
+import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
+import edu.ucsd.cse110.successorator.databinding.FragmentTomorrowBinding;
+import edu.ucsd.cse110.successorator.ui.goallist.GoalListAdapter;
+import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
+
+public class OtherDateFragment extends Fragment {
 
     private MainViewModel activityModel;
-    private FragmentPendingBinding view;
+    private FragmentTomorrowBinding view;
     private GoalListAdapter adapter;
 
-    public PendingFragment() {
+    public OtherDateFragment() {
         // Required empty public constructor
     }
 
-    public static PendingFragment newInstance() {
-        PendingFragment fragment = new PendingFragment();
+    public static OtherDateFragment newInstance() {
+        OtherDateFragment fragment = new OtherDateFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -54,19 +68,19 @@ public class PendingFragment extends Fragment {
         this.adapter = new GoalListAdapter(
                 requireContext(),
                 List.of(),
-                goal -> {
-                    if (goal.getDate().equals("Pending")) {
-                        var movePendingDialog = MovePendingDialogFragment.newInstance(goal.id(), goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), goal.getContext());
-                        movePendingDialog.show(getParentFragmentManager(), "MovePendingDialogFragment");
-                    }
+                goal -> { // onGoalClicked
+                    // When goal is tapped, this is lambda function is called.
+                    // NOTE: ConfirmDeleteCardDialogFragment is NOT called.
                 },
-                goal -> {}
+                goal -> { // something else?
+                    // var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
+                    // dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
+                }
         );
 
         // when goal list changes in ModelView, we update it
-        activityModel.getGoalsForPending().observe(goals -> {
+        activityModel.getGoalsForDate().observe(goals -> {
             if (goals == null) return;
-//            activityModel.updateDisplayedGoals();
             adapter.clear();
             adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
@@ -76,7 +90,7 @@ public class PendingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = FragmentPendingBinding.inflate(inflater, container, false);
+        this.view = FragmentTomorrowBinding.inflate(inflater, container, false);
 
         // Set the adapter on the ListView
         view.cardList.setAdapter(adapter);

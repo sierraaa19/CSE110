@@ -73,12 +73,6 @@ public class FocusModeFragment extends Fragment {
     private void switchToMainView() {
         MainActivity activity = (MainActivity) getActivity();
         activity.swapFocusFragment();
-        //if (activity != null) {
-        //    FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        //    transaction.replace(R.id.fragment_container, GoalListFragment.newInstance());
-        //    transaction.addToBackStack(null);  // Optional
-        //    transaction.commit();
-        //}
     }
 }
 

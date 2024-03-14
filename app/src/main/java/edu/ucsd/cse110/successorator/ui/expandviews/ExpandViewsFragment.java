@@ -1,32 +1,20 @@
 package edu.ucsd.cse110.successorator.ui.expandviews;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.Date;
-import java.time.LocalDate;
-
+import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.MainViewModel;
-import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentExpandMoreViewsBinding;
-import edu.ucsd.cse110.successorator.databinding.FragmentGoalListBinding;
-import edu.ucsd.cse110.successorator.lib.domain.Goal;
-import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
-import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
 
-public class ExpandViewsFragment extends DialogFragment {
+public class ExpandViewsFragment extends Fragment {
     private FragmentExpandMoreViewsBinding view;
     private MainViewModel activityModel;
     //private Date DisplayDate;
@@ -43,7 +31,7 @@ public class ExpandViewsFragment extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Initialize the Model
@@ -53,54 +41,37 @@ public class ExpandViewsFragment extends DialogFragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
     }
 
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Initialize the View
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = FragmentExpandMoreViewsBinding.inflate(inflater, container, false);
-
         setupMvp();
-
         return view.getRoot();
     }
 
     private void setupMvp() {
         // Observe View -> call Model
-        view.todayViewLabel.setOnClickListener(v -> toToday());
-        view.tomorrowViewLabel.setOnClickListener(v -> toTomorrow());
-        view.pendingViewLabel.setOnClickListener(v -> toPending());
-        view.recurringViewLabel.setOnClickListener(v -> toRecurring());
-    }
-
-    private void toToday() {
+        view.todayViewLabel.setOnClickListener(v -> {
+            switchToLabelFragment("Today");
             activityModel.toToday();
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, GoalListFragment.newInstance())
-                    .commit();
+        });
+        view.tomorrowViewLabel.setOnClickListener(v -> {
+            switchToLabelFragment("Tomorrow");
+            activityModel.toTomorrow();
+        });
+        view.pendingViewLabel.setOnClickListener(v -> {
+            switchToLabelFragment("Pending");
+            activityModel.toPending();
+        });
+        view.recurringViewLabel.setOnClickListener(v -> {
+            switchToLabelFragment("Recurring");
+            activityModel.toRecurring();
+        });
     }
 
-    private void toTomorrow() {
-        activityModel.toTomorrow();
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, TomorrowFragment.newInstance())
-                .commit();
-    }
-
-    private void toPending() {
-        activityModel.toPending();
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, PendingFragment.newInstance())
-                .commit();
-    }
-
-    private void toRecurring() {
-        activityModel.toRecurring();
-        getActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, RecurringFragment.newInstance())
-                .commit();
+    private void switchToLabelFragment(String label) {
+        MainActivity activity = (MainActivity) getActivity();
+        activity.swapExpandFragment(label);
     }
 
 }
