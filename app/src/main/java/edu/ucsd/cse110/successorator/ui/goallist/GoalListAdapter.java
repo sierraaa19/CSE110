@@ -102,7 +102,7 @@ public class GoalListAdapter extends ArrayAdapter<Goal> {
             // TODO: replace with strikethrough
             binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             binding.ContextLabelView.setImageResource(R.drawable.done_goal);
-            contextLabelTextView.setText("W");
+            contextLabelTextView.setText("");
         } else {
             binding.goalText.setPaintFlags(binding.goalText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
