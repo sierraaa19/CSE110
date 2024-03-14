@@ -5,8 +5,6 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-// import java.util.Date;
 import java.util.Objects;
 
 public class Goal implements Serializable {
@@ -69,6 +67,10 @@ public class Goal implements Serializable {
     }
     public @NonNull String getDate() {
         return this.creationDate;
+    }
+
+    public @NonNull LocalDate getDateAsLocalDate() {
+        return SuccessDate.stringToDate(this.creationDate);
     }
 
     public @NonNull String getContext(){ return context;}

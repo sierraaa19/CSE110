@@ -1,24 +1,20 @@
 package edu.ucsd.cse110.successorator.ui.expandviews;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
-import edu.ucsd.cse110.successorator.R;
-import edu.ucsd.cse110.successorator.databinding.FragmentPendingBinding;
 import edu.ucsd.cse110.successorator.databinding.FragmentRecurringBinding;
-import edu.ucsd.cse110.successorator.ui.goallist.GoalListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +25,7 @@ public class RecurringFragment extends Fragment {
 
     private MainViewModel activityModel;
     private FragmentRecurringBinding view;
-    private GoalListAdapter adapter;
+    private RecurringListAdapter adapter;
 
     public RecurringFragment() {
         // Required empty public constructor
@@ -53,23 +49,18 @@ public class RecurringFragment extends Fragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
 
         // Initialize the Adapter (with an empty list for now)
-        this.adapter = new GoalListAdapter(
+        this.adapter = new RecurringListAdapter(
                 requireContext(),
                 List.of(),
-                goal -> { // onGoalClicked
-                    // When goal is tapped, this is lambda function is called.
-                    // NOTE: ConfirmDeleteCardDialogFragment is NOT called.
-                },
-                goal -> { // something else?
-                    // var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
-                    // dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
+                goal -> {},
+                goal -> {
+                    if (goal.id() == null) return;
+                    activityModel.remove(goal.id());
                 }
         );
 
-        // when goal list changes in ModelView, we update it
         activityModel.getGoalsForRecurring().observe(goals -> {
             if (goals == null) return;
-//            activityModel.updateDisplayedGoals();
             adapter.clear();
             adapter.addAll(new ArrayList<>(goals)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();

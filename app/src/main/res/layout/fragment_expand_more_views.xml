@@ -9,46 +9,52 @@
         android:id="@+id/today_view_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="64dp"
         android:text="Today"
+        android:textAlignment="center"
         android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/tomorrow_view_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:text="Tomorrow"
+        android:textAlignment="center"
         android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/today_view_label" />
+        app:layout_constraintTop_toBottomOf="@+id/today_view_label"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/pending_view_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:text="Pending"
+        android:textAlignment="center"
         android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tomorrow_view_label" />
+        app:layout_constraintTop_toBottomOf="@+id/tomorrow_view_label"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/recurring_view_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="16dp"
         android:text="Recurring"
+        android:textAlignment="center"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pending_view_label" />
+        app:layout_constraintTop_toBottomOf="@+id/pending_view_label"
+        app:layout_constraintVertical_bias="0.015"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

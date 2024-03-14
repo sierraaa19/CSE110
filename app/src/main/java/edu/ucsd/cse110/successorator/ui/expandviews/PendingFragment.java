@@ -1,24 +1,22 @@
 package edu.ucsd.cse110.successorator.ui.expandviews;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
-import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentPendingBinding;
-import edu.ucsd.cse110.successorator.databinding.FragmentTomorrowBinding;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListAdapter;
+import edu.ucsd.cse110.successorator.ui.goallist.dialog.MovePendingDialogFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,14 +54,13 @@ public class PendingFragment extends Fragment {
         this.adapter = new GoalListAdapter(
                 requireContext(),
                 List.of(),
-                goal -> { // onGoalClicked
-                    // When goal is tapped, this is lambda function is called.
-                    // NOTE: ConfirmDeleteCardDialogFragment is NOT called.
+                goal -> {
+                    if (goal.getDate().equals("Pending")) {
+                        var movePendingDialog = MovePendingDialogFragment.newInstance(goal.id(), goal.text(), goal.isCompleted(), goal.sortOrder(), goal.getFrequency(), goal.getContext());
+                        movePendingDialog.show(getParentFragmentManager(), "MovePendingDialogFragment");
+                    }
                 },
-                goal -> { // something else?
-                    // var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
-                    // dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
-                }
+                goal -> {}
         );
 
         // when goal list changes in ModelView, we update it

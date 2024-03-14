@@ -1,35 +1,26 @@
 package edu.ucsd.cse110.successorator.data.db;
 
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 import static androidx.lifecycle.Transformations.map;
 
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import edu.ucsd.cse110.successorator.lib.domain.FilterGoals;
-import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
-import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
-import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
-import edu.ucsd.cse110.successorator.util.LiveDataSubjectAdapter;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.GoalRepository;
+import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
+import edu.ucsd.cse110.successorator.util.LiveDataSubjectAdapter;
 
 public class RoomGoalRepository implements GoalRepository {
     private final GoalDao goalDao;
 
-    public RoomGoalRepository(GoalDao goalDao){
+    public RoomGoalRepository(GoalDao goalDao) {
         this.goalDao = goalDao;
     }
 
@@ -48,17 +39,17 @@ public class RoomGoalRepository implements GoalRepository {
     }
 
     @Override
-    public Subject<Goal> find (int id) {
+    public Subject<Goal> find(int id) {
         var entityLiveData = goalDao.findAsLiveData(id);
 
-        var flashcardLiveData = map(entityLiveData,GoalEntity::toGoal);
+        var flashcardLiveData = map(entityLiveData, GoalEntity::toGoal);
         return new LiveDataSubjectAdapter<>(flashcardLiveData);
     }
 
     @Override
-    public Subject<List<Goal>> findAll(){
+    public Subject<List<Goal>> findAll() {
         var entityLiveData = goalDao.findAsLiveData();
-        var flashcardLiveData = map(entityLiveData,entities -> {
+        var flashcardLiveData = map(entityLiveData, entities -> {
             return entities.stream()
                     .map(GoalEntity::toGoal)
                     .collect(Collectors.toList());
@@ -72,10 +63,10 @@ public class RoomGoalRepository implements GoalRepository {
     }
 
     @Override
-    public void save(List<Goal> goals){
-         var entities = goals.stream()
-            .map(GoalEntity::fromGoal)
-            .collect(Collectors.toList());
+    public void save(List<Goal> goals) {
+        var entities = goals.stream()
+                .map(GoalEntity::fromGoal)
+                .collect(Collectors.toList());
         goalDao.insert(entities);
     }
 
@@ -96,7 +87,7 @@ public class RoomGoalRepository implements GoalRepository {
         // withId withSOrt order causes us to lose Goal creationDate and frequency by calling the constructor.
         // all the information should basically be the same except for maybe the sort order and the id
         for (int i = 0; i < allGoals.size(); i++) {
-            Goal g = allGoals.get(i).withId(i).withSortOrder(i+1);
+            Goal g = allGoals.get(i).withId(i).withSortOrder(i + 1);
             g.setFrequency(allGoals.get(i).getFrequency());
             g.setDate(allGoals.get(i).getDate());
             newAllGoals.add(g);
@@ -106,7 +97,7 @@ public class RoomGoalRepository implements GoalRepository {
     }
 
     @Override
-    public void prepend(Goal goal){
+    public void prepend(Goal goal) {
         List<Goal> goalsC = getCompletedOrUncompleted(true);
         List<Goal> goalsU = getCompletedOrUncompleted(false);
 
@@ -121,7 +112,7 @@ public class RoomGoalRepository implements GoalRepository {
 
         // reset id and sortOrder?
         for (int i = 0; i < allGoals.size(); i++) {
-            Goal g = allGoals.get(i).withId(i).withSortOrder(i+1);
+            Goal g = allGoals.get(i).withId(i).withSortOrder(i + 1);
             g.setFrequency(allGoals.get(i).getFrequency());
             g.setDate(allGoals.get(i).getDate());
 
@@ -133,7 +124,19 @@ public class RoomGoalRepository implements GoalRepository {
 
     @Override
     public void removeAllCompleted() {
+        List<Goal> goalsList = getCompletedOrUncompleted(true);
+        List<Goal> filteredList = new ArrayList<>();
+        for (Goal goal : goalsList) {
+            if (goal.getDate().equals(SuccessDate.dateToString(SuccessDate.getCurrentDate().minusDays(1)))) {
+                filteredList.add(goal);
+            }
+        }
 
+        filteredList.forEach(goal -> {
+            if (goal.id() != null) {
+                goalDao.delete(goal.id());
+            }
+        });
     }
 
 
@@ -144,12 +147,12 @@ public class RoomGoalRepository implements GoalRepository {
     }
 
     // Implementing repository methods for "Weekly" goals
-    public Subject<List<Goal>> findAllWeeklyGoals() {
-        LiveData<List<GoalEntity>> liveData = goalDao.findAllWeeklyGoals();
-        LiveData<List<Goal>> transformedLiveData = Transformations.map(liveData, entities ->
-                entities.stream().map(GoalEntity::toGoal).collect(Collectors.toList()));
-        return new LiveDataSubjectAdapter<>(transformedLiveData);
-    }
+    //public Subject<List<Goal>> findAllWeeklyGoals() {
+    //    LiveData<List<GoalEntity>> liveData = goalDao.findAllWeeklyGoals();
+    //    LiveData<List<Goal>> transformedLiveData = Transformations.map(liveData, entities ->
+    //            entities.stream().map(GoalEntity::toGoal).collect(Collectors.toList()));
+    //    return new LiveDataSubjectAdapter<>(transformedLiveData);
+    //}
 
     //public Subject<List<Goal>> findAllFrequencyGoals(String frequency) {
     //    List<GoalEntity> freqGoals = goalDao.findAllFrequencyGoals(frequency);

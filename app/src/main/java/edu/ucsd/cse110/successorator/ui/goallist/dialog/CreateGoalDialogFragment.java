@@ -1,9 +1,9 @@
 package edu.ucsd.cse110.successorator.ui.goallist.dialog;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -12,25 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.time.LocalDate;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.R;
-import edu.ucsd.cse110.successorator.databinding.FragmentDialogCalendarBinding;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogCreateTaskBinding;
-import edu.ucsd.cse110.successorator.databinding.ListItemGoalBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
-import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
-import androidx.appcompat.app.AppCompatActivity;
-
-import edu.ucsd.cse110.successorator.lib.util.Subject;
-import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
-import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 
 public class CreateGoalDialogFragment extends DialogFragment {
     private FragmentDialogCreateTaskBinding view;
@@ -101,31 +90,36 @@ public class CreateGoalDialogFragment extends DialogFragment {
                 .setNegativeButton("Cancel", this::onNegativeButtonClick);
         setupContextButtons();
 
-
+        int selectedHomeBtn = R.drawable.home_selected_button;
+        view.homeButton.setBackgroundResource(selectedHomeBtn);
         RadioButton weeklyButton = view.weeklyButton;
-        weeklyButton.setText("weekly on " + activityModel.getDate().substring(0,4));
+        //weeklyButton.setText("weekly on " + activityModel.getDateOtherFormat().substring(0,4));
+        weeklyButton.setText("Weekly");
         RadioButton yearlyButton = view.yearlyButton;
-        yearlyButton.setText("yearly on "+ activityModel.getDate().substring(4,10));
+        //yearlyButton.setText("yearly on "+ activityModel.getDateOtherFormat().substring(4,8));
+        yearlyButton.setText("Yearly");
         RadioButton monthlyButton = view.monthlyButton;
-        String day = activityModel.getDate().substring(8,10);
-        int int_day = Integer.parseInt(day);
-        int x = (int_day+6)/7;
-        String temp;
-        if (x==1){
-            temp = "st ";
-        }
-        else if (x==2){
-            temp = "nd ";
-        }
-        else if(x==3){
-            temp = "rd ";
-        }
-        else{
-            temp = "th ";
-        }
+        // String day = activityModel.getDateOtherFormat().substring(8,10);
+        //day = day.trim();
+        //int int_day = Integer.parseInt(day);
+        //int x = (int_day+6)/7;
+        //String temp;
+        //if (x==1){
+        //    temp = "st ";
+        //}
+        //else if (x==2){
+        //    temp = "nd ";
+        //}
+        //else if(x==3){
+        //    temp = "rd ";
+        //}
+        //else{
+        //    temp = "th ";
+        //}
 
-        String X = String.valueOf(x);
-        monthlyButton.setText("monthly on "+X+temp+activityModel.getDate().toString().substring(0,4));
+        //String X = String.valueOf(x);
+        //monthlyButton.setText("monthly on "+X+temp+activityModel.getDateOtherFormat().substring(0,4));
+        monthlyButton.setText("Monthly");
         return builder.create();
     }
 
@@ -174,13 +168,44 @@ public class CreateGoalDialogFragment extends DialogFragment {
         return selectedRadioButton.getText().toString();
     }
     private void setupContextButtons() {
+        int selectedHomeBtn = R.drawable.home_selected_button;
+        int selectedWorkBtn = R.drawable.work_selected_button;
+        int selectedSchoolBtn = R.drawable.school_selected_button;
+        int selectedErrandsBtn = R.drawable.errands_selected_button;
+
         // Assuming you have access to your buttons in view binding
-        view.homeButton.setOnClickListener(v -> context = "Home");
-        view.workButton.setOnClickListener(v -> context = "Work");
-        view.schoolButton.setOnClickListener(v -> context = "School");
-        view.errandsButton.setOnClickListener(v -> context = "Errands");
+        view.homeButton.setOnClickListener(v -> {
+            context = "Home";
+            resetAttributes();
+            view.homeButton.setBackgroundResource(selectedHomeBtn);
+        });
+        view.workButton.setOnClickListener(v -> {
+            context = "Work";
+            resetAttributes();
+            view.workButton.setBackgroundResource(selectedWorkBtn);
+        });
+        view.schoolButton.setOnClickListener(v -> {
+            context = "School";
+            resetAttributes();
+            view.schoolButton.setBackgroundResource(selectedSchoolBtn);
+        });
+        view.errandsButton.setOnClickListener(v -> {
+            context = "Errands";
+            resetAttributes();
+            view.errandsButton.setBackgroundResource(selectedErrandsBtn);
+        });
     }
 
+    private void resetAttributes() {
+        int unselectedHomeBtn = R.drawable.home_button;
+        int unselectedWorkBtn = R.drawable.work_button;
+        int unselectedSchoolBtn = R.drawable.school_button;
+        int unselectedErrandsBtn = R.drawable.errands_button;
 
+        view.homeButton.setBackgroundResource(unselectedHomeBtn);
+        view.workButton.setBackgroundResource(unselectedWorkBtn);
+        view.schoolButton.setBackgroundResource(unselectedSchoolBtn);
+        view.errandsButton.setBackgroundResource(unselectedErrandsBtn);
+    }
 
 }

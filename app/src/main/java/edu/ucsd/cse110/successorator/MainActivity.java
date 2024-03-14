@@ -1,12 +1,10 @@
 package edu.ucsd.cse110.successorator;
-import android.media.Image;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,11 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
@@ -39,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
     private boolean isShowingToday = true;
+    private boolean isShowingExpand = true;
     private boolean isShowingFocus = true;
     public String label;
 
@@ -86,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel.getLabel().observe(label -> {
                 if (label == null) return;
+                swapToLabelFragment(label);
                 ImageButton advanceDateBtn = findViewById(R.id.imageButton_next);
                 TextView textViewDate = findViewById(R.id.text_label);
                 if (!label.equals("Today") && !label.equals("Tomorrow") && !label.equals("Pending") && !label.equals("Recurring")) {
@@ -134,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (itemId == R.id.action_bar_expand_more_views){
-//            swapFragment();
-            var dialogFragment = ExpandViewsFragment.newInstance();
-            dialogFragment.show(getSupportFragmentManager(), "ExpandDialogFragment");
+            swapExpandFragment(viewModel.getLabel().getValue());
         }
 
         if (itemId == R.id.action_bar_focus_mode_views){
@@ -146,19 +141,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void swapFragment() {
-        if (!isShowingToday){
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, GoalListFragment.newInstance())
-                    .commit();
+    public void swapExpandFragment(String fromLabel) {
+        if (!isShowingExpand){
+            swapToLabelFragment(fromLabel);
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, ExpandViewsFragment.newInstance())
                     .commit();
         }
-        isShowingToday = !isShowingToday;
+        isShowingExpand = !isShowingExpand;
     }
 
     public void swapToDateFragment() {
@@ -193,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, RecurringFragment.newInstance())
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, OtherDateFragment.newInstance())
                     .commit();
         }
     }
