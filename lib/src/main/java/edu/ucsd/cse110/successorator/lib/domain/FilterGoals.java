@@ -1,7 +1,10 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -122,14 +125,35 @@ public class FilterGoals {
         List<Goal> newGoals = new ArrayList<>();
         oldGoals.forEach(goal -> {
             if (goal.getDate().equals("Pending")) return;
-            LocalDate monthsMinus = SuccessDate.stringToDate(goal.getDate());
-            LocalDate monthsPlus = SuccessDate.stringToDate(goal.getDate());
-            long monthsBetween = ChronoUnit.MONTHS.between(SuccessDate.stringToDate(goal.getDate()), targetAsDate);
-            monthsPlus = monthsPlus.plusMonths(monthsBetween);
-            monthsMinus = monthsMinus.minusMonths(monthsBetween);
-            if (monthsPlus.isEqual(targetAsDate) || monthsMinus.isEqual(targetAsDate)) {
+//            LocalDate monthsMinus = SuccessDate.stringToDate(goal.getDate());
+//            LocalDate monthsPlus = SuccessDate.stringToDate(goal.getDate());
+//            long monthsBetween = ChronoUnit.MONTHS.between(SuccessDate.stringToDate(goal.getDate()), targetAsDate);
+//            monthsPlus = monthsPlus.plusMonths(monthsBetween);
+//            monthsMinus = monthsMinus.minusMonths(monthsBetween);
+//            if (monthsPlus.isEqual(targetAsDate) || monthsMinus.isEqual(targetAsDate)) {
+//                newGoals.add(goal);
+//            }
+            int targetDayOfMonth = targetAsDate.getDayOfMonth();
+            Month targetMonth = targetAsDate.getMonth();
+            int targetWeekInMonth = (targetAsDate.getDayOfMonth() + 6) / 7;
+            DayOfWeek targeteWeekDay = targetAsDate.getDayOfWeek();
+            LocalDate goalDate = SuccessDate.stringToDate(goal.getDate());
+            Month goalMonth = goalDate.getMonth();
+            int goalWeekInMonth = (goalDate.getDayOfMonth() + 6) / 7;
+            DayOfWeek goalWeekDay = goalDate.getDayOfWeek();
+            LocalDate firstDayOfNextMonth = targetAsDate.plusMonths(1).withDayOfMonth(1);
+            LocalDate firstSameDayOfWeekNextMonth = firstDayOfNextMonth.with(TemporalAdjusters.firstInMonth(goalWeekDay));
+            LocalDate lastSameDayOfWeekLasttMonth = targetAsDate.minusMonths(1).with(TemporalAdjusters.lastInMonth(targeteWeekDay));
+            int lastWeekInMonth = (lastSameDayOfWeekLasttMonth.getDayOfMonth()+6)/7;
+            if (goalWeekInMonth==5 && !targetAsDate.equals(goalDate)&&targetWeekInMonth!=5 &&lastWeekInMonth<5 ){
+                if (goalWeekDay == targeteWeekDay && targetWeekInMonth==1 && targetMonth.getValue()>goalMonth.plus(1).getValue()){
+                    newGoals.add(goal);
+                }
+            }
+            if (goalWeekInMonth == targetWeekInMonth && goalWeekDay == targeteWeekDay){
                 newGoals.add(goal);
             }
+
         });
         newMonthlyGoals.setValue(newGoals);
         return newMonthlyGoals;
