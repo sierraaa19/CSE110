@@ -103,11 +103,11 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
 
         RadioButton weeklyButton = view.weeklyButton;
-        weeklyButton.setText("weekly on " + activityModel.getDate().toString().substring(0,4));
+        weeklyButton.setText("weekly on " + activityModel.getDate().substring(0,4));
         RadioButton yearlyButton = view.yearlyButton;
-        yearlyButton.setText("yearly on "+ activityModel.getDate().toString().substring(4,10));
+        yearlyButton.setText("yearly on "+ activityModel.getDate().substring(4,10));
         RadioButton monthlyButton = view.monthlyButton;
-        String day = activityModel.getDate().toString().substring(8,10);
+        String day = activityModel.getDate().substring(8,10);
         int int_day = Integer.parseInt(day);
         int x = (int_day+6)/7;
         String temp;

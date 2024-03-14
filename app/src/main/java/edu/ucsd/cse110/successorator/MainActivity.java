@@ -1,5 +1,5 @@
 package edu.ucsd.cse110.successorator;
-
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,22 +15,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
 import edu.ucsd.cse110.successorator.ui.expandviews.ExpandViewsFragment;
 import edu.ucsd.cse110.successorator.ui.expandviews.PendingFragment;
 import edu.ucsd.cse110.successorator.ui.expandviews.RecurringFragment;
 import edu.ucsd.cse110.successorator.ui.expandviews.TomorrowFragment;
 import edu.ucsd.cse110.successorator.ui.focusview.FocusModeFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
+import edu.ucsd.cse110.successorator.ui.goallist.OtherDateFragment;
 import edu.ucsd.cse110.successorator.ui.goallist.dialog.CreateGoalDialogFragment;
 
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
-    private static Date date; // date show in Successorator
+    private static LocalDate date; // date show in Successorator
 
     private MainViewModel viewModel;
 
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Show Current Day
-        date = new Date();
+        date = SuccessDate.getCurrentDate();
         displayDate();
         // nextDay Button
         ImageButton next_day_button = (ImageButton)findViewById(R.id.imageButton_next);
@@ -61,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.getGoalsForToday().observe(goalsForToday -> {
+        viewModel.getGoalsSize().observe(isEmpty -> {
+            if(isEmpty == null) return;
             TextView textViewMessage = findViewById(R.id.text_view_no_goals);
-            assert goalsForToday != null;
-            if (goalsForToday.size()==0 ){
+            if (isEmpty){
                 // No goals present, show the message
                 textViewMessage.setVisibility(View.VISIBLE);
             } else {
@@ -77,19 +81,34 @@ public class MainActivity extends AppCompatActivity {
         // update label and date for Today, Tomorrow, Pending, Recurring
         viewModel.getLabel().observe(label -> {
                 if (label == null) return;
-                // update label for Today, Tomorrow, Pending, Recurring
+                ImageButton advanceDateBtn = findViewById(R.id.imageButton_next);
                 TextView textViewDate = findViewById(R.id.text_label);
-                textViewDate.setText(label);
-                // update date for Today, Tomorrow, Pending, Recurring
-                if(label.equals("Today")){
-                    displayDate();
-                } else if (label.equals("Tomorrow")){
-                    nextDayOneTime();
+                if (!label.equals("Today") && !label.equals("Tomorrow") && !label.equals("Pending") && !label.equals("Recurring")) {
+                    textViewDate.setText("");
                 } else {
+                    textViewDate.setText(label);
+                }
+
+                if(label.equals("Today")){
+                    advanceDateBtn.setVisibility(View.VISIBLE);
+                    displayDate(SuccessDate.getCurrentDate());
+                } else if (label.equals("Tomorrow")){
+                    advanceDateBtn.setVisibility(View.VISIBLE);
+                    displayDate(SuccessDate.getCurrentDate().plusDays(1));
+                } else if (label.equals("Pending") || label.equals("Recurring")){
+                    advanceDateBtn.setVisibility(View.GONE);
                     displayNoDate();
                 }
-        });
 
+                if (!label.equals("Today") || !label.equals("Tomorrow") || !label.equals("Pending") || !label.equals("Recurring")) {
+                    // no advance date button on pending and recurring
+
+                    //advanceDateBtn.setActivated(false);
+
+                    //TextView textViewMessage = findViewById(R.id.text_view_no_goals);
+                    //textViewDate.setText("");
+                }
+        });
     }
 
     @Override
@@ -135,30 +154,46 @@ public class MainActivity extends AppCompatActivity {
         isShowingToday = !isShowingToday;
     }
 
+    public void swapToDateFragment() {
+        label = viewModel.getLabel().getValue();
+        if (label.equals("Today") || label.equals("Tomorrow") || label.equals("Pending") || label.equals("Recurring")) {
+            swapToLabelFragment(label);
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, OtherDateFragment.newInstance())
+                    .commit();
+        }
+    }
+
+    public void swapToLabelFragment(String label) {
+        if (label.equals("Today")) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, GoalListFragment.newInstance())
+                    .commit();
+        } else if (label.equals("Tomorrow")) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, TomorrowFragment.newInstance())
+                    .commit();
+        } else if (label.equals("Pending")) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, PendingFragment.newInstance())
+                    .commit();
+        } else if (label.equals("Recurring")) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, RecurringFragment.newInstance())
+                    .commit();
+        }
+    }
+
     public void swapFocusFragment() {
         label = viewModel.getLabel().getValue();
         if (!isShowingFocus){
-            if (label.equals("Today")) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, GoalListFragment.newInstance())
-                        .commit();
-            } else if (label.equals("Tomorrow")) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, TomorrowFragment.newInstance())
-                        .commit();
-            } else if (label.equals("Pending")) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, PendingFragment.newInstance())
-                        .commit();
-            } else if (label.equals("Recurring")) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, RecurringFragment.newInstance())
-                        .commit();
-            }
+            swapToLabelFragment(label);
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -170,52 +205,83 @@ public class MainActivity extends AppCompatActivity {
 
     // next day
     private void nextDay(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH,1);
-        date = calendar.getTime();
-        viewModel.setCurrentDate(date);
-        displayDate();
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.setTime(date);
+        //calendar.add(Calendar.DAY_OF_MONTH,1);
+        //date = calendar.getTime();
 
-        // you want to refresg the list of goals currently being displayed
+        LocalDate theNextDay = date;
+        theNextDay = theNextDay.plusDays(1);
+        date = theNextDay;
+        viewModel.setCurrentDate(SuccessDate.dateToString(date));
+
+        displayDate();
+        // you want to refresh the list of goals currently being displayed
 
     }
 
     // display Date in textview
     private void displayDate(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, M/d");
-        SimpleDateFormat dayFormat = new SimpleDateFormat("M/d");
-        String currentDate = dateFormat.format(date);
-        String currentDay = dayFormat.format(date);
-        Log.d("===============", date.toString());
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("EE, M/d");
+        //SimpleDateFormat dayFormat = new SimpleDateFormat("M/d");
+        //String currentDate = dateFormat.format(date);
+        //String currentDay = dayFormat.format(date);
+        //Log.d("===============", date.toString());
+        //TextView textViewDate = findViewById(R.id.tomorrow_date);
+        //textViewDate.setText(currentDate);
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEEE M/d");
+        DateTimeFormatter dayFormat = DateTimeFormatter.ofPattern("M/d");
+        String currentDate = date.format(dateFormat);
+        String currentDay = date.format(dayFormat);
         TextView textViewDate = findViewById(R.id.tomorrow_date);
         textViewDate.setText(currentDate);
     }
 
     private void displayNoDate(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, M/d");
-        String currentDate = dateFormat.format(date);
-        Log.d("===============", date.toString());
-//        TextView textViewDate = findViewById(R.id.text_view_date);
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("EE, M/d");
+        //String currentDate = dateFormat.format(date);
+        //Log.d("===============", date.toString());
+        //TextView textViewDate = findViewById(R.id.text_view_date);
         //viewModel.setDate(date);
         TextView textViewDate = findViewById(R.id.tomorrow_date);
         textViewDate.setText("");
     }
 
     private void nextDayOneTime(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH,1);
-        Date date = calendar.getTime();
-        displayDate(date);
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.setTime(date);
+        //calendar.add(Calendar.DAY_OF_MONTH,1);
+        //Date date = calendar.getTime();
+        //displayDate(date);
+
+        LocalDate calendar = SuccessDate.getCurrentDate();
+        calendar = date;
+        calendar.plusDays(1);
+        LocalDate newDate = calendar;
+        displayDate(newDate);
     }
 
-    private void displayDate(Date d){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EE, M/d");
-        String currentDate = dateFormat.format(d);
-        Log.d("===============", date.toString());
-//        TextView textViewDate = findViewById(R.id.text_view_date);
-        //viewModel.setDate(date);
+    //private void displayDate(Date d){
+    //    SimpleDateFormat dateFormat = new SimpleDateFormat("EE, M/d");
+    //    String currentDate = dateFormat.format(d);
+    //    Log.d("===============", date.toString());
+    //    //TextView textViewDate = findViewById(R.id.text_view_date);
+    //    //viewModel.setDate(date);
+    //    TextView textViewDate = findViewById(R.id.tomorrow_date);
+    //    textViewDate.setText(currentDate);
+    //}
+
+    private void displayDate(LocalDate d){
+       // SimpleDateFormat dateFormat = new SimpleDateFormat("EE, M/d");
+       // String currentDate = dateFormat.format(d);
+       // Log.d("===============", date.toString());
+       // //TextView textViewDate = findViewById(R.id.text_view_date);
+       // //viewModel.setDate(date);
+       // TextView textViewDate = findViewById(R.id.tomorrow_date);
+       // textViewDate.setText(currentDate);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEEE M/d");
+        String currentDate = d.format(dateFormat);
         TextView textViewDate = findViewById(R.id.tomorrow_date);
         textViewDate.setText(currentDate);
     }

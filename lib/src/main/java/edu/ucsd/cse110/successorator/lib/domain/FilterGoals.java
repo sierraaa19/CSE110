@@ -89,6 +89,8 @@ public class FilterGoals {
 
             fGoals.sort(Comparator.comparing(Goal::getDate));
             filteredFocusGoals.setValue(fGoals);
+        } else {
+            filteredFocusGoals.setValue(oldGoals);
         }
 
         return filteredFocusGoals;
@@ -154,8 +156,13 @@ public class FilterGoals {
     }
 
     public static List<Goal> labelFilter(List<Goal> allGoals, String value) {
-        MutableSubject<List<Goal>> goalsFiltered = null;
-        goalsFiltered = (MutableSubject<List<Goal>>) FilterGoals.filterGoalsByLabel(allGoals, value);
+        MutableSubject<List<Goal>> goalsFiltered = new SimpleSubject<>();
+        if (value.equals("Today") || value.equals("Tomorrow") || value.equals("Pending") || value.equals("Recurring")) {
+            goalsFiltered = (MutableSubject<List<Goal>>) FilterGoals.filterGoalsByLabel(allGoals, value);
+        } else {
+            // if label is a date then do this
+            goalsFiltered.setValue(allGoals);
+        }
 
         // sort by context
         // then sort by uncompleted vs completed

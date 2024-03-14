@@ -54,6 +54,7 @@ public class MainViewModel extends ViewModel {
     MutableSubject<List<Goal>> tomorrowGoals;
     MutableSubject<List<Goal>> pendingGoals;
     MutableSubject<List<Goal>> recurringGoals;
+    MutableSubject<List<Goal>> forDateGoals;
 
 
     // allGoals, today, tomorrow, pending, recurring
@@ -63,9 +64,11 @@ public class MainViewModel extends ViewModel {
     MutableSubject<List<Goal>> showingTomorrowGoals;
     MutableSubject<List<Goal>> showingPendingGoals;
     MutableSubject<List<Goal>> showingRecurringGoals;
+    MutableSubject<List<Goal>> showingForDateGoals;
 
     private final ArrayList<String> dropdown = new ArrayList<>(Arrays.asList("Today", "Tomorrow", "Pending", "Recurring"));
-    private Date currentDate;
+    private MutableSubject<String> currentDateSubject;
+    private String currentDate = SuccessDate.getCurrentDateAsString();
 
     // focus can be: Home, Work, School, Errands, All
     private MutableSubject<String> focus;
@@ -86,7 +89,6 @@ public class MainViewModel extends ViewModel {
 
         // Create the observable subjects.
         this.goal = new SimpleSubject<>();
-        this.currentDate = new Date();
 
         this.isCompleted = new SimpleSubject<>();
         this.isEmpty = new SimpleSubject<>();
@@ -100,16 +102,21 @@ public class MainViewModel extends ViewModel {
 
         // Semi-Asynchronous, changes depending on focus, label state and database update
         this.showingGoals = new SimpleSubject<>();
-        this.showingTodayGoals= new SimpleSubject<>();
-        this.showingTomorrowGoals= new SimpleSubject<>();
-        this.showingPendingGoals= new SimpleSubject<>();
-        this.showingRecurringGoals= new SimpleSubject<>();
+        this.showingTodayGoals = new SimpleSubject<>();
+        this.showingTomorrowGoals = new SimpleSubject<>();
+        this.showingPendingGoals = new SimpleSubject<>();
+        this.showingRecurringGoals = new SimpleSubject<>();
 
         this.showingGoals.setValue(new ArrayList<>());
         this.showingTodayGoals.setValue(new ArrayList<>());
         this.showingTomorrowGoals.setValue(new ArrayList<>());
         this.showingPendingGoals.setValue(new ArrayList<>());
         this.showingRecurringGoals.setValue(new ArrayList<>());
+
+
+        // for advanced date
+        this.showingForDateGoals = new SimpleSubject<>();
+        this.showingForDateGoals.setValue(new ArrayList<>());
 
         // Asynchronous, changes only on database update
         this.allGoals = new SimpleSubject<>();
@@ -118,11 +125,24 @@ public class MainViewModel extends ViewModel {
         this.pendingGoals = new SimpleSubject<>();
         this.recurringGoals = new SimpleSubject<>();
 
+        this.forDateGoals = new SimpleSubject<>();
+
+        this.currentDateSubject = new SimpleSubject<>();
+        currentDateSubject.observe(date -> {
+            if (date == null) return;
+            if (!date.equals(SuccessDate.getCurrentDateAsString()) && !date.equals(SuccessDate.getTmwsDateAsString())) {
+                this.label.setValue(date);
+            } else if (date.equals(SuccessDate.getCurrentDateAsString())){
+                this.label.setValue("Today");
+            } else if (date.equals(SuccessDate.getTmwsDateAsString())) {
+                this.label.setValue("Tomorrow");
+            }
+        });
+
         setupDatabaseObservers();
         setupAllGoalsObserver();
         setupFocusStateObserver();
         setupLabelStateObserver();
-
     }
 
     public void setupDatabaseObservers() {
@@ -131,24 +151,29 @@ public class MainViewModel extends ViewModel {
         // and this goal has a date for tomorrow,
         // we want this goal to show up there right away.
         todayGoals.observe(goalList -> {
-            if (goalList == null) return;
+            if (goalList == null || focus.getValue() == null) return;
             goalList.sort(Comparator.comparing(Goal::getContext));
             showingTodayGoals.setValue(FilterGoals.focusFilter(goalList, focus.getValue()));
         });
         tomorrowGoals.observe(goalList -> {
-            if (goalList == null) return;
+            if (goalList == null || focus.getValue() == null) return;
             goalList.sort(Comparator.comparing(Goal::getContext));
             showingTomorrowGoals.setValue(FilterGoals.focusFilter(goalList, focus.getValue()));
         });
         pendingGoals.observe(goalList -> {
-            if (goalList == null) return;
+            if (goalList == null || focus.getValue() == null) return;
             goalList.sort(Comparator.comparing(Goal::getContext));
             showingPendingGoals.setValue(FilterGoals.focusFilter(goalList, focus.getValue()));
         });
         recurringGoals.observe(goalList -> {
-            if (goalList == null) return;
+            if (goalList == null || focus.getValue() == null) return;
             goalList.sort(Comparator.comparing(Goal::getDate));
             showingRecurringGoals.setValue(FilterGoals.focusFilter(goalList, focus.getValue()));
+        });
+        forDateGoals.observe(goalList -> {
+            if (goalList == null || focus.getValue() == null) return;
+            goalList.sort(Comparator.comparing(Goal::getDate));
+            showingForDateGoals.setValue(FilterGoals.focusFilter(goalList, focus.getValue()));
         });
     }
 
@@ -156,7 +181,7 @@ public class MainViewModel extends ViewModel {
        // get all goals from database, update on database change only
        // NOTE: showingGoals == todayGoals
        goalRepositoryDB.findAll().observe(goalList -> {
-           if (goalList == null) return; // not ready yet, ignore
+           if (goalList == null || label.getValue() == null || focus.getValue() == null) return; // not ready yet, ignore
            isEmpty.setValue(goalList.isEmpty());
 
            goalList.sort(Comparator.comparing(Goal::getContext));
@@ -168,6 +193,8 @@ public class MainViewModel extends ViewModel {
            tomorrowGoals.setValue(FilterGoals.recurringFilter(goalList, SuccessDate.getTmwsDateAsString(), false));
            pendingGoals.setValue(FilterGoals.pendingFilter(goalList));
            recurringGoals.setValue(FilterGoals.recurringFilter(goalList, null, true));
+
+           forDateGoals.setValue(FilterGoals.recurringFilter(goalList, SuccessDate.getCurrentDateAsString(), false));
        });
    }
 
@@ -179,6 +206,7 @@ public class MainViewModel extends ViewModel {
 
         // if the label state changes
         focus.observe(focusString -> {
+            if (focusString == null || label.getValue() == null) return;
             List<Goal> temp1;
             List<Goal> temp2;
             List<Goal> temp3;
@@ -214,12 +242,19 @@ public class MainViewModel extends ViewModel {
                 temp5 = FilterGoals.recurringFilter(temp5, SuccessDate.getCurrentDateAsString(), false);
                 showingGoals.setValue(temp5);
             }
+            if (forDateGoals.getValue() != null) {
+                temp1 = FilterGoals.labelFilter(todayGoals.getValue(), label.getValue());
+                temp1 = FilterGoals.focusFilter(temp1, focusString);
+                temp1 = FilterGoals.recurringFilter(temp1, currentDateSubject.getValue(), false);
+                showingForDateGoals.setValue(temp1);
+            }
         });
     }
 
     public void setupLabelStateObserver() {
         // if the label state changes
         label.observe(labelString -> {
+            if (labelString == null || focus.getValue() == null) return;
             List<Goal> temp1;
             List<Goal> temp2;
             List<Goal> temp3;
@@ -255,6 +290,12 @@ public class MainViewModel extends ViewModel {
                 temp5 = FilterGoals.recurringFilter(temp5, SuccessDate.getCurrentDateAsString(), false);
                 showingGoals.setValue(temp5);
             }
+            if (forDateGoals.getValue() != null) {
+                temp1 = FilterGoals.labelFilter(todayGoals.getValue(), labelString);
+                temp1 = FilterGoals.focusFilter(temp1, focus.getValue());
+                temp1 = FilterGoals.recurringFilter(temp1, currentDateSubject.getValue(), false);
+                showingForDateGoals.setValue(temp1);
+            }
         });
     }
 
@@ -262,7 +303,7 @@ public class MainViewModel extends ViewModel {
         return focus;
    }
 
-    public Date getDate(){return currentDate;}
+    public String getDate(){return currentDate;}
 
     public Subject<String> getLabel(){
         return label;
@@ -288,8 +329,15 @@ public class MainViewModel extends ViewModel {
         return showingRecurringGoals;
     }
 
-    public void toToday(){label.setValue("Today");}
+    public Subject<List<Goal>> getGoalsForDate() {
+        return showingForDateGoals;
+    }
+
+    public void toToday(){
+        label.setValue("Today");
+    }
     public void toTomorrow(){
+
         label.setValue("Tomorrow");
     }
     public void toPending(){
@@ -351,8 +399,14 @@ public class MainViewModel extends ViewModel {
         }
     }
 
-    public void setCurrentDate(Date date) {
+    public void setCurrentDate(String date) {
         this.currentDate = date;
+
+        // the date passed in is in the format EEEE M/d
+        // we want M-D-YYYY
+        DateTimeFormatter formatting = DateTimeFormatter.ofPattern(SuccessDate.getFormatString());
+        String currentDate = SuccessDate.stringToDate(this.currentDate).format(formatting);
+        this.currentDateSubject.setValue(currentDate);
     }
 
     public static LocalDate getNextMonthSameDayOfWeek() {
