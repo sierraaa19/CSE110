@@ -25,15 +25,15 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/fragment_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.296"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
             android:name="edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment"
-            android:layout_width="412dp"
-            android:layout_height="618dp"
+            android:layout_width="409dp"
+            android:layout_height="591dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -116,8 +116,9 @@
             android:layout_marginEnd="12dp"
             android:contentDescription="next day"
             android:src="@drawable/ic_next"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="7dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
