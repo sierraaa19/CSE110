@@ -60,6 +60,9 @@ public class TomorrowFragment extends Fragment {
                 goal -> { // onGoalClicked
                     // When goal is tapped, this is lambda function is called.
                     // NOTE: ConfirmDeleteCardDialogFragment is NOT called.
+                    activityModel.remove(goal.id());
+                    goal = goal.withCompleted(!goal.isCompleted());
+                    activityModel.prepend(goal);
                 },
                 goal -> { // something else?
                     // var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(goal.id());
