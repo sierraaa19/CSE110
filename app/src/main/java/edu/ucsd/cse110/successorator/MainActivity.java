@@ -92,17 +92,19 @@ public class MainActivity extends AppCompatActivity {
                 if(label.equals("Today")){
                     advanceDateBtn.setVisibility(View.VISIBLE);
                     displayDate(SuccessDate.getCurrentDate());
+                    date = SuccessDate.getCurrentDate();
                 } else if (label.equals("Tomorrow")){
                     advanceDateBtn.setVisibility(View.VISIBLE);
                     displayDate(SuccessDate.getCurrentDate().plusDays(1));
+                    date = SuccessDate.getCurrentDate().plusDays(1);
                 } else if (label.equals("Pending") || label.equals("Recurring")){
                     advanceDateBtn.setVisibility(View.GONE);
                     displayNoDate();
                 }
 
-                if (!label.equals("Today") || !label.equals("Tomorrow") || !label.equals("Pending") || !label.equals("Recurring")) {
+                if (!label.equals("Today") && !label.equals("Tomorrow") && !label.equals("Pending") && !label.equals("Recurring")) {
                     // no advance date button on pending and recurring
-
+                    swapToDateFragment();
                     //advanceDateBtn.setActivated(false);
 
                     //TextView textViewMessage = findViewById(R.id.text_view_no_goals);

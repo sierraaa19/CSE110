@@ -173,7 +173,7 @@ public class MainViewModel extends ViewModel {
         forDateGoals.observe(goalList -> {
             if (goalList == null || focus.getValue() == null) return;
             goalList.sort(Comparator.comparing(Goal::getDate));
-            showingForDateGoals.setValue(FilterGoals.focusFilter(goalList, focus.getValue()));
+            showingForDateGoals.setValue(FilterGoals.recurringFilter(FilterGoals.focusFilter(goalList, focus.getValue()), currentDateSubject.getValue(), false));
         });
     }
 
@@ -194,7 +194,7 @@ public class MainViewModel extends ViewModel {
            pendingGoals.setValue(FilterGoals.pendingFilter(goalList));
            recurringGoals.setValue(FilterGoals.recurringFilter(goalList, null, true));
 
-           forDateGoals.setValue(FilterGoals.recurringFilter(goalList, SuccessDate.getCurrentDateAsString(), false));
+           forDateGoals.setValue(FilterGoals.recurringFilter(goalList, currentDateSubject.getValue(), false));
        });
    }
 
