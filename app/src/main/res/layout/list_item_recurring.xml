@@ -29,36 +29,35 @@
 
     <TextView
         android:id="@+id/goal_text_recurring"
-        android:layout_width="141dp"
-        android:layout_height="28dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:text="goal text_recurring"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/recurring_date"
         app:layout_constraintStart_toEndOf="@id/ContextLabel_view_recurring"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/recurring_date"
-        android:layout_width="109dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/delete_recurring"
-        app:layout_constraintStart_toEndOf="@+id/goal_text_recurring"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/delete_recurring"
-        android:layout_width="28dp"
-        android:layout_height="34dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
         android:fontFamily="monospace"
         android:text="X"
         android:textAlignment="center"
@@ -66,7 +65,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recurring_date"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
