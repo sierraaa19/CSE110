@@ -57,10 +57,10 @@ public class RoomGoalRepository implements GoalRepository {
         return new LiveDataSubjectAdapter<>(flashcardLiveData);
     }
 
-    @Override
+/*    @Override
     public void save(Goal goal) {
         goalDao.insert(GoalEntity.fromGoal(goal));
-    }
+    }*/
 
     @Override
     public void save(List<Goal> goals) {
@@ -139,8 +139,6 @@ public class RoomGoalRepository implements GoalRepository {
         });
     }
 
-
-
     @Override
     public void remove(int id){
         goalDao.delete(id);
@@ -169,7 +167,7 @@ public class RoomGoalRepository implements GoalRepository {
     //    return new MutableSubject<>(mappedGoals);
     //}
 
-    @Override
+/*    @Override
     public Subject<List<Goal>> findAllDropdownGoalsLiveData(String choice) {
         // get all of Todays goals
         String currDate = SuccessDate.dateToString(SuccessDate.getCurrentDate());
@@ -242,5 +240,5 @@ public class RoomGoalRepository implements GoalRepository {
     @Override
     public Subject<List<Goal>> findAllContextsGoals(String context) {
         return null;
-    }
+    }*/
 }

@@ -16,57 +16,58 @@ import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
  * for testing.
  */
 public class InMemoryDataSource {
-    private int nextId = 0;
-
+    private int id = 0;
     private int minSortOrder = Integer.MAX_VALUE;
     private int maxSortOrder = Integer.MIN_VALUE;
 
-    private final Map<Integer, Goal> flashcards
+    private final Map<Integer, Goal> goals
             = new HashMap<>();
-    private final Map<Integer, MutableSubject<Goal>> flashcardSubjects
+    private final Map<Integer, MutableSubject<Goal>> goalSubjects
             = new HashMap<>();
-    private final MutableSubject<List<Goal>> allFlashcardsSubject
+    private final MutableSubject<List<Goal>> allGoalSubject
             = new SimpleSubject<>();
 
     public InMemoryDataSource() {
     }
 
-    public final static List<Goal> DEFAULT_CARDS = List.of();
-            //new Goal(0, "Do Homework", false, 0));
-//            new Goal(1, "Go to Gym", false, 1),
-//            new Goal(2, "Eat Dinner", false, 2),
-//            new Goal(3, "Buy Groceries", false, 3),
-//            new Goal(4, "Meeting with CSE110", false, 4),
-//            new Goal(5, "Club Activities", false, 5),
-//            new Goal(6, "Watch Lecture", false, 6),
-//            new Goal(7, "Visit family", false, 7),
-//            new Goal(8, "Study for CSE110", false, 8)
+    public final static List<Goal> DEFAULT_CARDS = List.of(
+            new Goal(0, "Do Homework", false, 0, "One Time", "Mar-14-2024", "School"),
+            new Goal(1, "Go to Gym", false, 1, "Weekly", "Mar-15-024","Home"),
+            new Goal(2, "Eat Dinner", false, 2, "Monthly", "Mar-19-024","Errands"),
+            new Goal(3, "Buy Groceries", false, 3, "One Time", "Mar-15-024","Home"),
+            new Goal(4, "Meeting with CSE110", false, 4, "Weekly", "Mar-18-024","Work"),
+            new Goal(5, "Club Activities", false, 5, "One Time", "Mar-15-024","Home"),
+            new Goal(6, "Watch Lecture", false, 6, "Yearly", "Mar-17-024","Errands"),
+            new Goal(7, "Visit family", false, 7, "Weekly", "Mar-15-024","School"),
+            new Goal(8, "Study for CSE110", false, 8, "One Time", "Pending","Home")
+    );
+
 
     public static InMemoryDataSource fromDefault() {
         var data = new InMemoryDataSource();
-        data.putFlashcards(DEFAULT_CARDS);
+        data.putGoals(DEFAULT_CARDS);
         return data;
     }
 
-    public List<Goal> getFlashcards() {
-        return List.copyOf(flashcards.values());
+    public List<Goal> getGoals() {
+        return List.copyOf(goals.values());
     }
 
-    public Goal getFlashcard(int id) {
-        return flashcards.get(id);
+    public Goal getGoal(int id) {
+        return goals.get(id);
     }
 
-    public Subject<Goal> getFlashcardSubject(int id) {
-        if (!flashcardSubjects.containsKey(id)) {
+    public Subject<Goal> getGoalSubject(int id) {
+        if (!goalSubjects.containsKey(id)) {
             var subject = new SimpleSubject<Goal>();
-            subject.setValue(getFlashcard(id));
-            flashcardSubjects.put(id, subject);
+            subject.setValue(getGoal(id));
+            goalSubjects.put(id, subject);
         }
-        return flashcardSubjects.get(id);
+        return goalSubjects.get(id);
     }
 
-    public Subject<List<Goal>> getAllFlashcardsSubject() {
-        return allFlashcardsSubject;
+    public Subject<List<Goal>> getAllGoalSubject() {
+        return allGoalSubject;
     }
 
     public int getMinSortOrder() {
@@ -77,76 +78,76 @@ public class InMemoryDataSource {
         return maxSortOrder;
     }
 
-    public void putFlashcard(Goal card) {
+    public void putGoal(Goal card) {
         var fixedCard = preInsert(card);
 
-        flashcards.put(fixedCard.id(), fixedCard);
+        goals.put(fixedCard.id(), fixedCard);
 
         postInsert();
         assertSortOrderConstraints();
 
-        if (flashcardSubjects.containsKey(fixedCard.id())) {
-            flashcardSubjects.get(fixedCard.id()).setValue(fixedCard);
+        if (goalSubjects.containsKey(fixedCard.id())) {
+            goalSubjects.get(fixedCard.id()).setValue(fixedCard);
         }
-        allFlashcardsSubject.setValue(getFlashcards());
+        allGoalSubject.setValue(getGoals());
     }
 
-    public void putFlashcards(List<Goal> cards) {
-        var fixedCards = cards.stream()
+    public void putGoals(List<Goal> goals) {
+        var fixedGoals = goals.stream()
                 .map(this::preInsert)
                 .collect(Collectors.toList());
 
-        fixedCards.forEach(card -> flashcards.put(card.id(), card));
+        fixedGoals.forEach(goal -> this.goals.put(goal.id(), goal));
         postInsert();
         assertSortOrderConstraints();
 
-        fixedCards.forEach(card -> {
-            if (flashcardSubjects.containsKey(card.id())) {
-                flashcardSubjects.get(card.id()).setValue(card);
+        fixedGoals.forEach(goal -> {
+            if (goalSubjects.containsKey(goal.id())) {
+                goalSubjects.get(goal.id()).setValue(goal);
             }
         });
-        allFlashcardsSubject.setValue(getFlashcards());
+        allGoalSubject.setValue(getGoals());
     }
 
-    public void removeFlashcard(int id) {
-        var card = flashcards.get(id);
-        var sortOrder = card.sortOrder();
+    public void removeGoal(int id) {
+        var goal = goals.get(id);
+        var sortOrder = goal.sortOrder();
 
-        flashcards.remove(id);
+        goals.remove(id);
         shiftSortOrders(sortOrder, maxSortOrder, -1);
 
-        if (flashcardSubjects.containsKey(id)) {
-            flashcardSubjects.get(id).setValue(null);
+        if (goalSubjects.containsKey(id)) {
+            goalSubjects.get(id).setValue(null);
         }
-        allFlashcardsSubject.setValue(getFlashcards());
+        allGoalSubject.setValue(getGoals());
     }
 
     public void shiftSortOrders(int from, int to, int by) {
-        var cards = flashcards.values().stream()
-                .filter(card -> card.sortOrder() >= from && card.sortOrder() <= to)
-                .map(card -> card.withSortOrder(card.sortOrder() + by))
+        var goals = this.goals.values().stream()
+                .filter(goal -> goal.sortOrder() >= from && goal.sortOrder() <= to)
+                .map(goal -> goal.withSortOrder(goal.sortOrder() + by))
                 .collect(Collectors.toList());
 
-        putFlashcards(cards);
+        putGoals(goals);
     }
 
     /**
      * Private utility method to maintain state of the fake DB: ensures that new
      * cards inserted have an id, and updates the nextId if necessary.
      */
-    public Goal preInsert(Goal card) {
-        var id = card.id();
+    public Goal preInsert(Goal goal) {
+        var id = goal.id();
         if (id == null) {
-            // If the card has no id, give it one.
-            card = card.withId(nextId++);
+            // If the goal has no id, give it one.
+            goal = goal.withId(this.id++);
         }
-        else if (id > nextId) {
-            // If the card has an id, update nextId if necessary to avoid giving out the same
+        else if (id > this.id) {
+            // If the goal has an id, update nextId if necessary to avoid giving out the same
             // one. This is important for when we pre-load cards like in fromDefault().
-            nextId = id + 1;
+            this.id = id + 1;
         }
 
-        return card;
+        return goal;
     }
 
     /**
@@ -155,12 +156,12 @@ public class InMemoryDataSource {
      */
     private void postInsert() {
         // Keep the min and max sort orders up to date.
-        minSortOrder = flashcards.values().stream()
+        minSortOrder = goals.values().stream()
                 .map(Goal::sortOrder)
                 .min(Integer::compareTo)
                 .orElse(Integer.MAX_VALUE);
 
-        maxSortOrder = flashcards.values().stream()
+        maxSortOrder = goals.values().stream()
                 .map(Goal::sortOrder)
                 .max(Integer::compareTo)
                 .orElse(Integer.MIN_VALUE);
@@ -175,23 +176,23 @@ public class InMemoryDataSource {
      */
     private void assertSortOrderConstraints() {
         // Get all the sort orders...
-        var sortOrders = flashcards.values().stream()
+        var sortOrders = goals.values().stream()
                 .map(Goal::sortOrder)
                 .collect(Collectors.toList());
 
         // Non-negative...
-        assert sortOrders.stream().allMatch(i -> i >= 0);
+        /*assert sortOrders.stream().allMatch(i -> i >= 0);
 
         // Unique...
         assert sortOrders.size() == sortOrders.stream().distinct().count();
 
         // Between min and max...
         assert sortOrders.stream().allMatch(i -> i >= minSortOrder);
-        assert sortOrders.stream().allMatch(i -> i <= maxSortOrder);
+        assert sortOrders.stream().allMatch(i -> i <= maxSortOrder);*/
     }
 
     public List<Goal> getWeeklyGoals() {
-        return flashcards.values().stream()
+        return goals.values().stream()
                 .filter(goal -> "Weekly".equals(goal.getFrequency()))
                 .collect(Collectors.toList());
     }

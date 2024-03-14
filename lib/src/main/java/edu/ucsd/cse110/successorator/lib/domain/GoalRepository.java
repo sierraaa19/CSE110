@@ -13,7 +13,7 @@ public interface GoalRepository {
 
     Subject<List<Goal>> findAll();
 
-    void save(Goal goal);
+    //void save(Goal goal);
 
     void save(List<Goal> goals);
 
@@ -27,11 +27,11 @@ public interface GoalRepository {
 
     //Subject<List<Goal>> findAllWeeklyGoals();
 
-    String getDisplayDate (Goal goal);
+    /*String getDisplayDate (Goal goal);
 
     Subject<List<Goal>> findAllFrequencyGoals(String freq);
 
     Subject<List<Goal>> findAllContextsGoals(String context);
 
-    Subject<List<Goal>> findAllDropdownGoalsLiveData(String choice);
+    Subject<List<Goal>> findAllDropdownGoalsLiveData(String choice);*/
 }

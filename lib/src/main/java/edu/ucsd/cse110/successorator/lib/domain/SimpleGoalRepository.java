@@ -19,42 +19,43 @@ public class SimpleGoalRepository implements GoalRepository {
     }
 
     public void syncLists() {
-        List<Goal> goalsData = this.dataSource.getFlashcards();
+        List<Goal> goalsData = this.dataSource.getGoals();
         GoalList goalsLogic = new GoalList();
         List<Goal> newGoalData;
         newGoalData = goalsLogic.fillGoals(goalsData);
 
         // remove all goals from data
         goalsData.forEach(goal -> {
-            this.dataSource.removeFlashcard(goal.id());
+            this.dataSource.removeGoal(goal.id());
         });
 
         // reinsert them
-        this.dataSource.putFlashcards(newGoalData);
+        this.dataSource.putGoals(newGoalData);
         this.goals = goalsLogic;
     }
 
     @Override
     public Subject<Goal> find(int id) {
-        return dataSource.getFlashcardSubject(id);
+        return dataSource.getGoalSubject(id);
     }
 
     @Override
     public Subject<List<Goal>> findAll() {
-        return dataSource.getAllFlashcardsSubject();
+        return dataSource.getAllGoalSubject();
     }
 
-    @Override
+/*    @Override
     public void save(Goal goal) {
         // process in GoalList
 
         dataSource.putFlashcard(goal);
-    }
+    }*/
+
 
     @Override
     public void save(List<Goal> goals) {
         if (!this.loaded) {
-            dataSource.putFlashcards(goals);
+            dataSource.putGoals(goals);
             this.loaded = true;
         }
     }
@@ -62,7 +63,7 @@ public class SimpleGoalRepository implements GoalRepository {
     @Override
     public void remove(int id) {
         // remove from GoalList
-        dataSource.removeFlashcard(id);
+        dataSource.removeGoal(id);
 
         // prepend in GoalList, update sort order in process
         //dataSource.putFlashcard
@@ -88,7 +89,7 @@ public class SimpleGoalRepository implements GoalRepository {
         dataSource.shiftSortOrders(goal.sortOrder(), dataSource.getMaxSortOrder(), 1);
         // Then insert the new card before the first one.
 
-        dataSource.putFlashcard(goal);
+        dataSource.putGoal(goal);
     }
 
     @Override
@@ -110,17 +111,17 @@ public class SimpleGoalRepository implements GoalRepository {
         dataSource.shiftSortOrders(goal.sortOrder(), dataSource.getMaxSortOrder(), 1);
         // Then insert the new card before the first one.
 
-        dataSource.putFlashcard(goal);
+        dataSource.putGoal(goal);
     }
 
     @Override
     public void removeAllCompleted() {
-        List<Goal> goalsData = this.dataSource.getFlashcards();
+        List<Goal> goalsData = this.dataSource.getGoals();
         List<Goal> deletedData = new ArrayDeque<>();
 
         goalsData.forEach(goal -> {
             if (goal.isCompleted()) {
-                dataSource.removeFlashcard(goal.id());
+                dataSource.removeGoal(goal.id());
                 deletedData.add(goal);
             }
         });
@@ -128,7 +129,7 @@ public class SimpleGoalRepository implements GoalRepository {
     //public Subject<List<Goal>> findAllWeeklyGoals(){
         //return dataSource.findAllWeeklyGoals();
     //};
-
+/*
     public String getDisplayDate (Goal goal){
         return goal.getDate();
     }
@@ -146,6 +147,7 @@ public class SimpleGoalRepository implements GoalRepository {
     @Override
     public Subject<List<Goal>> findAllDropdownGoalsLiveData(String choice) {
         return null;
-    }
+    }*/
+
 
 }

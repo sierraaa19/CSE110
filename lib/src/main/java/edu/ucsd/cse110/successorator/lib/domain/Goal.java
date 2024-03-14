@@ -12,10 +12,7 @@ public class Goal implements Serializable {
     private final @NonNull String text;
     private final boolean isCompleted;
     private final int sortOrder;
-
     private String frequency;
-
-
     private String creationDate;
     private String context;
 
