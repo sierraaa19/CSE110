@@ -22,7 +22,6 @@ import edu.ucsd.cse110.successorator.databinding.FragmentRecurringBinding;
  * create an instance of this fragment.
  */
 public class RecurringFragment extends Fragment {
-
     private MainViewModel activityModel;
     private FragmentRecurringBinding view;
     private RecurringListAdapter adapter;
