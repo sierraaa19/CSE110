@@ -11,7 +11,6 @@ public class SimpleGoalRepository implements GoalRepository {
     private GoalList goals;
     private boolean loaded;
 
-
     public SimpleGoalRepository(InMemoryDataSource dataSource) {
         this.dataSource = dataSource;
         this.loaded = false;
