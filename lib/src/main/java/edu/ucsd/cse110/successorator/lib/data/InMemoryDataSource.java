@@ -42,6 +42,18 @@ public class InMemoryDataSource {
             new Goal(8, "Study for CSE110", false, 8, "One Time", "Pending","Home")
     );
 
+    public static List<Goal> TEST_GOALS = List.of(
+            new Goal(0, "Do Homework", false, 0, "One Time", "Mar-14-2024", "School"),
+            new Goal(1, "Go to Gym", false, 1, "Weekly", "Mar-15-024","Home"),
+            new Goal(2, "Eat Dinner", false, 2, "Monthly", "Mar-19-024","Errands"),
+            new Goal(3, "Buy Groceries", false, 3, "One Time", "Mar-15-024","Home"),
+            new Goal(4, "Meeting with CSE110", false, 4, "Weekly", "Mar-18-024","Work"),
+            new Goal(5, "Club Activities", false, 5, "One Time", "Mar-15-024","Home"),
+            new Goal(6, "Watch Lecture", false, 6, "Yearly", "Mar-17-024","Errands"),
+            new Goal(7, "Visit family", false, 7, "Weekly", "Mar-15-024","School"),
+            new Goal(8, "Study for CSE110", false, 8, "One Time", "Pending","Home")
+    );
+
 
     public static InMemoryDataSource fromDefault() {
         var data = new InMemoryDataSource();
@@ -111,6 +123,7 @@ public class InMemoryDataSource {
 
     public void removeGoal(int id) {
         var goal = goals.get(id);
+        if (goal == null) return;
         var sortOrder = goal.sortOrder();
 
         goals.remove(id);

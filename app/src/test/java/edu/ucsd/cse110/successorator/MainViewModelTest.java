@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
+import edu.ucsd.cse110.successorator.lib.domain.FilterGoals;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.SimpleGoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
@@ -26,23 +27,27 @@ public class MainViewModelTest extends TestCase {
 
 
         dataSource = new InMemoryDataSource();
-        dataSource.putGoal(new Goal(0, "Go home", false, 1, "Weekly","Mar-13-2024", "Home"));
-        dataSource.putGoal(new Goal(1, "Do homework", true, 2, "Weekly","Mar-13-2024", "Home"));
-        dataSource.putGoal(new Goal(2, "Go to gym", false, 3, "Weekly","Mar-13-2024", "Home"));
-        dataSource.putGoal(new Goal(3, "Go shopping", true, 4, "Weekly","Mar-13-2024", "Home"));
+        dataSource.putGoal(new Goal(0, "Go home", false, 1, "Weekly",SuccessDate.getCurrentDateAsString(), "Home"));
+        dataSource.putGoal(new Goal(1, "Do homework", true, 2, "Weekly", SuccessDate.getCurrentDateAsString(), "Home"));
+        dataSource.putGoal(new Goal(2, "Go to gym", false, 3, "Weekly", SuccessDate.getCurrentDateAsString(), "Home"));
+        dataSource.putGoal(new Goal(3, "Go shopping", true, 4, "Weekly", SuccessDate.getCurrentDateAsString(), "Home"));
         mockRepository = new SimpleGoalRepository(dataSource);
         viewModel = new MainViewModel(mockRepository);
     }
 
     public void testSetupDateObserver() {
         // Set the current date to "Today"
-        viewModel.setCurrentDate(SuccessDate.getCurrentDateAsString());
+        //String today = SuccessDate.turnToDisplayDateString(SuccessDate.getCurrentDate());
+        String today = SuccessDate.getCurrentDateAsString();
+
+        viewModel.setCurrentDate(today);
+
         // Assert that the label is set to "Today"
         assertEquals("Today", viewModel.getLabel().getValue());
 
         // Change the date to tomorrow's date
-        String tmwsDateAsString = SuccessDate.getTmwsDateAsString();
-        viewModel.setCurrentDate(tmwsDateAsString);
+        String tmw = SuccessDate.getTmwsDateAsString();
+        viewModel.setCurrentDate(tmw);
         // Assert the label is updated to "Tomorrow"
         assertEquals("Tomorrow", viewModel.getLabel().getValue());
     }
@@ -233,7 +238,7 @@ public class MainViewModelTest extends TestCase {
 
 
     public void testAppend() {
-        Goal testGoal = new Goal(null, "Test Goal", false, 99, "One Time", "Mar-15-2024", "Home");
+        Goal testGoal = new Goal(null, "Test Goal", false, 99, "One Time", SuccessDate.getCurrentDateAsString(), "Home");
         int initialSize = mockRepository.dataSource.getGoals().size();
 
 
@@ -242,7 +247,9 @@ public class MainViewModelTest extends TestCase {
         int newSize = mockRepository.dataSource.getGoals().size();
         assertEquals(initialSize + 1, newSize); // Verify the goal was added
 
-        Goal addedGoal = mockRepository.dataSource.getGoals().get(newSize - 1);
+        List<Goal> goals = FilterGoals.filterByCompletedAndContext(mockRepository.dataSource.getGoals());
+        goals = FilterGoals.labelFilter(goals, "Today");
+        Goal addedGoal = goals.get(newSize - 1);
         assertEquals("Home", addedGoal.getContext());
         assertEquals("One Time", addedGoal.getFrequency());
     }

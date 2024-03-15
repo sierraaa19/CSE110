@@ -1,10 +1,10 @@
 package edu.ucsd.cse110.successorator.lib.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
-import kotlin.collections.ArrayDeque;
 
 public class SimpleGoalRepository implements GoalRepository {
     public InMemoryDataSource dataSource;
@@ -14,24 +14,21 @@ public class SimpleGoalRepository implements GoalRepository {
 
     public SimpleGoalRepository(InMemoryDataSource dataSource) {
         this.dataSource = dataSource;
-        this.goals = new GoalList();
         this.loaded = false;
     }
 
-    public void syncLists() {
-        List<Goal> goalsData = this.dataSource.getGoals();
-        GoalList goalsLogic = new GoalList();
-        List<Goal> newGoalData;
-        newGoalData = goalsLogic.fillGoals(goalsData);
-
-        // remove all goals from data
-        goalsData.forEach(goal -> {
-            this.dataSource.removeGoal(goal.id());
+    private List<Goal> getCompletedOrUncompleted(boolean isComplete) {
+        List<Goal> goals = dataSource.getGoals();
+        List<Goal> newGoals = new ArrayList<Goal>();
+        goals.forEach(goal -> {
+            if (goal.isCompleted() == isComplete) {
+                newGoals.add(goal);
+            }
         });
-
-        // reinsert them
-        this.dataSource.putGoals(newGoalData);
-        this.goals = goalsLogic;
+        newGoals.forEach(goal -> {
+            dataSource.removeGoal(goal.id());
+        });
+        return newGoals;
     }
 
     @Override
@@ -54,10 +51,81 @@ public class SimpleGoalRepository implements GoalRepository {
 
     @Override
     public void save(List<Goal> goals) {
-        if (!this.loaded) {
-            dataSource.putGoals(goals);
-            this.loaded = true;
+        dataSource.putGoals(goals);
+        //if (!this.loaded) {
+        //    this.loaded = true;
+        //}
+    }
+
+    @Override
+    public void append(Goal goal) {
+        List<Goal> goalsC = getCompletedOrUncompleted(true);
+        List<Goal> goalsU = getCompletedOrUncompleted(false);
+
+        if (goal.isCompleted()) {
+            goalsC.add(goal);
+        } else {
+            goalsU.add(goal);
         }
+        List<Goal> newAllGoals = new ArrayList<Goal>();
+        List<Goal> allGoals = new ArrayList<Goal>(goalsU);
+        allGoals.addAll(goalsC);
+
+        // withId withSOrt order causes us to lose Goal creationDate and frequency by calling the constructor.
+        // all the information should basically be the same except for maybe the sort order and the id
+        for (int i = 0; i < allGoals.size(); i++) {
+            Goal g = allGoals.get(i).withId(i).withSortOrder(i + 1);
+            g.setFrequency(allGoals.get(i).getFrequency());
+            g.setDate(allGoals.get(i).getDate());
+            newAllGoals.add(g);
+        }
+
+        save(newAllGoals);
+    }
+
+    @Override
+    public void prepend(Goal goal) {
+        List<Goal> goalsC = getCompletedOrUncompleted(true);
+        List<Goal> goalsU = getCompletedOrUncompleted(false);
+
+        if (goal.isCompleted()) {
+            goalsC.add(0, goal);
+        } else {
+            goalsU.add(0, goal);
+        }
+        List<Goal> newAllGoals = new ArrayList<Goal>();
+        List<Goal> allGoals = new ArrayList<Goal>(goalsU);
+        allGoals.addAll(goalsC);
+
+        // reset id and sortOrder?
+        for (int i = 0; i < allGoals.size(); i++) {
+            Goal g = allGoals.get(i).withId(i).withSortOrder(i + 1);
+            g.setFrequency(allGoals.get(i).getFrequency());
+            g.setDate(allGoals.get(i).getDate());
+
+            newAllGoals.add(g);
+        }
+
+        save(newAllGoals);
+    }
+
+    @Override
+    public void removeAllCompleted() {
+        // rather than goalDao we use dataSource
+
+        List<Goal> goalsList = getCompletedOrUncompleted(true);
+        List<Goal> filteredList = new ArrayList<>();
+        for (Goal goal : goalsList) {
+            if (goal.getDate().equals(SuccessDate.dateToString(SuccessDate.getCurrentDate().minusDays(1)))) {
+                filteredList.add(goal);
+            }
+        }
+
+        filteredList.forEach(goal -> {
+            if (goal != null) {
+                dataSource.removeGoal(goal.id());
+            }
+        });
     }
 
     @Override
@@ -69,85 +137,5 @@ public class SimpleGoalRepository implements GoalRepository {
         //dataSource.putFlashcard
 
     }
-
-    @Override
-    public void append(Goal goal) {
-        // process in GoalList, simply call syncList
-        // List<Goal> listOfGoals = syncLists();
-        int sortOrder = goals.getGoalSortOrder(goal, true);
-
-        // get index of where insertion/start of moving goals
-        goal = goal.withSortOrder(sortOrder);
-
-        if (goal.id() == null) {
-            // get next available Id if it is originally null
-            goal = dataSource.preInsert(goal);
-            goal = goal.withId(goal.id()+1);
-        }
-
-        // Shift all the existing cards up by one.
-        dataSource.shiftSortOrders(goal.sortOrder(), dataSource.getMaxSortOrder(), 1);
-        // Then insert the new card before the first one.
-
-        dataSource.putGoal(goal);
-    }
-
-    @Override
-    public void prepend(Goal goal) {
-        // process in GoalList, simply call syncList
-        // List<Goal> listOfGoals = syncLists();
-        int sortOrder = goals.getGoalSortOrder(goal, false);
-
-        // get index of where insertion/start of moving goals
-        goal = goal.withSortOrder(sortOrder);
-
-        if (goal.id() == null) {
-            // get next available Id if it is originally null
-            goal = dataSource.preInsert(goal);
-            goal = goal.withId(goal.id()+1);
-        }
-
-        // Shift all the existing cards up by one.
-        dataSource.shiftSortOrders(goal.sortOrder(), dataSource.getMaxSortOrder(), 1);
-        // Then insert the new card before the first one.
-
-        dataSource.putGoal(goal);
-    }
-
-    @Override
-    public void removeAllCompleted() {
-        List<Goal> goalsData = this.dataSource.getGoals();
-        List<Goal> deletedData = new ArrayDeque<>();
-
-        goalsData.forEach(goal -> {
-            if (goal.isCompleted()) {
-                dataSource.removeGoal(goal.id());
-                deletedData.add(goal);
-            }
-        });
-    }
-    //public Subject<List<Goal>> findAllWeeklyGoals(){
-        //return dataSource.findAllWeeklyGoals();
-    //};
-/*
-    public String getDisplayDate (Goal goal){
-        return goal.getDate();
-    }
-
-    @Override
-    public Subject<List<Goal>> findAllFrequencyGoals(String freq) {
-        return null;
-    }
-
-    @Override
-    public Subject<List<Goal>> findAllContextsGoals(String context) {
-        return null;
-    }
-
-    @Override
-    public Subject<List<Goal>> findAllDropdownGoalsLiveData(String choice) {
-        return null;
-    }*/
-
 
 }
