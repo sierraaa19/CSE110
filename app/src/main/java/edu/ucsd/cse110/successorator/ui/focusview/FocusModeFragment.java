@@ -1,19 +1,18 @@
 package edu.ucsd.cse110.successorator.ui.focusview;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import edu.ucsd.cse110.successorator.MainActivity;
 import edu.ucsd.cse110.successorator.MainViewModel;
-import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentDialogChooseFocusBinding;
-import edu.ucsd.cse110.successorator.ui.goallist.GoalListFragment;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.*;
 
 public class FocusModeFragment extends Fragment {
     private FragmentDialogChooseFocusBinding view;
@@ -66,6 +65,10 @@ public class FocusModeFragment extends Fragment {
         });
         view.errandsButton.setOnClickListener(v -> {
             activityModel.focusErrands();
+            switchToMainView();
+        });
+        view.focusCancel.setOnClickListener(v -> {
+            activityModel.focusAll();
             switchToMainView();
         });
     }

@@ -17,16 +17,12 @@ import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
 import edu.ucsd.cse110.successorator.lib.util.Observer;
 
 public class MainViewModelTest extends TestCase {
-
-
     private SimpleGoalRepository mockRepository;
     private  InMemoryDataSource dataSource;
     private MainViewModel viewModel;
 
     @Before
     public void setUp() {
-
-
         dataSource = new InMemoryDataSource();
         dataSource.putGoal(new Goal(0, "Go home", false, 1, "Weekly",SuccessDate.getCurrentDateAsString(), "Home"));
         dataSource.putGoal(new Goal(1, "Do homework", true, 2, "Weekly", SuccessDate.getCurrentDateAsString(), "Home"));

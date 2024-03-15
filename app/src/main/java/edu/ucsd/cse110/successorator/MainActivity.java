@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // TODO:
         // update label and date for Today, Tomorrow, Pending, Recurring
         viewModel.getFocus().observe(focus -> {
             TextView focusIndicator = findViewById(R.id.focusIndicator);

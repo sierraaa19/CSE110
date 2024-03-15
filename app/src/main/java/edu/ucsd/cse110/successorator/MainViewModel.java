@@ -312,6 +312,10 @@ public class MainViewModel extends ViewModel {
         focus.setValue("Errands");
     }
 
+    public void focusAll() {
+        focus.setValue("All");
+    }
+
     /*
      Util
      */
