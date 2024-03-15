@@ -5,14 +5,9 @@ import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLI
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.domain.FilterGoals;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -47,7 +42,7 @@ public class MainViewModel extends ViewModel {
     MutableSubject<List<Goal>> showingRecurringGoals;
     MutableSubject<List<Goal>> showingForDateGoals;
 
-    private final ArrayList<String> dropdown = new ArrayList<>(Arrays.asList("Today", "Tomorrow", "Pending", "Recurring"));
+    //private final ArrayList<String> dropdown = new ArrayList<>(Arrays.asList("Today", "Tomorrow", "Pending", "Recurring"));
     private MutableSubject<String> currentDateSubject;
     private String currentDate = SuccessDate.getCurrentDateAsString();
 
@@ -269,9 +264,9 @@ public class MainViewModel extends ViewModel {
         return showingGoals;
     }
 
-    public Subject<List<Goal>> getGoalsForToday() {
+    /*public Subject<List<Goal>> getGoalsForToday() {
         return showingTodayGoals;
-    }
+    }*/
 
     public Subject<List<Goal>>  getGoalsForTomorrow() {
         return showingTomorrowGoals;
@@ -321,7 +316,7 @@ public class MainViewModel extends ViewModel {
      Util
      */
 
-    public void save(Goal goal) { goalRepositoryDB.save(goal); }
+   /* public void save(Goal goal) { goalRepositoryDB.save(goal); }*/
 
     // Mainly gets called when a new goal is added.
     public void append(Goal goal) {
@@ -365,7 +360,7 @@ public class MainViewModel extends ViewModel {
         this.currentDateSubject.setValue(currentDate);
     }
 
-    public static LocalDate getNextMonthSameDayOfWeek() {
+    /*public static LocalDate getNextMonthSameDayOfWeek() {
         LocalDate today = LocalDate.now();
         DayOfWeek dayOfWeek = today.getDayOfWeek();
 
@@ -379,11 +374,11 @@ public class MainViewModel extends ViewModel {
         LocalDate nextMonthSameDayOfWeek = firstDayOfNextMonth.with(TemporalAdjusters.dayOfWeekInMonth(ordinal, dayOfWeek));
 
         return nextMonthSameDayOfWeek;
-    }
+    }*/
 
     // somewhat similar to method in FilterGoals
     // filters goals for todays date
-    private void updateGoalsForToday() {
+    /*private void updateGoalsForToday() {
         //LocalDate displayLocalDate = currentDate.toInstant()
         //        .atZone(ZoneId.systemDefault())
         //        .toLocalDate();
@@ -408,10 +403,10 @@ public class MainViewModel extends ViewModel {
 
         // filteredGoalsForToday.sort(Comparator.comparing(Goal::getContext));
         // todayGoals.setValue(filteredGoalsForToday);
-    }
+    }*/
 
     // filters goals by Tomorrows date
-    private void updateGoalsForTomorrow() {
+    /*private void updateGoalsForTomorrow() {
         //Calendar calendar = Calendar.getInstance();
         //calendar.setTime(currentDate);
         //calendar.add(Calendar.DAY_OF_MONTH,1);
@@ -438,10 +433,10 @@ public class MainViewModel extends ViewModel {
         //    tomorrowGoals.setValue(filteredGoalsForTomorrow);
 
         //}
-    }
+    }*/
 
     // filters goals that are recurring
-    private void updateGoalsForRecurring() {
+/*    private void updateGoalsForRecurring() {
         //List<Goal> currentGoals = goals.getValue();
         //if (currentGoals != null) {
         //    List<Goal> filteredGoalsForRecurring = new ArrayList<>();
@@ -458,15 +453,15 @@ public class MainViewModel extends ViewModel {
         //    recurringGoals.setValue(filteredGoalsForRecurring);
 
         //}
-    }
+    }*/
 
-    private List<Goal> filterGoalsByFrequency(List<Goal> goals, String frequency) {
+/*    private List<Goal> filterGoalsByFrequency(List<Goal> goals, String frequency) {
         return goals.stream()
                 .filter(goal -> goal.getFrequency().equals(frequency))
                 .collect(Collectors.toList());
-    }
+    }*/
 
-    private List<Goal> filterGoalsByFrequency(List<Goal> goals, String frequency, LocalDate referenceDate) {
+    /*private List<Goal> filterGoalsByFrequency(List<Goal> goals, String frequency, LocalDate referenceDate) {
         //switch (frequency) {
         //    case "Weekly":
         //        DayOfWeek referenceDayOfWeek = referenceDate.getDayOfWeek();
@@ -512,9 +507,9 @@ public class MainViewModel extends ViewModel {
         //        return filterGoalsByFrequency(goals, frequency);
         //}
         return new ArrayList<>();
-    }
+    }*/
 
-    public void resetRecursiveGoalstoIncomplete () {
+    /*public void resetRecursiveGoalstoIncomplete () {
         //    List<Goal> currentGoals = goals.getValue();
         //    if (currentGoals != null) {
         //        List<Goal> updatedGoals = new ArrayList<>();
@@ -534,6 +529,6 @@ public class MainViewModel extends ViewModel {
         //        updateGoalsForTomorrow();
         //        updateGoalsForRecurring();
         //    }
-    }
+    }*/
 
 }

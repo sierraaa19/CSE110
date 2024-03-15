@@ -37,4 +37,11 @@ public class SuccessDate {
         return formatString;
     }
 
+    static public String turnToDisplayDateString(LocalDate d) {
+        // passed in as M-D-YYYY
+        DateTimeFormatter formatting = DateTimeFormatter.ofPattern("EEEE M/d");
+        String newDate = d.format(formatting);
+        return newDate;
+    }
+
 }

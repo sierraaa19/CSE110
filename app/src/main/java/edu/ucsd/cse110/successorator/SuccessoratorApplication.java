@@ -12,8 +12,8 @@ import edu.ucsd.cse110.successorator.lib.domain.GoalRepository;
 
 
 public class SuccessoratorApplication extends Application {
-    private InMemoryDataSource dataSource;
-    private GoalRepository goalRepository;
+    //private InMemoryDataSource dataSource;
+    //private GoalRepository goalRepository;
     private GoalRepository goalRepositoryDB;
 
     @Override
@@ -53,9 +53,9 @@ public class SuccessoratorApplication extends Application {
         //this.goalRepository = new SimpleGoalRepository(dataSource);
     }
 
-    public GoalRepository getGoalRepository() {
+/*    public GoalRepository getGoalRepository() {
         return goalRepository;
-    }
+    }*/
 
     public GoalRepository getGoalRepositoryDB() {
         return goalRepositoryDB;
