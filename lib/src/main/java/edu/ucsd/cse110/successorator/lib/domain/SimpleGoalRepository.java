@@ -8,7 +8,7 @@ import edu.ucsd.cse110.successorator.lib.util.Subject;
 
 public class SimpleGoalRepository implements GoalRepository {
     public InMemoryDataSource dataSource;
-    private GoalList goals;
+//    private GoalList goals;
     private boolean loaded;
 
     public SimpleGoalRepository(InMemoryDataSource dataSource) {
