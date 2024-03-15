@@ -49,29 +49,6 @@ public class MainViewModelTest extends TestCase {
         assertEquals("Tomorrow", viewModel.getLabel().getValue());
     }
 
-    public void testSetupDatabaseObservers() {
-
-    }
-
-    public void testSetupAllGoalsObserver() {
-        // TODO:
-
-    }
-
-    public void testSetupFocusStateObserver() {
-        // TODO:
-
-    }
-
-    public void testSetupLabelStateObserver() {
-        // TODO:
-
-    }
-
-    public void testStateObserverBody() {
-        // TODO:
-
-    }
 
     public void testGetFocus() {
         // Set the focus to a specific value
