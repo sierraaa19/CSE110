@@ -26,6 +26,7 @@ public class MainViewModel extends ViewModel {
     // allGoals, today, tomorrow, pending, recurring
     // Changes on database update only
     MutableSubject<List<Goal>> allGoals;
+    MutableSubject<List<Goal>> completedRecurring;
     MutableSubject<List<Goal>> todayGoals;
     MutableSubject<List<Goal>> tomorrowGoals;
     MutableSubject<List<Goal>> pendingGoals;
@@ -95,6 +96,7 @@ public class MainViewModel extends ViewModel {
 
         // Asynchronous, changes only on database update
         this.allGoals = new SimpleSubject<>();
+        this.completedRecurring = new SimpleSubject<>();
         this.todayGoals = new SimpleSubject<>();
         this.tomorrowGoals = new SimpleSubject<>();
         this.pendingGoals = new SimpleSubject<>();
@@ -122,7 +124,7 @@ public class MainViewModel extends ViewModel {
             }
 
             if (!date.equals(SuccessDate.getCurrentDateAsString())) {
-                removeAllCompleted();
+                resetRecursiveGoalstoIncomplete();
             }
         });
     }
@@ -163,6 +165,21 @@ public class MainViewModel extends ViewModel {
             //showingForDateGoals.setValue(FilterGoals.recurringFilter(FilterGoals.focusFilter(goalList, focus.getValue()), currentDateSubject.getValue(), false));
             showingForDateGoals.setValue(FilterGoals.focusFilter(goalList, focus.getValue()));
         });
+        //completedRecurring.observe(goalList -> {
+        //    if (this.label.getValue().equals("Today")) {
+        //        List<Goal> todaysGoals = showingTodayGoals.getValue();
+        //        if (todaysGoals == null) return;
+
+        //        Iterator<Goal> iterator = todaysGoals.iterator();
+        //        while(iterator.hasNext()) {
+        //            Goal item = iterator.next();
+        //            if (completedRecurring.getValue().contains(item)) {
+        //                iterator.remove();
+        //            }
+        //        }
+        //        showingTodayGoals.setValue(todaysGoals);
+        //    }
+        //});
     }
 
    public void setupAllGoalsObserver() {
@@ -235,6 +252,8 @@ public class MainViewModel extends ViewModel {
             temp5 = FilterGoals.focusFilter(temp5, f);
             temp5 = FilterGoals.recurringFilter(temp5, SuccessDate.getCurrentDateAsString(), false);
             showingGoals.setValue(temp5);
+            removeRecurringCompletedFromToday();
+
         }
         if (forDateGoals.getValue() != null) {
             temp1 = FilterGoals.labelFilter(allGoals.getValue(), l);
@@ -513,26 +532,47 @@ public class MainViewModel extends ViewModel {
         return new ArrayList<>();
     }*/
 
-    /*public void resetRecursiveGoalstoIncomplete () {
-        //    List<Goal> currentGoals = goals.getValue();
-        //    if (currentGoals != null) {
-        //        List<Goal> updatedGoals = new ArrayList<>();
+    public void resetRecursiveGoalstoIncomplete () {
+            List<Goal> currentGoals = allGoals.getValue();
+            List<Goal> completedRecurringToday = new ArrayList<>();
 
-        //        for (Goal goal : currentGoals) {
-        //            if (!goal.getFrequency().equals("One Time") && goal.isCompleted()) {
-        //                updatedGoals.add(goal.withCompleted(false));
-        //            } else {
-        //                updatedGoals.add(goal);
-        //            }
-        //        }
-        //        goalRepositoryDB.save(updatedGoals);
+            if (currentGoals != null) {
+                List<Goal> updatedGoals = new ArrayList<>();
 
-        //        goals.setValue(updatedGoals);
+                for (Goal goal : currentGoals) {
+                    if (!goal.getFrequency().equals("One Time") && goal.isCompleted()) {
+                        updatedGoals.add(goal.withCompleted(false));
+                        completedRecurringToday.add(goal);
+                    } else {
+                        updatedGoals.add(goal);
+                    }
 
-        //        updateGoalsForToday();
-        //        updateGoalsForTomorrow();
-        //        updateGoalsForRecurring();
+                    if (goal.getFrequency().equals("One Time") && goal.isCompleted()) {
+                        remove(goal.id());
+                    }
+
+                }
+                allGoals.setValue(updatedGoals);
+                completedRecurring.setValue(completedRecurringToday);
+            }
+    }
+
+    public void removeRecurringCompletedFromToday() {
+        //List<Goal> todaysGoals = showingTodayGoals.getValue();
+        //if (todaysGoals == null) return;
+
+        //Iterator<Goal> iterator = todaysGoals.iterator();
+        //while (iterator.hasNext()) {
+        //    Goal item = iterator.next();
+        //    if (completedRecurring.getValue().contains(item)) {
+        //        iterator.remove();
         //    }
-    }*/
+        //}
+        //showingGoals.setValue(todaysGoals);
+    }
+
+    public void rollOverDays() {
+
+    }
 
 }
