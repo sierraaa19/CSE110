@@ -231,7 +231,35 @@ public class BDDTests extends TestCase {
         Then the goal “H Cook Dinner” shows in Today, Tomorrow, and Recurring views
      */
     public void testUS5() {
+        boolean[] isTestPassed = new boolean[3];
+        Goal newGoal = new Goal(null, "Cook Dinner", false, -1, "Daily", SuccessDate.getCurrentDateAsString(), "Home");
+        viewModel.append(newGoal);
+        // for today
 
+        viewModel.getGoals().observe(goals -> {
+            assert goals != null;
+            assertEquals(1, goals.size());
+            assertTrue(goals.stream().anyMatch(goal -> "Cook Dinner".equals(goal.text())));
+            isTestPassed[0] = true;
+        });
+        // for tomorrow
+        viewModel.getGoalsForTomorrow().observe(goals -> {
+            assert goals != null;
+            assertEquals(1, goals.size());
+            assertTrue(goals.stream().anyMatch(goal -> "Cook Dinner".equals(goal.text())));
+            isTestPassed[1] = true;
+        });
+        // for recurring
+        viewModel.getGoalsForRecurring().observe(goals -> {
+            assert goals != null;
+            assertEquals(1, goals.size());
+            assertTrue(goals.stream().anyMatch(goal -> "Cook Dinner".equals(goal.text())));
+            isTestPassed[2] = true;
+        });
+
+        assertTrue(isTestPassed[0]);
+        assertTrue(isTestPassed[1]);
+        assertTrue(isTestPassed[2]);
     }
 
     /*

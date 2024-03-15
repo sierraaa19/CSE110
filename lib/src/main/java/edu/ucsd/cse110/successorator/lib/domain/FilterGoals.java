@@ -254,7 +254,15 @@ public class FilterGoals {
             gatheredGoals =  filterByCompletedAndContext(gatheredGoals);
         }
 
-        return gatheredGoals;
+       List<Goal> withoutPendingGoals = new ArrayList<>();
+
+       gatheredGoals.forEach(goal -> {
+           if (!goal.getDate().equals("Pending")) {
+               withoutPendingGoals.add(goal);
+           }
+       });
+
+        return withoutPendingGoals;
     }
 
     public static List<Goal> filterByContext(List<Goal> goalList) {
