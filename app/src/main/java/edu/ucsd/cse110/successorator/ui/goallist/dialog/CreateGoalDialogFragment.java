@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -92,7 +93,18 @@ public class CreateGoalDialogFragment extends DialogFragment {
 
         int selectedHomeBtn = R.drawable.home_selected_button;
         view.homeButton.setBackgroundResource(selectedHomeBtn);
+
+        RadioButton oneTimeButton = view.oneTimeButton;
+        RadioButton dailyBtn = view.dailyButton;
         RadioButton weeklyButton = view.weeklyButton;
+        if (activityModel.getLabel().getValue().equals("Recurring")) {
+            oneTimeButton.setVisibility(View.GONE);
+            dailyBtn.toggle();
+        } else {
+            oneTimeButton.setVisibility(View.VISIBLE);
+        }
+
+
         weeklyButton.setText("weekly on " + activityModel.getDateOtherFormat().substring(0,4));
 //        weeklyButton.setText("Weekly");
         RadioButton yearlyButton = view.yearlyButton;
