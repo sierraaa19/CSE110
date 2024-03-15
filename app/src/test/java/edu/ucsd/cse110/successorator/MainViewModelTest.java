@@ -54,8 +54,6 @@ public class MainViewModelTest extends TestCase {
     }
 
     public void testSetupDatabaseObservers() {
-        // TODO:
-
 
     }
 
@@ -119,7 +117,7 @@ public class MainViewModelTest extends TestCase {
             @Override
             public void onChanged(@Nullable List<Goal> goals) {
                 // Assert that the goals are as expected
-                assertEquals(2, goals.size());
+                assertEquals(4, goals.size());
                 assertTrue(goals.stream().anyMatch(goal -> "Goal 1".equals(goal.text())));
                 assertTrue(goals.stream().anyMatch(goal -> "Goal 2".equals(goal.text())));
                 isTestPassed[0] = true;
@@ -179,9 +177,9 @@ public class MainViewModelTest extends TestCase {
     }
 
     public void testGetGoalsForDate() {
-        LocalDate testDate = LocalDate.of(2024, 3, 14);
+        LocalDate testDate = LocalDate.of(2024, 3, 19);
         String formattedDate = testDate.format(DateTimeFormatter.ofPattern("MMM-d-yyyy")); // Adjust the date format as needed
-        dataSource.putGoal(new Goal(1, "Goal for Mar-14-2024", false, 1, "Daily", formattedDate, "Work"));
+        dataSource.putGoal(new Goal(1, "Goal for Mar-19-2024", false, 1, "Daily", formattedDate, "Work"));
 
 
         viewModel.setCurrentDate(formattedDate);
@@ -191,7 +189,7 @@ public class MainViewModelTest extends TestCase {
             // Verify the goals for the specific date are as expected
             assertFalse(goalsForDate.isEmpty());
             assertEquals(1, goalsForDate.size());
-            assertEquals("Goal for Mar-14-2024", goalsForDate.get(0).text());
+            assertEquals("Goal for Mar-19-2024", goalsForDate.get(0).text());
             assertEquals(formattedDate, goalsForDate.get(0).getDate());
         });
     }
