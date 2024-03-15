@@ -1,7 +1,9 @@
 package edu.ucsd.cse110.successorator;
 
 import androidx.annotation.Nullable;
+
 import junit.framework.TestCase;
+
 import org.junit.Before;
 
 import java.time.LocalDate;
@@ -9,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
-import edu.ucsd.cse110.successorator.lib.domain.FilterGoals;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
 import edu.ucsd.cse110.successorator.lib.domain.SimpleGoalRepository;
 import edu.ucsd.cse110.successorator.lib.domain.SuccessDate;
@@ -247,9 +248,8 @@ public class MainViewModelTest extends TestCase {
         int newSize = mockRepository.dataSource.getGoals().size();
         assertEquals(initialSize + 1, newSize); // Verify the goal was added
 
-        List<Goal> goals = FilterGoals.filterByCompletedAndContext(mockRepository.dataSource.getGoals());
-        goals = FilterGoals.labelFilter(goals, "Today");
-        Goal addedGoal = goals.get(newSize - 1);
+        List<Goal> goals = mockRepository.getCompletedOrUncompleted(false);
+        Goal addedGoal = goals.get(goals.size() - 1);
         assertEquals("Home", addedGoal.getContext());
         assertEquals("One Time", addedGoal.getFrequency());
     }
@@ -264,7 +264,9 @@ public class MainViewModelTest extends TestCase {
         int newSize = mockRepository.dataSource.getGoals().size();
         assertEquals(initialSize + 1, newSize); // Verify the goal was added
 
-        Goal addedGoal = mockRepository.dataSource.getGoals().get(newSize - 1);
+        List<Goal> goals = mockRepository.getCompletedOrUncompleted(false);
+        Goal addedGoal = goals.get(0);
+
         assertEquals("Home", addedGoal.getContext());
         assertEquals("One Time", addedGoal.getFrequency());
 

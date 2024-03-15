@@ -5,14 +5,9 @@ import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLI
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.domain.FilterGoals;
 import edu.ucsd.cse110.successorator.lib.domain.Goal;
@@ -255,11 +250,11 @@ public class MainViewModel extends ViewModel {
 
     public String getDate(){return currentDate;}
 
-    /*public String getDateOtherFormat(){
+    public String getDateOtherFormat(){
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EE M/d");
         String formatDate = SuccessDate.stringToDate(currentDate).format(dateFormat);
         return formatDate;
-    }*/
+    }
 
     public Subject<String> getLabel(){
         return label;

@@ -17,7 +17,7 @@ public class SimpleGoalRepository implements GoalRepository {
         this.loaded = false;
     }
 
-    private List<Goal> getCompletedOrUncompleted(boolean isComplete) {
+    public List<Goal> getCompletedOrUncompleted(boolean isComplete) {
         List<Goal> goals = dataSource.getGoals();
         List<Goal> newGoals = new ArrayList<Goal>();
         goals.forEach(goal -> {
@@ -71,8 +71,6 @@ public class SimpleGoalRepository implements GoalRepository {
         List<Goal> allGoals = new ArrayList<Goal>(goalsU);
         allGoals.addAll(goalsC);
 
-        // withId withSOrt order causes us to lose Goal creationDate and frequency by calling the constructor.
-        // all the information should basically be the same except for maybe the sort order and the id
         for (int i = 0; i < allGoals.size(); i++) {
             Goal g = allGoals.get(i).withId(i).withSortOrder(i + 1);
             g.setFrequency(allGoals.get(i).getFrequency());
