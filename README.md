@@ -1,23 +1,37 @@
-# Team 22 - Successorator 
+# CSE110- Software Engineering
+Introduction to software development and engineering methods, including specification, design, implementation, testing, and process. An emphasis on team development, agile methods, and use of tools such as IDE’s, version control, and test harnesses.
 
-## Calculation of Iteration 1's Velocity and applied to I2's Planning for MS2   
-### Explanation for Iteration/BurnDown Chart Ambiguity:   
-We encountered an Android Studio issue that had not been fixed during Iteration1, even with the assistance of multiple tutors and TAs.   
-This issue delayed our start date for Iteration 1.   
-When we reached out to the TA, our team was instructed to post a private Piazza post to the instructors to be recalled upon grading as explanation/context.   
-The Professor explained that we should close  two stories and roll everything else over to Iteration 2.   
-This explains why we only have 16 hours of work in Iteration 1 and 67 hours of work in Iteration 2.  
-### Iteration 1:  
-3/1 to 3/6: 7 days  
-Estimate working hours: 16hrs   
-People: 6  
-Working hours per day: 2 hrs  
-V1 = (Estimate working hour) / (Working Hour) = 16 hrs / (7 days * 6 people * 2 hrs/day) = 0.190  
-### Iteration 2:  
-3/7 to 3/14: 8 days  
-Estimate working hours: 67hrs  
-People: 6  
-Working hours per day: 3 hrs  
-V2 = (Estimate working hour) / (Working Hour) = 67 hrs / (8 days * 6 people * 3 hrs/day) = 0.465  
-### MS2 Velocity Result  
-V total = (16+67) /( 84+144 ) = 0.364  
+---
+
+## Successorator Group Project
+
+### Project Overview  
+
+Successorator is a mobile productivity application designed to help users effectively manage their daily goals and tasks. Unlike traditional to-do lists or calendar apps, Successorator prioritizes **success-driven task management**, ensuring that users stay focused on their Most Important Things (MITs) each day.  
+
+This project is part of **Mobile Venture Capital’s (MVC) second-round competition**, where teams develop an assigned product to demonstrate their ability to **plan, design, implement, and deliver high-quality software**. The goal of Successorator is to provide a simple yet powerful tool that adapts to users’ dynamic schedules and helps them maintain productivity in their busy lives.
+
+### Key Features  
+
+- ✅ **Daily Success Lists** – Users set their top goals for the day, ensuring focus on high-priority tasks.  
+- 🎤 **Voice Input** – Easily add tasks via voice recognition for quick, hands-free entry.  
+- 🔄 **Task Completion & Rollover** – Completed tasks are marked off, while unfinished ones automatically roll over to the next day.  
+- 🖌 **Minimalist Interface** – A clean and intuitive UI designed for efficiency.  
+- ⏰ **Context-Aware Reminders** – Ensures users stay on track without overwhelming notifications.  
+
+### Milestone 1 - Planning Phase  
+
+The first phase of development focuses on defining the core functionalities and planning the software development process. Key deliverables for this milestone include:  
+
+- 📌 **User Stories** – Defined using Behavior-Driven Development (BDD) to capture real-world scenarios.  
+- ⚠️ **Risk Analysis** – Identifying potential challenges and mitigation strategies.  
+- 🔄 **Iteration Planning** – Organizing development into sprints with clearly defined tasks.  
+- ✅ **System Testing Plan** – End-to-end scenarios to validate the core user experience.  
+- 📊 **GitHub Project Management** – Utilizing GitHub boards, pull requests, and CI/CD integration.  
+
+### Development Methodology  
+
+Successorator is being developed using **Head First Software Development principles**, with extensions for **Behavior-Driven Development (BDD)** and **end-to-end scenario testing**. Our workflow follows Agile methodologies, ensuring iterative improvements and adaptability throughout the project.
+
+---
+
